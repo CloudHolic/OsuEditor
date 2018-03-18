@@ -1,0 +1,35 @@
+﻿<controls:MetroWindow x:Class="OsuEditor.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:custom="clr-namespace:OsuEditor.Controls"
+                      mc:Ignorable="d"
+                      Title="MainWindow" Height="798" Width="1360">
+    <Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="105">
+            <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type StackPanel}},Path=ActualWidth}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Height="35">
+                        <ToggleButton Width="160" Content="compose" FontSize="15" BorderThickness="0"></ToggleButton>
+                        <ToggleButton Width="160" Content="design" FontSize="15" BorderThickness="0"></ToggleButton>
+                        <ToggleButton Width="160" Content="timing" FontSize="15" BorderThickness="0"></ToggleButton>
+                        <Button Width="160" Content="song setup" FontSize="15" BorderThickness="0" controls:ControlsHelper.ContentCharacterCasing="Normal"></Button>
+                    </StackPanel>
+                    <ScrollViewer Grid.Row="1" CanContentScroll="True" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
+                        <custom:RulerControl></custom:RulerControl>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>
