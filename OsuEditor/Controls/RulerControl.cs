@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -37,32 +38,32 @@ namespace OsuEditor.Controls
     /// </summary>
     /// 
     #region Enumerations
-    public enum enumOrientation { Horizontal, Vertical }
+    public enum EnumOrientation { Horizontal, Vertical }
     #endregion
 
     [TemplatePart(Name = "trackLine", Type = typeof(Line))]
     public class RulerControl : Control
     {
         #region MouseMoveRoutedEvent
-        public static readonly RoutedEvent MouseMoveEvent = EventManager.RegisterRoutedEvent(
+        public new static readonly RoutedEvent MouseMoveEvent = EventManager.RegisterRoutedEvent(
             "MouseMove", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(RulerControl));
 
-        public event RoutedEventHandler MouseMove
+        public new event RoutedEventHandler MouseMove
         {
-            add { AddHandler(MouseMoveEvent, value); }
-            remove { RemoveHandler(MouseMoveEvent, value); }
+            add => AddHandler(MouseMoveEvent, value);
+            remove => RemoveHandler(MouseMoveEvent, value);
         }
         #endregion
 
         #region DepencyProperty OrientationProperty
         public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register("DisplayMode", typeof(enumOrientation), typeof(RulerControl),
-            new UIPropertyMetadata(enumOrientation.Horizontal));
+            DependencyProperty.Register("DisplayMode", typeof(EnumOrientation), typeof(RulerControl),
+            new UIPropertyMetadata(EnumOrientation.Horizontal));
 
-        public enumOrientation Orientation
+        public EnumOrientation Orientation
         {
-            get { return (enumOrientation)base.GetValue(OrientationProperty); }
-            set { this.SetValue(OrientationProperty, value); }
+            get => (EnumOrientation)GetValue(OrientationProperty);
+            set => SetValue(OrientationProperty, value);
         }
         #endregion
         #region DepencyProperty MajorIntervalProperty
@@ -72,8 +73,8 @@ namespace OsuEditor.Controls
 
         public int MajorInterval
         {
-            get { return (int)base.GetValue(MajorIntervalProperty); }
-            set { this.SetValue(MajorIntervalProperty, value); }
+            get => (int)GetValue(MajorIntervalProperty);
+            set => SetValue(MajorIntervalProperty, value);
         }
         #endregion
         #region DepencyProperty MarkLengthProperty
@@ -83,8 +84,8 @@ namespace OsuEditor.Controls
 
         public int MarkLength
         {
-            get { return (int)base.GetValue(MarkLengthProperty); }
-            set { this.SetValue(MarkLengthProperty, value); }
+            get => (int)GetValue(MarkLengthProperty);
+            set => SetValue(MarkLengthProperty, value);
         }
         #endregion
         #region DepencyProperty MiddleMarkLengthProperty
@@ -94,8 +95,8 @@ namespace OsuEditor.Controls
 
         public int MiddleMarkLength
         {
-            get { return (int)base.GetValue(MiddleMarkLengthProperty); }
-            set { this.SetValue(MiddleMarkLengthProperty, value); }
+            get => (int)GetValue(MiddleMarkLengthProperty);
+            set => SetValue(MiddleMarkLengthProperty, value);
         }
         #endregion
         #region DepencyProperty LittleMarkLengthProperty
@@ -105,8 +106,8 @@ namespace OsuEditor.Controls
 
         public int LittleMarkLength
         {
-            get { return (int)base.GetValue(LittleMarkLengthProperty); }
-            set { this.SetValue(LittleMarkLengthProperty, value); }
+            get => (int)GetValue(LittleMarkLengthProperty);
+            set => SetValue(LittleMarkLengthProperty, value);
         }
         #endregion
         #region DepencyProperty StartValueProperty
@@ -116,14 +117,15 @@ namespace OsuEditor.Controls
 
         public double StartValue
         {
-            get { return (double)base.GetValue(StartValueProperty); }
-            set { this.SetValue(StartValueProperty, value); }
+            get => (double)GetValue(StartValueProperty);
+            set => SetValue(StartValueProperty, value);
         }
         #endregion
-        Point mousePosition;
-        Pen mouseTrackPen = new Pen(new SolidColorBrush(Colors.Black), 1);
-        Line mouseVerticalTrackLine;
-        Line mouseHorizontalTrackLine;
+
+        //private Point _mousePosition;
+        //private Pen _mouseTrackPen = new Pen(new SolidColorBrush(Colors.Black), 1);
+        private Line _mouseVerticalTrackLine;
+        private Line _mouseHorizontalTrackLine;
         
         static RulerControl()
         {
@@ -133,19 +135,21 @@ namespace OsuEditor.Controls
         protected override void OnRender(DrawingContext drawingContext)
         {
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
-            double psuedoStartValue = StartValue;
+            var psuedoStartValue = StartValue;
             #region Horizontal Ruler
-            if (this.Orientation == enumOrientation.Horizontal)
+            if (Orientation == EnumOrientation.Horizontal)
             {
-                for (int i = 0; i < this.ActualWidth / MajorInterval; i++)
+                for (var i = 0; i < ActualWidth / MajorInterval; i++)
                 {
-                    var ft = new FormattedText((psuedoStartValue * MajorInterval).ToString(), System.Globalization.CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface("Tahoma"), 10, Brushes.Black);
+                    var ft = new FormattedText((psuedoStartValue * MajorInterval).ToString(CultureInfo.CurrentCulture),
+                        CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
+                        new Typeface("Tahoma"), 10, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
                     drawingContext.DrawText(ft, new Point(i * MajorInterval, 0));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(i * MajorInterval, MarkLength), new Point(i * MajorInterval,0));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Green), 1),
                         new Point(i * MajorInterval + (MajorInterval / 2), MiddleMarkLength),
                         new Point(i * MajorInterval + (MajorInterval / 2), 0));
-                    for (int j = 1; j < 10; j++)
+                    for (var j = 1; j < 10; j++)
                     {
                         if (j == 5)
                         {
@@ -163,16 +167,18 @@ namespace OsuEditor.Controls
             else
             {
                 psuedoStartValue = StartValue;
-                for (int i = 0; i < this.ActualHeight / MajorInterval; i++)
+                for (var i = 0; i < ActualHeight / MajorInterval; i++)
                 {
-                    var ft = new FormattedText((psuedoStartValue * MajorInterval).ToString(), System.Globalization.CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface("Tahoma"), 10, Brushes.Black);
+                    var ft = new FormattedText((psuedoStartValue * MajorInterval).ToString(CultureInfo.CurrentCulture),
+                        CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
+                        new Typeface("Tahoma"), 10, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
                     drawingContext.DrawText(ft, new Point(0, i * MajorInterval));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(MarkLength, i * MajorInterval), new Point(0, i * MajorInterval));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(MarkLength, i * MajorInterval), new Point(0, i * MajorInterval));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Green), 1),
                         new Point(MiddleMarkLength, i * MajorInterval + (MajorInterval / 2)),
                         new Point(0, i * MajorInterval + (MajorInterval / 2)));
-                    for (int j = 1; j < 10; j++)
+                    for (var j = 1; j < 10; j++)
                     {
                         if (j==5)
                         {
@@ -194,22 +200,22 @@ namespace OsuEditor.Controls
         }
         public void RaiseHorizontalRulerMoveEvent(MouseEventArgs e)
         {
-            Point mousePoint = e.GetPosition(this);
-            mouseHorizontalTrackLine.X1 = mouseHorizontalTrackLine.X2 = mousePoint.X;
+            var mousePoint = e.GetPosition(this);
+            _mouseHorizontalTrackLine.X1 = _mouseHorizontalTrackLine.X2 = mousePoint.X;
         }
         public void RaiseVerticalRulerMoveEvent(MouseEventArgs e)
         {
-            Point mousePoint = e.GetPosition(this);
-            mouseVerticalTrackLine.Y1 = mouseVerticalTrackLine.Y2 = mousePoint.Y;
+            var mousePoint = e.GetPosition(this);
+            _mouseVerticalTrackLine.Y1 = _mouseVerticalTrackLine.Y2 = mousePoint.Y;
         }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            mouseVerticalTrackLine = GetTemplateChild("verticalTrackLine") as Line;
-            mouseHorizontalTrackLine = GetTemplateChild("horizontalTrackLine") as Line;
-            mouseVerticalTrackLine.Visibility = Visibility.Visible;
-            mouseHorizontalTrackLine.Visibility = Visibility.Visible;
-
+            _mouseVerticalTrackLine = GetTemplateChild("verticalTrackLine") as Line;
+            _mouseHorizontalTrackLine = GetTemplateChild("horizontalTrackLine") as Line;
+            _mouseVerticalTrackLine.Visibility = Visibility.Visible;
+            if (_mouseHorizontalTrackLine != null)
+                _mouseHorizontalTrackLine.Visibility = Visibility.Visible;
         }
     }
 }
