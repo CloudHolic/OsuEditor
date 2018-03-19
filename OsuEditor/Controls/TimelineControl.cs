@@ -25,7 +25,7 @@ namespace OsuEditor.Controls
         }
         #endregion
 
-        #region DepencyProperty OrientationProperty
+        #region DependencyProperty OrientationProperty
         public static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register("DisplayMode", typeof(EnumOrientation), typeof(TimelineControl),
             new UIPropertyMetadata(EnumOrientation.Horizontal));
@@ -36,7 +36,7 @@ namespace OsuEditor.Controls
             set => SetValue(OrientationProperty, value);
         }
         #endregion
-        #region DepencyProperty MajorIntervalProperty
+        #region DependencyProperty MajorIntervalProperty
         public static readonly DependencyProperty MajorIntervalProperty =
             DependencyProperty.Register("MajorIntervalProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(100));
@@ -47,7 +47,18 @@ namespace OsuEditor.Controls
             set => SetValue(MajorIntervalProperty, value);
         }
         #endregion
-        #region DepencyProperty MarkLengthProperty
+        #region DependencyProperty SubIntervalProperty
+        public static readonly DependencyProperty SubIntervalProperty =
+            DependencyProperty.Register("SubIntervalProperty", typeof(int), typeof(TimelineControl),
+                new UIPropertyMetadata(4));
+
+        public int SubInterval
+        {
+            get => (int)GetValue(SubIntervalProperty);
+            set => SetValue(SubIntervalProperty, value);
+        }
+        #endregion
+        #region DependencyProperty MarkLengthProperty
         public static readonly DependencyProperty MarkLengthProperty =
             DependencyProperty.Register("MarkLengthProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(20));
@@ -58,7 +69,7 @@ namespace OsuEditor.Controls
             set => SetValue(MarkLengthProperty, value);
         }
         #endregion
-        #region DepencyProperty MiddleMarkLengthProperty
+        #region DependencyProperty MiddleMarkLengthProperty
         public static readonly DependencyProperty MiddleMarkLengthProperty =
             DependencyProperty.Register("MiddleMarkLengthProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(10));
@@ -69,7 +80,7 @@ namespace OsuEditor.Controls
             set => SetValue(MiddleMarkLengthProperty, value);
         }
         #endregion
-        #region DepencyProperty LittleMarkLengthProperty
+        #region DependencyProperty LittleMarkLengthProperty
         public static readonly DependencyProperty LittleMarkLengthProperty =
             DependencyProperty.Register("LittleMarkLengthProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(5));
@@ -80,7 +91,7 @@ namespace OsuEditor.Controls
             set => SetValue(LittleMarkLengthProperty, value);
         }
         #endregion
-        #region DepencyProperty StartValueProperty
+        #region DependencyProperty StartValueProperty
         public static readonly DependencyProperty StartValueProperty =
             DependencyProperty.Register("StartValueProperty", typeof(double), typeof(TimelineControl),
             new UIPropertyMetadata(0.0));
@@ -110,19 +121,18 @@ namespace OsuEditor.Controls
             {
                 for (var i = 0; i < ActualWidth / MajorInterval; i++)
                 {
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(i * MajorInterval, ActualHeight - MarkLength), new Point(i * MajorInterval,ActualHeight));
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Green), 1),
-                        new Point(i * MajorInterval + (MajorInterval / 2), ActualHeight - MiddleMarkLength),
-                        new Point(i * MajorInterval + (MajorInterval / 2), ActualHeight));
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2), new Point(i * MajorInterval, ActualHeight - MarkLength), new Point(i * MajorInterval,ActualHeight));
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
+                        new Point(i * MajorInterval + MajorInterval / 2, ActualHeight - MiddleMarkLength),
+                        new Point(i * MajorInterval + MajorInterval / 2, ActualHeight));
                     for (var j = 1; j < 10; j++)
                     {
                         if (j == 5)
-                        {
                             continue;
-                        }
-                        drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Blue), 1),
-                        new Point(i * MajorInterval + (((MajorInterval * j) / 10)), ActualHeight - LittleMarkLength),
-                        new Point(i * MajorInterval + (((MajorInterval * j) / 10)), ActualHeight));
+                        
+                        drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
+                        new Point(i * MajorInterval + MajorInterval * j / 10, ActualHeight - LittleMarkLength),
+                        new Point(i * MajorInterval + MajorInterval * j / 10, ActualHeight));
                     }
                 }
             }
@@ -132,20 +142,18 @@ namespace OsuEditor.Controls
             {
                 for (var i = 0; i < ActualHeight / MajorInterval; i++)
                 {
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(ActualWidth - MarkLength, i * MajorInterval), new Point(ActualWidth, i * MajorInterval));
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(ActualWidth - MarkLength, i * MajorInterval), new Point(ActualWidth, i * MajorInterval));
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Green), 1),
-                        new Point(ActualWidth - MiddleMarkLength, i * MajorInterval + (MajorInterval / 2)),
-                        new Point(ActualWidth, i * MajorInterval + (MajorInterval / 2)));
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1), new Point(ActualWidth - MarkLength, i * MajorInterval), new Point(ActualWidth, i * MajorInterval));
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
+                        new Point(ActualWidth - MiddleMarkLength, i * MajorInterval + MajorInterval / 2),
+                        new Point(ActualWidth, i * MajorInterval + MajorInterval / 2));
                     for (var j = 1; j < 10; j++)
                     {
                         if (j==5)
-                        {
                             continue;
-                        }
-                        drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Blue), 1),
-                        new Point(ActualWidth - LittleMarkLength, i * MajorInterval + (((MajorInterval*j) / 10))),
-                        new Point(ActualWidth, i * MajorInterval + (((MajorInterval*j) / 10))));
+                        
+                        drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
+                        new Point(ActualWidth - LittleMarkLength, i * MajorInterval + MajorInterval*j / 10),
+                        new Point(ActualWidth, i * MajorInterval + MajorInterval*j / 10));
                     }
                 }
             }
