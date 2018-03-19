@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
+using OsuEditor.Contents;
 
 namespace OsuEditor
 {
@@ -11,6 +12,7 @@ namespace OsuEditor
         public MainWindow()
         {
             InitializeComponent();
+            HeaderControl.Content = new ComposeHeaderView();
         }
     }
 }

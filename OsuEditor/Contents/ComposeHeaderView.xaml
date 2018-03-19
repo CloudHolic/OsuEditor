@@ -1,11 +1,19 @@
 ﻿<UserControl x:Class="OsuEditor.Contents.ComposeHeaderView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              d:DesignHeight="105" d:DesignWidth="339.5">
-    <Grid>
-
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <Label Content="Beat Snap Divisor :" FontSize="25"/>
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Height="30">
+            <Slider Width="290" Height="30" Margin="0,-5,0,0" IsTabStop="False" Maximum="10" Value="5" Style="{StaticResource BeatDivisorSlider}">
+                <Slider.LayoutTransform>
+                    <ScaleTransform ScaleY="1.6" CenterX="15" CenterY="15"></ScaleTransform>
+                </Slider.LayoutTransform>
+            </Slider>
+            <Label x:Name="BeatLabel" Content="1/12" Margin="5,-5,0,0" FontSize="15"/>
+        </StackPanel>
+    </StackPanel>
 </UserControl>
