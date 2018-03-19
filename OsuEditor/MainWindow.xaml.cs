@@ -12,7 +12,7 @@ namespace OsuEditor
         public MainWindow()
         {
             InitializeComponent();
-            HeaderControl.Content = new ComposeHeaderView();
+            HeaderContent.Content = new ComposeHeaderView();
         }
     }
 }

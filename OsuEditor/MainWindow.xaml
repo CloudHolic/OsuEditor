@@ -55,7 +55,7 @@
                         </ScrollViewer>
                     </Grid>
                 </Grid>
-                <ContentControl x:Name="HeaderControl" Grid.Column="1"/>
+                <ContentControl x:Name="HeaderContent" Grid.Column="1"/>
             </Grid>
         </StackPanel>
     </Grid>
