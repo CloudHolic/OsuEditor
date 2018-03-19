@@ -6,7 +6,7 @@
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:custom="clr-namespace:OsuEditor.Controls"
                       mc:Ignorable="d"
-                      Title="MainWindow" Height="798" Width="1360">
+                      Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal">
     <Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="105">
             <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type StackPanel}},Path=ActualWidth}">

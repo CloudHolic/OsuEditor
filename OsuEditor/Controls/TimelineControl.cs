@@ -105,20 +105,15 @@ namespace OsuEditor.Controls
         protected override void OnRender(DrawingContext drawingContext)
         {
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
-            var psuedoStartValue = StartValue;
             #region Horizontal Ruler
             if (Orientation == EnumOrientation.Horizontal)
             {
                 for (var i = 0; i < ActualWidth / MajorInterval; i++)
                 {
-                    var ft = new FormattedText((psuedoStartValue * MajorInterval).ToString(CultureInfo.CurrentCulture),
-                        CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
-                        new Typeface("Tahoma"), 10, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-                    drawingContext.DrawText(ft, new Point(i * MajorInterval, 0));
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(i * MajorInterval, MarkLength), new Point(i * MajorInterval,0));
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(i * MajorInterval, ActualHeight - MarkLength), new Point(i * MajorInterval,ActualHeight));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Green), 1),
-                        new Point(i * MajorInterval + (MajorInterval / 2), MiddleMarkLength),
-                        new Point(i * MajorInterval + (MajorInterval / 2), 0));
+                        new Point(i * MajorInterval + (MajorInterval / 2), ActualHeight - MiddleMarkLength),
+                        new Point(i * MajorInterval + (MajorInterval / 2), ActualHeight));
                     for (var j = 1; j < 10; j++)
                     {
                         if (j == 5)
@@ -126,28 +121,22 @@ namespace OsuEditor.Controls
                             continue;
                         }
                         drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Blue), 1),
-                        new Point(i * MajorInterval + (((MajorInterval * j) / 10)), LittleMarkLength),
-                        new Point(i * MajorInterval + (((MajorInterval * j) / 10)), 0));
+                        new Point(i * MajorInterval + (((MajorInterval * j) / 10)), ActualHeight - LittleMarkLength),
+                        new Point(i * MajorInterval + (((MajorInterval * j) / 10)), ActualHeight));
                     }
-                    psuedoStartValue++;
                 }
             }
             #endregion
             #region Vertical Ruler
             else
             {
-                psuedoStartValue = StartValue;
                 for (var i = 0; i < ActualHeight / MajorInterval; i++)
                 {
-                    var ft = new FormattedText((psuedoStartValue * MajorInterval).ToString(CultureInfo.CurrentCulture),
-                        CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
-                        new Typeface("Tahoma"), 10, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-                    drawingContext.DrawText(ft, new Point(0, i * MajorInterval));
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(MarkLength, i * MajorInterval), new Point(0, i * MajorInterval));
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(MarkLength, i * MajorInterval), new Point(0, i * MajorInterval));
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(ActualWidth - MarkLength, i * MajorInterval), new Point(ActualWidth, i * MajorInterval));
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Red), 1), new Point(ActualWidth - MarkLength, i * MajorInterval), new Point(ActualWidth, i * MajorInterval));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Green), 1),
-                        new Point(MiddleMarkLength, i * MajorInterval + (MajorInterval / 2)),
-                        new Point(0, i * MajorInterval + (MajorInterval / 2)));
+                        new Point(ActualWidth - MiddleMarkLength, i * MajorInterval + (MajorInterval / 2)),
+                        new Point(ActualWidth, i * MajorInterval + (MajorInterval / 2)));
                     for (var j = 1; j < 10; j++)
                     {
                         if (j==5)
@@ -155,10 +144,9 @@ namespace OsuEditor.Controls
                             continue;
                         }
                         drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Blue), 1),
-                        new Point(LittleMarkLength, i * MajorInterval + (((MajorInterval*j) / 10))),
-                        new Point(0, i * MajorInterval + (((MajorInterval*j) / 10))));
+                        new Point(ActualWidth - LittleMarkLength, i * MajorInterval + (((MajorInterval*j) / 10))),
+                        new Point(ActualWidth, i * MajorInterval + (((MajorInterval*j) / 10))));
                     }
-                    psuedoStartValue++;
                 }
             }
             #endregion
