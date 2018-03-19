@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="105"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
             <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type StackPanel}},Path=ActualWidth}">
@@ -58,5 +58,6 @@
                 <ContentControl x:Name="HeaderContent" Grid.Column="1"/>
             </Grid>
         </StackPanel>
+        <Rectangle Grid.Row="2" StrokeThickness="2" Height="30" Width="1352" Fill="Black"/>
     </Grid>
 </controls:MetroWindow>
