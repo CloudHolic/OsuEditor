@@ -20,10 +20,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Height="35">
-                        <ToggleButton Width="160" Content="compose" FontSize="15" BorderThickness="0"></ToggleButton>
-                        <ToggleButton Width="160" Content="design" FontSize="15" BorderThickness="0"></ToggleButton>
-                        <ToggleButton Width="160" Content="timing" FontSize="15" BorderThickness="0"></ToggleButton>
-                        <Button Width="160" Content="song setup" FontSize="15" BorderThickness="0" controls:ControlsHelper.ContentCharacterCasing="Normal"></Button>
+                        <ToggleButton Width="160" Content="compose" FontSize="15" BorderThickness="0" IsTabStop="False" Focusable="False"/>
+                        <ToggleButton Width="160" Content="timing" FontSize="15" BorderThickness="0" IsTabStop="False" Focusable="False"/>
+                        <Button Width="160" Content="song setup" FontSize="15" BorderThickness="0" controls:ControlsHelper.ContentCharacterCasing="Normal" IsTabStop="False" Focusable="False"/>
                     </StackPanel>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -51,6 +50,7 @@
                         </ScrollViewer>
                     </Grid>
                 </Grid>
+                <ContentControl x:Name="HeaderControl" Grid.Column="1"/>
             </Grid>
         </StackPanel>
     </Grid>
