@@ -13,7 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Steel.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
                 <!-- Ruler Style -->
-                <ResourceDictionary Source="/Assets/RulerStyle.xaml" />
+                <ResourceDictionary Source="/Assets/TimelineStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

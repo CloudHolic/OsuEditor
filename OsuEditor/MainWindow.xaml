@@ -26,7 +26,7 @@
                         <Button Width="160" Content="song setup" FontSize="15" BorderThickness="0" controls:ControlsHelper.ContentCharacterCasing="Normal"></Button>
                     </StackPanel>
                     <ScrollViewer Grid.Row="1" CanContentScroll="True" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
-                        <custom:RulerControl></custom:RulerControl>
+                        <custom:TimelineControl></custom:TimelineControl>
                     </ScrollViewer>
                 </Grid>
             </Grid>

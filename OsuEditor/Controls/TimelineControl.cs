@@ -7,46 +7,16 @@ using System.Windows.Shapes;
 
 namespace OsuEditor.Controls
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:RulerControl"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:RulerControl;assembly=RulerControl"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:CustomControl1/>
-    ///
-    /// </summary>
-    /// 
     #region Enumerations
     public enum EnumOrientation { Horizontal, Vertical }
     #endregion
 
     [TemplatePart(Name = "trackLine", Type = typeof(Line))]
-    public class RulerControl : Control
+    public class TimelineControl : Control
     {
         #region MouseMoveRoutedEvent
         public new static readonly RoutedEvent MouseMoveEvent = EventManager.RegisterRoutedEvent(
-            "MouseMove", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(RulerControl));
+            "MouseMove", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TimelineControl));
 
         public new event RoutedEventHandler MouseMove
         {
@@ -57,7 +27,7 @@ namespace OsuEditor.Controls
 
         #region DepencyProperty OrientationProperty
         public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register("DisplayMode", typeof(EnumOrientation), typeof(RulerControl),
+            DependencyProperty.Register("DisplayMode", typeof(EnumOrientation), typeof(TimelineControl),
             new UIPropertyMetadata(EnumOrientation.Horizontal));
 
         public EnumOrientation Orientation
@@ -68,7 +38,7 @@ namespace OsuEditor.Controls
         #endregion
         #region DepencyProperty MajorIntervalProperty
         public static readonly DependencyProperty MajorIntervalProperty =
-            DependencyProperty.Register("MajorIntervalProperty", typeof(int), typeof(RulerControl),
+            DependencyProperty.Register("MajorIntervalProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(100));
 
         public int MajorInterval
@@ -79,7 +49,7 @@ namespace OsuEditor.Controls
         #endregion
         #region DepencyProperty MarkLengthProperty
         public static readonly DependencyProperty MarkLengthProperty =
-            DependencyProperty.Register("MarkLengthProperty", typeof(int), typeof(RulerControl),
+            DependencyProperty.Register("MarkLengthProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(20));
 
         public int MarkLength
@@ -90,7 +60,7 @@ namespace OsuEditor.Controls
         #endregion
         #region DepencyProperty MiddleMarkLengthProperty
         public static readonly DependencyProperty MiddleMarkLengthProperty =
-            DependencyProperty.Register("MiddleMarkLengthProperty", typeof(int), typeof(RulerControl),
+            DependencyProperty.Register("MiddleMarkLengthProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(10));
 
         public int MiddleMarkLength
@@ -101,7 +71,7 @@ namespace OsuEditor.Controls
         #endregion
         #region DepencyProperty LittleMarkLengthProperty
         public static readonly DependencyProperty LittleMarkLengthProperty =
-            DependencyProperty.Register("LittleMarkLengthProperty", typeof(int), typeof(RulerControl),
+            DependencyProperty.Register("LittleMarkLengthProperty", typeof(int), typeof(TimelineControl),
             new UIPropertyMetadata(5));
 
         public int LittleMarkLength
@@ -112,7 +82,7 @@ namespace OsuEditor.Controls
         #endregion
         #region DepencyProperty StartValueProperty
         public static readonly DependencyProperty StartValueProperty =
-            DependencyProperty.Register("StartValueProperty", typeof(double), typeof(RulerControl),
+            DependencyProperty.Register("StartValueProperty", typeof(double), typeof(TimelineControl),
             new UIPropertyMetadata(0.0));
 
         public double StartValue
@@ -127,9 +97,9 @@ namespace OsuEditor.Controls
         private Line _mouseVerticalTrackLine;
         private Line _mouseHorizontalTrackLine;
         
-        static RulerControl()
+        static TimelineControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(RulerControl), new FrameworkPropertyMetadata(typeof(RulerControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(TimelineControl), new FrameworkPropertyMetadata(typeof(TimelineControl)));
         }
         
         protected override void OnRender(DrawingContext drawingContext)
