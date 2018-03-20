@@ -14,7 +14,8 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
-            <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type StackPanel}},Path=ActualWidth}" 
+            <Grid x:Name="HeaderGrid"
+                  Width="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type StackPanel}},Path=ActualWidth}" 
                   MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}},Path=ActualWidth}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
@@ -64,10 +65,11 @@
                         <ScrollViewer Grid.Column="1"
                                       MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}},Path=ActualWidth}"
                                       VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
-                            <custom:TimelineControl HorizontalAlignment="Left" Width="{Binding SongLength}"
+                            <custom:TimelineControl HorizontalAlignment="Left" Width="{Binding SongLength}" Orientation="Horizontal"
                                                     x:Name="HeaderTimeline" MarkLength="50" MiddleMarkLength="20"
                                                     LittleMarkLength="5" Zoom="1.0" />
                         </ScrollViewer>
+                        <Line Grid.Column="1" Stroke="White" StrokeThickness="5" X1="489.25" X2="489.25" Y1="0" Y2="70"></Line>
                     </Grid>
                 </Grid>
                 <ContentControl x:Name="HeaderContent" Grid.Column="1" Content="{Binding HeaderContent, Mode=OneWay}"/>

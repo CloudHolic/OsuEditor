@@ -129,7 +129,7 @@ namespace OsuEditor.Controls
             #region Horizontal Ruler
             if (Orientation == EnumOrientation.Horizontal)
             {
-                for (var i = 0; i < ActualWidth / MajorInterval; i++)
+                for (var i = 0; i < Width / MajorInterval; i++)
                 {
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2), new Point(i * MajorInterval, ActualHeight - MarkLength), new Point(i * MajorInterval,ActualHeight));
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
