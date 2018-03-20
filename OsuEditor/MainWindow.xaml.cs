@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Windows;
+using OsuEditor.Events;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor
 {
-    public partial class MainWindow
+    public partial class MainWindow : IEvent<BeatSnapEvent>
     {
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MainWIndowViewModel();
+
+            EventBus.Instance.RegisterHandler(this);
         }
 
         private void IncreaseZoom_OnClick(object sender, RoutedEventArgs e)
@@ -20,6 +23,11 @@ namespace OsuEditor
         private void DecreaseZoom_OnClick(object sender, RoutedEventArgs e)
         {
             ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Max(0, HeaderTimeline.Zoom - 0.2);
+        }
+
+        public void HandleEvent(BeatSnapEvent e)
+        {
+            HeaderTimeline.SubInterval = ((MainWIndowViewModel) DataContext).Snap = e.Snap;
         }
     }
 }

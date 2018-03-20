@@ -49,7 +49,7 @@ namespace OsuEditor.Controls
         #region DependencyProperty SubIntervalProperty
         public static readonly DependencyProperty SubIntervalProperty =
             DependencyProperty.Register("SubIntervalProperty", typeof(int), typeof(TimelineControl),
-                new UIPropertyMetadata(4));
+                new FrameworkPropertyMetadata(4, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public int SubInterval
         {
@@ -104,7 +104,7 @@ namespace OsuEditor.Controls
         #region DependencyProperty ZoomProperty
         public static readonly DependencyProperty ZoomProperty =
             DependencyProperty.Register("ZoomProperty", typeof(double), typeof(TimelineControl),
-                new UIPropertyMetadata(1.0));
+                new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public double Zoom
         {
