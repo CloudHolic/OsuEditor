@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
-using OsuEditor.Contents;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor

@@ -168,8 +168,8 @@ namespace OsuEditor.Controls
                 }
             }
             #endregion
-            
         }
+
         protected override void OnMouseMove(MouseEventArgs e)
         {
             
