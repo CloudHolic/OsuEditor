@@ -73,7 +73,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Contents\ComposeBodyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Contents\ComposeHeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Contents\TimingBodyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -89,13 +97,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Contents\ComposeBodyView.xaml.cs">
+      <DependentUpon>ComposeBodyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Contents\ComposeHeaderView.xaml.cs">
       <DependentUpon>ComposeHeaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Contents\TimingBodyView.xaml.cs">
+      <DependentUpon>TimingBodyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Contents\TimingHeaderView.xaml.cs">
       <DependentUpon>TimingHeaderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TimelineControl.cs" />
+    <Compile Include="CustomExceptions\InvalidBeatmapException.cs" />
+    <Compile Include="CustomExceptions\InvalidValueException.cs" />
+    <Compile Include="Events\BeatSnapEvent.cs" />
+    <Compile Include="Events\EventBus.cs" />
+    <Compile Include="Events\IEvent.cs" />
+    <Compile Include="Events\IEventBus.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

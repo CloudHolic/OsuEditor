@@ -25,8 +25,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Height="35">
-                        <ToggleButton Width="160" Content="compose" FontSize="15" BorderThickness="0" IsTabStop="False" Focusable="False"/>
-                        <ToggleButton Width="160" Content="timing" FontSize="15" BorderThickness="0" IsTabStop="False" Focusable="False"/>
+                        <ToggleButton x:Name="ComposeButton" Width="160" Content="compose" FontSize="15" BorderThickness="0" IsTabStop="False" Focusable="False" Checked="ComposeButton_OnChecked"/>
+                        <ToggleButton x:Name="TimingButton" Width="160" Content="timing" FontSize="15" BorderThickness="0" IsTabStop="False" Focusable="False" Checked="TimingButton_OnChecked"/>
                         <Button Width="160" Content="song setup" FontSize="15" BorderThickness="0" controls:ControlsHelper.ContentCharacterCasing="Normal" IsTabStop="False" Focusable="False"/>
                     </StackPanel>
                     <Grid Grid.Row="1">
@@ -51,13 +51,14 @@
                             </Button>
                         </StackPanel>
                         <ScrollViewer Grid.Column="1" CanContentScroll="True" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
-                            <custom:TimelineControl MarkLength="50" MiddleMarkLength="20" LittleMarkLength="5"/>
+                            <custom:TimelineControl x:Name="HeaderTimeline" MarkLength="50" MiddleMarkLength="20" LittleMarkLength="5"/>
                         </ScrollViewer>
                     </Grid>
                 </Grid>
                 <ContentControl x:Name="HeaderContent" Grid.Column="1"/>
             </Grid>
         </StackPanel>
+        <ContentControl x:Name="BodyContent" Grid.Row="1"/>
         <Rectangle Grid.Row="2" StrokeThickness="2" Height="30" Width="1352" Fill="Black"/>
     </Grid>
 </controls:MetroWindow>
