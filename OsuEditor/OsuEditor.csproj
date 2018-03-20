@@ -65,6 +65,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\RelayCommandBase.cs" />
+    <Compile Include="Converters\NotConverter.cs" />
+    <Compile Include="ViewModels\ComposeHeaderViewModel.cs" />
+    <Compile Include="ViewModels\MainWIndowViewModel.cs" />
+    <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Page Include="Assets\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Assets\SliderStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
