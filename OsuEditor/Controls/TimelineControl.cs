@@ -101,6 +101,17 @@ namespace OsuEditor.Controls
             set => SetValue(StartValueProperty, value);
         }
         #endregion
+        #region DependencyProperty ZoomProperty
+        public static readonly DependencyProperty ZoomProperty =
+            DependencyProperty.Register("ZoomProperty", typeof(double), typeof(TimelineControl),
+                new UIPropertyMetadata(1.0));
+
+        public double Zoom
+        {
+            get => (double)GetValue(ZoomProperty);
+            set => SetValue(ZoomProperty, value);
+        }
+        #endregion
 
         //private Point _mousePosition;
         //private Pen _mouseTrackPen = new Pen(new SolidColorBrush(Colors.Black), 1);

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using OsuEditor.Contents;
 using OsuEditor.Events;
 
@@ -32,6 +33,16 @@ namespace OsuEditor
         public void HandleEvent(BeatSnapEvent e)
         {
             HeaderTimeline.SubInterval = e.Snap;
+        }
+
+        private void IncreaseZoom_OnClick(object sender, RoutedEventArgs e)
+        {
+            HeaderTimeline.Zoom = Math.Min(10, HeaderTimeline.Zoom + 0.2);
+        }
+
+        private void DecreaseZoom_OnClick(object sender, RoutedEventArgs e)
+        {
+            HeaderTimeline.Zoom = Math.Max(0, HeaderTimeline.Zoom - 0.2);
         }
     }
 }
