@@ -64,7 +64,7 @@
                             </Button>
                         </StackPanel>
                         <custom:TimelineControl Grid.Column="1" HorizontalAlignment="Left" x:Name="HeaderTimeline"
-                                                MarkLength="40" MiddleMarkLength="20" LittleMarkLength="10" Zoom="1.0" CurrentValue="20"/>
+                                                Zoom="1.0" CurrentValue="20"/>
                     </Grid>
                 </Grid>
                 <ContentControl x:Name="HeaderContent" Grid.Column="1" Content="{Binding HeaderContent, Mode=OneWay}"/>

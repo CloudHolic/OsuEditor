@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,40 +25,6 @@ namespace OsuEditor.Controls
         }
         #endregion
 
-        #region DependencyProperty MarkLengthProperty
-        public static readonly DependencyProperty MarkLengthProperty =
-            DependencyProperty.Register("MarkLengthProperty", typeof(int), typeof(TimelineControl),
-                new UIPropertyMetadata(20));
-
-        public int MarkLength
-        {
-            get => (int)GetValue(MarkLengthProperty);
-            set => SetValue(MarkLengthProperty, value);
-        }
-        #endregion
-        #region DependencyProperty MiddleMarkLengthProperty
-        public static readonly DependencyProperty MiddleMarkLengthProperty =
-            DependencyProperty.Register("MiddleMarkLengthProperty", typeof(int), typeof(TimelineControl),
-                new UIPropertyMetadata(10));
-
-        public int MiddleMarkLength
-        {
-            get => (int)GetValue(MiddleMarkLengthProperty);
-            set => SetValue(MiddleMarkLengthProperty, value);
-        }
-        #endregion
-        #region DependencyProperty LittleMarkLengthProperty
-        public static readonly DependencyProperty LittleMarkLengthProperty =
-            DependencyProperty.Register("LittleMarkLengthProperty", typeof(int), typeof(TimelineControl),
-                new UIPropertyMetadata(5));
-
-        public int LittleMarkLength
-        {
-            get => (int)GetValue(LittleMarkLengthProperty);
-            set => SetValue(LittleMarkLengthProperty, value);
-        }
-        #endregion
-
         #region DependencyProperty TimingsProperty
         public static readonly DependencyProperty TimingsProperty =
             DependencyProperty.Register("TimingsProperty", typeof(Timeline), typeof(TimelineControl),
@@ -67,6 +34,17 @@ namespace OsuEditor.Controls
         {
             get => (Timeline) GetValue(TimingsProperty);
             set => SetValue(TimingsProperty, value);
+        }
+        #endregion
+        #region DependencyProperty BeatSnapProperty
+        public static readonly DependencyProperty BeatSnapProperty = 
+            DependencyProperty.Register("BeatSnapProperty", typeof(int), typeof(TimelineControl),
+                new FrameworkPropertyMetadata(4, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public int BeatSnap
+        {
+            get => (int) GetValue(BeatSnapProperty);
+            set => SetValue(BeatSnapProperty, value);
         }
         #endregion
 
@@ -135,33 +113,35 @@ namespace OsuEditor.Controls
             {
                 if (Math.Abs((beat + transform) / Timings.BeatLength[0] % Timings.BeatsPerMeasure[0]) < 0.001)
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2),
-                        new Point(beat, ActualHeight - MarkLength), new Point(beat, ActualHeight));
+                        new Point(beat, ActualHeight - 50), new Point(beat, ActualHeight));
                 else
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
-                        new Point(beat, ActualHeight - MiddleMarkLength), new Point(beat, ActualHeight));
+                        new Point(beat, ActualHeight - 30), new Point(beat, ActualHeight));
 
                 //  Draw previous snaps if it's the first beat
                 if (beats.IndexOf(beat) == 0)
                 {
-                    for (var j = 1; j < Timings.BeatSnap; j++)
+                    for (var j = 1; j < BeatSnap; j++)
                     {
-                        var snapCor = beat - j * Timings.BeatLength[0] / Timings.BeatSnap;
+                        var snapCor = beat - j * Timings.BeatLength[0] / BeatSnap;
                         if (snapCor < 0)
                             break;
 
+                        var height = CalcLineHight(BeatSnap, j);
                         drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
-                            new Point(snapCor, ActualHeight - LittleMarkLength), new Point(snapCor, ActualHeight));
+                            new Point(snapCor, ActualHeight - height), new Point(snapCor, ActualHeight));
                     }
                 }
 
-                for (var j = 1; j < Timings.BeatSnap; j++)
+                for (var j = 1; j < BeatSnap; j++)
                 {
-                    var snapCor = beat + j * Timings.BeatLength[0] / Timings.BeatSnap;
+                    var snapCor = beat + j * Timings.BeatLength[0] / BeatSnap;
                     if (snapCor > ActualWidth)
                         break;
 
+                    var height = CalcLineHight(BeatSnap, j);
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
-                        new Point(snapCor, ActualHeight - LittleMarkLength), new Point(snapCor, ActualHeight));
+                        new Point(snapCor, ActualHeight - height), new Point(snapCor, ActualHeight));
                 }
             }
         }
@@ -191,6 +171,34 @@ namespace OsuEditor.Controls
             _mouseVerticalTrackLine.Visibility = Visibility.Visible;
             if (_mouseHorizontalTrackLine != null)
                 _mouseHorizontalTrackLine.Visibility = Visibility.Visible;
+        }
+
+        private static int CalcLineHight(int snap, int cur)
+        {
+            var availableSnaps = new[] {2, 3, 4, 6, 8, 12, 16, 24, 32};
+            if (Array.IndexOf(availableSnaps, snap) == -1)
+                throw new InvalidValueException();
+
+            if (snap % 3 == 0)
+            {
+                if (snap == 3 || cur % (snap / 3) == 0)
+                    return 10;
+                if (snap == 6 || cur % (snap / 6) == 0)
+                    return 10;
+                if (snap == 12 || cur % (snap / 12) == 0)
+                    return 5;
+                return 2;
+            }
+
+            if (snap == 2 || cur % (snap / 2) == 0)
+                return 16;
+            if (snap == 4 || cur % (snap / 4) == 0)
+                return 8;
+            if (snap == 8 || cur % (snap / 8) == 0)
+                return 4;
+            if (snap == 16 || cur % (snap / 16) == 0)
+                return 2;
+            return 1;
         }
     }
 }

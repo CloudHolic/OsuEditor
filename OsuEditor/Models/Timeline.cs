@@ -9,27 +9,27 @@ namespace OsuEditor.Models
 
         public List<int> BeatsPerMeasure { get; set; }
 
-        public int BeatSnap { get; set; }
+        public List<int> Offset { get; set; }
 
         public Timeline()
         {
             BeatLength = new List<double> {BpmConverter.BpmToBeat(600)};
             BeatsPerMeasure = new List<int> {4};
-            BeatSnap = 4;
+            Offset = new List<int> {0};
         }
 
-        public Timeline(double beatLength, int beatsPerMeasure, int beatSnap)
+        public Timeline(double beatLength, int beatsPerMeasure, int offset)
         {
             BeatLength = new List<double> { beatLength };
             BeatsPerMeasure = new List<int> { beatsPerMeasure };
-            BeatSnap = beatSnap;
+            Offset = new List<int> {offset};
         }
 
-        public Timeline(List<double> beatLength, List<int> beatsPerMeasure, int beatSnap)
+        public Timeline(List<double> beatLength, List<int> beatsPerMeasure, List<int> offset)
         {
             BeatLength = new List<double>(beatLength);
             BeatsPerMeasure = new List<int>(beatsPerMeasure);
-            BeatSnap = beatSnap;
+            Offset = new List<int>(offset);
         }
     }
 }

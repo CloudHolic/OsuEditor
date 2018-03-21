@@ -33,14 +33,7 @@ namespace OsuEditor
 
         public void HandleEvent(BeatSnapEvent e)
         {
-            ((MainWIndowViewModel) DataContext).Snap = e.Snap;
-            var prevTimings = HeaderTimeline.Timings;
-            HeaderTimeline.Timings = new Timeline
-            {
-                BeatLength = new List<double>(prevTimings.BeatLength),
-                BeatsPerMeasure = new List<int>(prevTimings.BeatsPerMeasure),
-                BeatSnap = e.Snap
-            };
+            HeaderTimeline.BeatSnap = ((MainWIndowViewModel) DataContext).Snap = e.Snap;
         }
     }
 }
