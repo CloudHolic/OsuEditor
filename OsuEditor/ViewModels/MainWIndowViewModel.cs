@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using OsuEditor.Commands;
 using OsuEditor.Contents;
 using OsuEditor.Events;
