@@ -127,7 +127,7 @@ namespace OsuEditor.Controls
                         if (snapCor < 0)
                             break;
 
-                        var height = CalcLineHight(BeatSnap, j);
+                        var height = CalcLineHeight(BeatSnap, j);
                         drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
                             new Point(snapCor, ActualHeight - height), new Point(snapCor, ActualHeight));
                     }
@@ -139,7 +139,7 @@ namespace OsuEditor.Controls
                     if (snapCor > ActualWidth)
                         break;
 
-                    var height = CalcLineHight(BeatSnap, j);
+                    var height = CalcLineHeight(BeatSnap, j);
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
                         new Point(snapCor, ActualHeight - height), new Point(snapCor, ActualHeight));
                 }
@@ -173,7 +173,7 @@ namespace OsuEditor.Controls
                 _mouseHorizontalTrackLine.Visibility = Visibility.Visible;
         }
 
-        private static int CalcLineHight(int snap, int cur)
+        private static int CalcLineHeight(int snap, int cur)
         {
             var availableSnaps = new[] {2, 3, 4, 6, 8, 12, 16, 24, 32};
             if (Array.IndexOf(availableSnaps, snap) == -1)

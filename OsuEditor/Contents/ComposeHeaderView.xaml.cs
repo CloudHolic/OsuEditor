@@ -26,8 +26,8 @@ namespace OsuEditor.Contents
 
         private static int SliderToBeatSnap(double sliderValue)
         {
-            var sliderValueList = new[] { 0, 2, 3, 4, 6, 8, 10, 12, 14, 16 }.ToList();
-            var beatSnapList = new[] { 1, 2, 3, 4, 6, 8, 12, 16, 24, 32 };
+            var sliderValueList = new[] { 0, 2, 3, 4, 6, 8, 12, 16 }.ToList();
+            var beatSnapList = new[] { 1, 2, 3, 4, 6, 8, 12, 16 };
 
             var index = sliderValueList.FindIndex(x => x == (int)sliderValue);
             if (index > -1 && index < 10)
