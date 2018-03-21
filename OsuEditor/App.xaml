@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <!-- Control Styles -->
                 <ResourceDictionary Source="/Assets/Converters.xaml" />
-                <ResourceDictionary Source="/Assets/TimelineStyle.xaml" />
+                <!--<ResourceDictionary Source="/Assets/TimelineStyle.xaml" />-->
                 <ResourceDictionary Source="/Assets/SliderStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

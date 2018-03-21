@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
-using OsuEditor.Contents;
+using OsuEditor.Events;
+using OsuEditor.Models;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor
 {
-    public partial class MainWindow
+    public partial class MainWindow : IEvent<BeatSnapEvent>
     {
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MainWIndowViewModel();
+            EventBus.Instance.RegisterHandler(this);
         }
 
         private void IncreaseZoom_OnClick(object sender, RoutedEventArgs e)
@@ -22,6 +24,23 @@ namespace OsuEditor
         private void DecreaseZoom_OnClick(object sender, RoutedEventArgs e)
         {
             ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Max(0, HeaderTimeline.Zoom - 0.2);
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            HeaderTimeline.MaxWidth = HeaderTimeline.Width = HeaderGrid.ColumnDefinitions[0].ActualWidth - 40;
+        }
+
+        public void HandleEvent(BeatSnapEvent e)
+        {
+            ((MainWIndowViewModel) DataContext).Snap = e.Snap;
+            var prevTimings = HeaderTimeline.Timings;
+            HeaderTimeline.Timings = new Timeline
+            {
+                BeatLength = new List<double>(prevTimings.BeatLength),
+                BeatsPerMeasure = new List<int>(prevTimings.BeatsPerMeasure),
+                BeatSnap = e.Snap
+            };
         }
     }
 }

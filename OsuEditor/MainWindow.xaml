@@ -6,7 +6,8 @@
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:custom="clr-namespace:OsuEditor.Controls"
                       mc:Ignorable="d"
-                      Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal">
+                      Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
+                      Loaded="MainWindow_OnLoaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="105"/>
@@ -62,14 +63,8 @@
                                 </Rectangle>
                             </Button>
                         </StackPanel>
-                        <ScrollViewer Grid.Column="1"
-                                      MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}},Path=ActualWidth}"
-                                      VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
-                            <custom:TimelineControl HorizontalAlignment="Left" Width="{Binding SongLength}" Orientation="Horizontal"
-                                                    x:Name="HeaderTimeline" MarkLength="50" MiddleMarkLength="20"
-                                                    LittleMarkLength="5" Zoom="1.0" />
-                        </ScrollViewer>
-                        <Line Grid.Column="1" Stroke="White" StrokeThickness="5" X1="489.25" X2="489.25" Y1="0" Y2="70"></Line>
+                        <custom:TimelineControl Grid.Column="1" HorizontalAlignment="Left" x:Name="HeaderTimeline"
+                                                MarkLength="40" MiddleMarkLength="20" LittleMarkLength="10" Zoom="1.0" CurrentValue="20"/>
                     </Grid>
                 </Grid>
                 <ContentControl x:Name="HeaderContent" Grid.Column="1" Content="{Binding HeaderContent, Mode=OneWay}"/>

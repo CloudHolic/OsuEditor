@@ -40,6 +40,10 @@
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="OsuParser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assets\Binaries\OsuParser.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -68,6 +72,8 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Converters\NotConverter.cs" />
+    <Compile Include="Models\Timeline.cs" />
+    <Compile Include="Util\BpmConverter.cs" />
     <Compile Include="ViewModels\ComposeHeaderViewModel.cs" />
     <Compile Include="ViewModels\MainWIndowViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
@@ -174,6 +180,8 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Assets\Binaries\OsuParser.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

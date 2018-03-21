@@ -6,7 +6,7 @@ using OsuEditor.Events;
 
 namespace OsuEditor.ViewModels
 {
-    public class MainWIndowViewModel : ViewModelBase, IEvent<BeatSnapEvent>
+    public class MainWIndowViewModel : ViewModelBase
     {
         public bool IsComposeTab
         {
@@ -50,7 +50,6 @@ namespace OsuEditor.ViewModels
             Snap = 8;
             SongLength = 10000;
             ComposeCommand.Execute(null);
-            EventBus.Instance.RegisterHandler(this);
         }
 
         public ICommand ComposeCommand
@@ -77,11 +76,6 @@ namespace OsuEditor.ViewModels
                     BodyContent = new TimingBodyView();
                 }));
             }
-        }
-        
-        public void HandleEvent(BeatSnapEvent e)
-        {
-            Snap = e.Snap;
         }
     }
 }
