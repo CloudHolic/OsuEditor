@@ -45,8 +45,8 @@ namespace OsuEditor.ViewModels
 
         public MainWIndowViewModel()
         {
-            Zoom = 1.0;
-            Snap = 8;
+            Zoom = 5.0;
+            Snap = 4;
             SongLength = 10000;
             ComposeCommand.Execute(null);
         }

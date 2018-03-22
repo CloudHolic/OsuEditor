@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using OsuEditor.Events;
-using OsuEditor.Models;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor
@@ -18,12 +16,12 @@ namespace OsuEditor
 
         private void IncreaseZoom_OnClick(object sender, RoutedEventArgs e)
         {
-            ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Min(10, HeaderTimeline.Zoom + 0.2);
+            ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Min(30, HeaderTimeline.Zoom + 0.1);
         }
 
         private void DecreaseZoom_OnClick(object sender, RoutedEventArgs e)
         {
-            ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Max(0, HeaderTimeline.Zoom - 0.2);
+            ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Max(0, HeaderTimeline.Zoom - 0.1);
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)

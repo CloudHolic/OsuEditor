@@ -63,8 +63,8 @@
                                 </Rectangle>
                             </Button>
                         </StackPanel>
-                        <custom:TimelineControl Grid.Column="1" HorizontalAlignment="Left" x:Name="HeaderTimeline"
-                                                Zoom="1.0" CurrentValue="20"/>
+                        <custom:TimelineControl Grid.Column="1" x:Name="HeaderTimeline" HorizontalAlignment="Left"
+                                                Zoom="10.0" CurrentValue="0"/>
                     </Grid>
                 </Grid>
                 <ContentControl x:Name="HeaderContent" Grid.Column="1" Content="{Binding HeaderContent, Mode=OneWay}"/>

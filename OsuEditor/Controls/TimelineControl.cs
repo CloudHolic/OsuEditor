@@ -101,17 +101,19 @@ namespace OsuEditor.Controls
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
             drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 5), new Point(ActualWidth / 2, 0), new Point(ActualWidth / 2, ActualHeight));
 
-            var transform = CurrentValue - ActualWidth / 2;
+            var transform = CurrentValue / Zoom - ActualWidth / 2;
+            var corBeatLength = Timings.BeatLength[0] / Zoom;
 
             var beats = new List<double>();
-            var startIndex = (int)Math.Ceiling(transform / Timings.BeatLength[0]);
-            var endIndex = (int)Math.Truncate((transform + ActualWidth) / Timings.BeatLength[0]);
+            var startIndex = (int)Math.Ceiling(transform / corBeatLength);
+            var endIndex = (int)Math.Truncate((transform + ActualWidth) / corBeatLength);
             for (var i = startIndex; i <= endIndex; i++)
-                beats.Add(i * Timings.BeatLength[0] - transform);
+                beats.Add(i * corBeatLength - transform);
             
             foreach (var beat in beats)
             {
-                if (Math.Abs((beat + transform) / Timings.BeatLength[0] % Timings.BeatsPerMeasure[0]) < 0.001)
+                var beatNumber = Math.Abs((beat + transform) / corBeatLength % Timings.BeatsPerMeasure[0]);
+                if (beatNumber < 0.001 || beatNumber > Timings.BeatsPerMeasure[0] - 0.001)
                     drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2),
                         new Point(beat, ActualHeight - 50), new Point(beat, ActualHeight));
                 else
@@ -123,7 +125,7 @@ namespace OsuEditor.Controls
                 {
                     for (var j = 1; j < BeatSnap; j++)
                     {
-                        var snapCor = beat - j * Timings.BeatLength[0] / BeatSnap;
+                        var snapCor = beat - j * corBeatLength / BeatSnap;
                         if (snapCor < 0)
                             break;
 
@@ -135,7 +137,7 @@ namespace OsuEditor.Controls
 
                 for (var j = 1; j < BeatSnap; j++)
                 {
-                    var snapCor = beat + j * Timings.BeatLength[0] / BeatSnap;
+                    var snapCor = beat + j * corBeatLength / BeatSnap;
                     if (snapCor > ActualWidth)
                         break;
 
@@ -175,7 +177,7 @@ namespace OsuEditor.Controls
 
         private static int CalcLineHeight(int snap, int cur)
         {
-            var availableSnaps = new[] {2, 3, 4, 6, 8, 12, 16, 24, 32};
+            var availableSnaps = new[] {2, 3, 4, 6, 8, 12, 16};
             if (Array.IndexOf(availableSnaps, snap) == -1)
                 throw new InvalidValueException();
 
@@ -185,9 +187,7 @@ namespace OsuEditor.Controls
                     return 10;
                 if (snap == 6 || cur % (snap / 6) == 0)
                     return 10;
-                if (snap == 12 || cur % (snap / 12) == 0)
-                    return 5;
-                return 2;
+                return 5;
             }
 
             if (snap == 2 || cur % (snap / 2) == 0)
@@ -196,9 +196,7 @@ namespace OsuEditor.Controls
                 return 8;
             if (snap == 8 || cur % (snap / 8) == 0)
                 return 4;
-            if (snap == 16 || cur % (snap / 16) == 0)
-                return 2;
-            return 1;
+            return 2;
         }
     }
 }
