@@ -13,9 +13,9 @@ namespace OsuEditor.Models
 
         public Timeline()
         {
-            BeatLength = new List<double> {BpmConverter.BpmToBeat(160)};
-            BeatsPerMeasure = new List<int> {4};
-            Offset = new List<int> {0};
+            BeatLength = new List<double> {BpmConverter.BpmToBeat(160), BpmConverter.BpmToBeat(240)};
+            BeatsPerMeasure = new List<int> {4, 3};
+            Offset = new List<int> {0, 1234};
         }
 
         public Timeline(double beatLength, int beatsPerMeasure, int offset)

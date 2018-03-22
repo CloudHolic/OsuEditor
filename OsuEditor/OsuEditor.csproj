@@ -74,6 +74,7 @@
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Models\Timeline.cs" />
     <Compile Include="Util\BpmConverter.cs" />
+    <Compile Include="Util\MathExt.cs" />
     <Compile Include="ViewModels\ComposeHeaderViewModel.cs" />
     <Compile Include="ViewModels\MainWIndowViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
