@@ -134,8 +134,8 @@ namespace OsuEditor.Controls
                     if (beat >= nextOffset - transform || i > 0 && beat < offset - transform)
                         continue;
 
-                    var beatNumber = Math.Abs((beat + transform - offset) / curBeatLength % Timings.BeatsPerMeasure[0]);
-                    if (beatNumber < 0.001 || beatNumber > Timings.BeatsPerMeasure[0] - 0.001)
+                    var beatNumber = Math.Abs((beat + transform - offset) / curBeatLength % Timings.BeatsPerMeasure[i]);
+                    if (beatNumber < 0.001 || beatNumber > Timings.BeatsPerMeasure[i] - 0.001)
                         drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2),
                             new Point(beat, ActualHeight - 50), new Point(beat, ActualHeight));
                     else
