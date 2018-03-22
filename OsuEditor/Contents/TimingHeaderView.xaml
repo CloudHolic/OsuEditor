@@ -7,9 +7,7 @@
              d:DesignHeight="105" d:DesignWidth="339.5">
     <Grid>
         <Button x:Name="Reset" Background="SlateGray" Width="75" Margin="10,10,245,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock x:Name="ResetText"
-                   FontSize="19"
-                   Text="Reset"/>
+            <TextBlock FontSize="19" Text="Reset"/>
         </Button>
         <Button x:Name="Metronome" Background="DimGray" Height="45" Width="210" Margin="110,55,10,5">
             <TextBlock x:Name="MetronomeText" Text="Tap Here" FontSize="20"/>

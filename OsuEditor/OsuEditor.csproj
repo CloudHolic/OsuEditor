@@ -77,6 +77,7 @@
     <Compile Include="Util\MathExt.cs" />
     <Compile Include="ViewModels\ComposeHeaderViewModel.cs" />
     <Compile Include="ViewModels\MainWIndowViewModel.cs" />
+    <Compile Include="ViewModels\TimingHeaderViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Assets\Converters.xaml">
