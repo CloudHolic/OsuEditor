@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using OsuEditor.CustomExceptions;
 using OsuEditor.Models;
+using OsuEditor.Util;
 
 namespace OsuEditor.Controls
 {
@@ -98,35 +98,69 @@ namespace OsuEditor.Controls
             if(CurrentValue < 0 || CurrentValue > TotalLength)
                 throw new InvalidValueException();
 
+            if (!MathExt.CompareInts(Timings.BeatLength.Count, Timings.BeatsPerMeasure.Count, Timings.Offset.Count))
+                throw new InvalidValueException();
+            
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
             drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 5), new Point(ActualWidth / 2, 0), new Point(ActualWidth / 2, ActualHeight));
 
             var transform = CurrentValue / Zoom - ActualWidth / 2;
-            var corBeatLength = Timings.BeatLength[0] / Zoom;
-
-            var beats = new List<double>();
-            var startIndex = (int)Math.Ceiling(transform / corBeatLength);
-            var endIndex = (int)Math.Truncate((transform + ActualWidth) / corBeatLength);
-            for (var i = startIndex; i <= endIndex; i++)
-                beats.Add(i * corBeatLength - transform);
+            var timingPeriods = Timings.Offset.Count;
             
-            foreach (var beat in beats)
+            var beatLists = new List<List<double>>();
+            for (var i = 0; i < timingPeriods; i++)
             {
-                var beatNumber = Math.Abs((beat + transform) / corBeatLength % Timings.BeatsPerMeasure[0]);
-                if (beatNumber < 0.001 || beatNumber > Timings.BeatsPerMeasure[0] - 0.001)
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2),
-                        new Point(beat, ActualHeight - 50), new Point(beat, ActualHeight));
-                else
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
-                        new Point(beat, ActualHeight - 30), new Point(beat, ActualHeight));
+                var beats = new List<double>();
+                var beatLength = Timings.BeatLength[i] / Zoom;
+                var offset = Timings.Offset[i] / Zoom;
 
-                //  Draw previous snaps if it's the first beat
-                if (beats.IndexOf(beat) == 0)
+                var startIndex = (int) Math.Ceiling((transform - offset) / beatLength);
+                var endIndex = (int) Math.Truncate((transform + ActualWidth - offset) / beatLength);
+                for (var j = startIndex; j <= endIndex; j++)
+                    beats.Add(j * beatLength - transform + offset);
+
+                beatLists.Add(beats);
+            }
+
+            for (var i = 0; i < beatLists.Count; i++)
+            {
+                var beats = beatLists[i];
+                var curBeatLength = Timings.BeatLength[i] / Zoom;
+                var offset = Timings.Offset[i] / Zoom;
+                var nextOffset = i == beatLists.Count - 1 ? TotalLength + 1 : Timings.Offset[i + 1] / Zoom;
+
+                foreach (var beat in beats)
                 {
+                    if (beat >= nextOffset - transform || i > 0 && beat < offset - transform)
+                        continue;
+
+                    var beatNumber = Math.Abs((beat + transform - offset) / curBeatLength % Timings.BeatsPerMeasure[0]);
+                    if (beatNumber < 0.001 || beatNumber > Timings.BeatsPerMeasure[0] - 0.001)
+                        drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2),
+                            new Point(beat, ActualHeight - 50), new Point(beat, ActualHeight));
+                    else
+                        drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
+                            new Point(beat, ActualHeight - 30), new Point(beat, ActualHeight));
+
+                    //  Draw previous snaps if it's the first beat
+                    if (beats.IndexOf(beat) == 0)
+                    {
+                        for (var j = 1; j < BeatSnap; j++)
+                        {
+                            var snapCor = beat - j * curBeatLength / BeatSnap;
+                            if (snapCor < 0 || i > 0 && snapCor < offset - transform)
+                                break;
+
+                            var height = CalcLineHeight(BeatSnap, j);
+                            drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
+                                new Point(snapCor, ActualHeight - height), new Point(snapCor, ActualHeight));
+                        }
+                    }
+
                     for (var j = 1; j < BeatSnap; j++)
                     {
-                        var snapCor = beat - j * corBeatLength / BeatSnap;
-                        if (snapCor < 0)
+                        var snapCor = beat + j * curBeatLength / BeatSnap;
+                        if (snapCor > ActualWidth || snapCor >= nextOffset - transform)
                             break;
 
                         var height = CalcLineHeight(BeatSnap, j);
@@ -134,18 +168,9 @@ namespace OsuEditor.Controls
                             new Point(snapCor, ActualHeight - height), new Point(snapCor, ActualHeight));
                     }
                 }
-
-                for (var j = 1; j < BeatSnap; j++)
-                {
-                    var snapCor = beat + j * corBeatLength / BeatSnap;
-                    if (snapCor > ActualWidth)
-                        break;
-
-                    var height = CalcLineHeight(BeatSnap, j);
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 1),
-                        new Point(snapCor, ActualHeight - height), new Point(snapCor, ActualHeight));
-                }
             }
+
+            //TODO: Draw notes, preview points, SV points, break periods
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
