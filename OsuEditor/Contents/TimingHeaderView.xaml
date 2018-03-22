@@ -6,6 +6,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="105" d:DesignWidth="339.5">
     <Grid>
-
+        <Button x:Name="Reset" Background="SlateGray" Width="75" Margin="10,10,245,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock x:Name="ResetText"
+                   FontSize="19"
+                   Text="Reset"/>
+        </Button>
+        <Button x:Name="Metronome" Background="DimGray" Height="45" Width="210" Margin="110,55,10,5">
+            <TextBlock x:Name="MetronomeText" Text="Tap Here" FontSize="20"/>
+        </Button>
+        <Rectangle x:Name="Met0" Height="35" Width="40" Fill="Black" Margin="115,10,185,60" RadiusY="5.209" RadiusX="5.209"/>
+        <Rectangle x:Name="Met1" Height="35" Width="40" Fill="Black" Margin="172,10,128,60" RadiusY="5.209" RadiusX="5.209"/>
+        <Rectangle x:Name="Met2" Height="35" Width="40" Fill="Black" Margin="229,10,71,60" RadiusY="5.209" RadiusX="5.209"/>
+        <Rectangle x:Name="Met3" Height="35" Width="40" Fill="Black" Margin="285,10,15,60" RadiusY="5.209" RadiusX="5.209"/>
     </Grid>
 </UserControl>
