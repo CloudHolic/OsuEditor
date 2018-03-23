@@ -75,6 +75,7 @@
     <Compile Include="Converters\MillisecondsConverter.cs" />
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Events\CurPositionEvent.cs" />
+    <Compile Include="Events\TimingChangedEvent.cs" />
     <Compile Include="Models\Timing.cs" />
     <Compile Include="Util\BpmConverter.cs" />
     <Compile Include="Util\MathExt.cs" />
