@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
+    <Style x:Key="BeatDivisorRepeatButtonLeft" TargetType="RepeatButton">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -13,8 +13,21 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="MusicBarRepeatButtonLeft" TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border SnapsToDevicePixels="True" Height="5" BorderThickness="5" BorderBrush="White" Background="White"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-    <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+    <Style x:Key="BeatDivisorRepeatButtonRight" TargetType="RepeatButton">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Template">
@@ -25,8 +38,19 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="MusicBarRepeatButtonRight" TargetType="RepeatButton">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border SnapsToDevicePixels="True" Height="5" BorderThickness="5" Background="White" BorderBrush="White"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-    <Style x:Key="SliderThumb" TargetType="Thumb">
+    <Style x:Key="BeatDivisorThumb" TargetType="Thumb">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Template">
@@ -37,23 +61,60 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="MusicBarThumb" TargetType="Thumb">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Rectangle Name="RecThumb"  SnapsToDevicePixels="True" Stroke="White" StrokeThickness="2" Height="20" Width="5" Fill="White"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDragging" Value="True">
+                            <Setter TargetName="RecThumb" Property="Stroke" Value="Gray"/>
+                            <Setter TargetName="RecThumb" Property="Fill" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-    <ControlTemplate x:Key="Slider"  TargetType="Slider">
+    <ControlTemplate x:Key="BeatDivisor"  TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Track Grid.Row="1" x:Name="PART_Track"   >
+            <Track Grid.Row="1" x:Name="PART_Track">
                 <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" />
+                    <RepeatButton Style="{StaticResource BeatDivisorRepeatButtonLeft}"  Command="Slider.DecreaseLarge"/>
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Style="{StaticResource SliderThumb}"  />
+                    <Thumb Style="{StaticResource BeatDivisorThumb}"/>
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
+                    <RepeatButton Style="{StaticResource BeatDivisorRepeatButtonRight}" Command="Slider.IncreaseLarge"/>
+                </Track.IncreaseRepeatButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="MusicBar"  TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Track Grid.Row="1" x:Name="PART_Track">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource MusicBarRepeatButtonLeft}"  Command="Slider.DecreaseLarge"/>
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource MusicBarThumb}"/>
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource MusicBarRepeatButtonRight}" Command="Slider.IncreaseLarge"/>
                 </Track.IncreaseRepeatButton>
             </Track>
         </Grid>
@@ -67,7 +128,19 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="MinHeight" Value="21"/>
                 <Setter Property="MinWidth" Value="104"/>
-                <Setter Property="Template" Value="{StaticResource Slider}" />
+                <Setter Property="Template" Value="{StaticResource BeatDivisor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="MusicBarSlider" TargetType="Slider">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="MinHeight" Value="5"/>
+                <Setter Property="MinWidth" Value="30"/>
+                <Setter Property="Template" Value="{StaticResource MusicBar}"/>
             </Trigger>
         </Style.Triggers>
     </Style>

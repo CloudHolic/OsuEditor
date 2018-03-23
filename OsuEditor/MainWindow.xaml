@@ -66,32 +66,46 @@
                                                 Zoom="10.0" CurrentValue="0"/>
                     </Grid>
                 </Grid>
-                <ContentControl x:Name="HeaderContent" Grid.Column="1" Content="{Binding HeaderContent, Mode=OneWay}"/>
+                <ContentControl Grid.Column="1" Content="{Binding HeaderContent, Mode=OneWay}"/>
             </Grid>
         </StackPanel>
-        <ContentControl x:Name="BodyContent" Grid.Row="1" Content="{Binding BodyContent, Mode=OneWay}"/>
+        <ContentControl Grid.Row="1" Content="{Binding BodyContent, Mode=OneWay}"/>
         <StackPanel Grid.Row="2" Height="30" Orientation="Horizontal">
-            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0">
+            <Label Width="80" Content="00:00.000" FontSize="16" HorizontalContentAlignment="Center" Margin="5,0,0,0"/>
+            <custom:MusicBar Height="30" Width="800" Margin="10,6,10,0" HorizontalAlignment="Left" IsTabStop="False" Minimum="0" Maximum="{Binding SongLength}" Value="0"
+                             Style="{StaticResource MusicBarSlider}"/>
+            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_play}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0">
+            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_pause}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0">
+            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_stop}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
+            <Button Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0">
+                <StackPanel Margin="5,0,0,0" Orientation="Horizontal" Width="60">
+                    <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_play}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="5,0,0,0" Text="Test" FontSize="15"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Label Margin="5,0,0,0" Content="Playback Rate:" FontSize="15"/>
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

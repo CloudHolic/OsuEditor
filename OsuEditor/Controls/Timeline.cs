@@ -11,7 +11,7 @@ using OsuEditor.Util;
 
 namespace OsuEditor.Controls
 {
-    [TemplatePart(Name = "PART_SnapLine", Type = typeof(Line))]
+    [TemplatePart(Name = "PART_Line", Type = typeof(Line))]
     public class Timeline : Control
     {
         #region MouseMoveRoutedEvent

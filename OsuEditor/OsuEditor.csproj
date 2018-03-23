@@ -71,6 +71,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
+    <Compile Include="Controls\MusicBar.cs" />
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Models\Timing.cs" />
     <Compile Include="Util\BpmConverter.cs" />
