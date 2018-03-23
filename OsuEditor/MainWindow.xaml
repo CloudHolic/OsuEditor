@@ -7,7 +7,7 @@
                       xmlns:custom="clr-namespace:OsuEditor.Controls"
                       mc:Ignorable="d"
                       Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
-                      Loaded="MainWindow_OnLoaded">
+                      Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="105"/>
@@ -16,11 +16,10 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
             <Grid x:Name="HeaderGrid"
-                  Width="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type StackPanel}},Path=ActualWidth}" 
-                  MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Grid}},Path=ActualWidth}">
+                  Width="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type StackPanel}},Path=ActualWidth}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="339.5"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
@@ -71,6 +70,6 @@
             </Grid>
         </StackPanel>
         <ContentControl x:Name="BodyContent" Grid.Row="1" Content="{Binding BodyContent, Mode=OneWay}"/>
-        <Rectangle Grid.Row="2" StrokeThickness="2" Height="30" Width="1352" Fill="Black"/>
+        <StackPanel Grid.Row="2" Height="30"></StackPanel>
     </Grid>
 </controls:MetroWindow>
