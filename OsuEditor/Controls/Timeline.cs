@@ -11,12 +11,12 @@ using OsuEditor.Util;
 
 namespace OsuEditor.Controls
 {
-    [TemplatePart(Name = "trackLine", Type = typeof(Line))]
-    public class TimelineControl : Control
+    [TemplatePart(Name = "PART_SnapLine", Type = typeof(Line))]
+    public class Timeline : Control
     {
         #region MouseMoveRoutedEvent
         public new static readonly RoutedEvent MouseMoveEvent = EventManager.RegisterRoutedEvent(
-            "MouseMove", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TimelineControl));
+            "MouseMove", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Timeline));
 
         public new event RoutedEventHandler MouseMove
         {
@@ -27,18 +27,18 @@ namespace OsuEditor.Controls
 
         #region DependencyProperty TimingsProperty
         public static readonly DependencyProperty TimingsProperty =
-            DependencyProperty.Register("TimingsProperty", typeof(Timeline), typeof(TimelineControl),
-                new FrameworkPropertyMetadata(new Timeline(), FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.Register("TimingsProperty", typeof(Timing), typeof(Timeline),
+                new FrameworkPropertyMetadata(new Timing(), FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public Timeline Timings
+        public Timing Timings
         {
-            get => (Timeline) GetValue(TimingsProperty);
+            get => (Timing) GetValue(TimingsProperty);
             set => SetValue(TimingsProperty, value);
         }
         #endregion
         #region DependencyProperty BeatSnapProperty
         public static readonly DependencyProperty BeatSnapProperty = 
-            DependencyProperty.Register("BeatSnapProperty", typeof(int), typeof(TimelineControl),
+            DependencyProperty.Register("BeatSnapProperty", typeof(int), typeof(Timeline),
                 new FrameworkPropertyMetadata(4, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public int BeatSnap
@@ -50,7 +50,7 @@ namespace OsuEditor.Controls
 
         #region DependencyProperty CurrentValueProperty
         public static readonly DependencyProperty CurrentValueProperty =
-            DependencyProperty.Register("CurrentValueProperty", typeof(double), typeof(TimelineControl),
+            DependencyProperty.Register("CurrentValueProperty", typeof(double), typeof(Timeline),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public double CurrentValue
@@ -61,7 +61,7 @@ namespace OsuEditor.Controls
         #endregion
         #region DependencyProperty TotalLengthProperty
         public static readonly DependencyProperty TotalLengthProperty =
-            DependencyProperty.Register("TotalLengthProperty", typeof(double), typeof(TimelineControl),
+            DependencyProperty.Register("TotalLengthProperty", typeof(double), typeof(Timeline),
                 new UIPropertyMetadata(10000.0));
 
         public double TotalLength
@@ -73,7 +73,7 @@ namespace OsuEditor.Controls
 
         #region DependencyProperty ZoomProperty
         public static readonly DependencyProperty ZoomProperty =
-            DependencyProperty.Register("ZoomProperty", typeof(double), typeof(TimelineControl),
+            DependencyProperty.Register("ZoomProperty", typeof(double), typeof(Timeline),
                 new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public double Zoom
@@ -88,9 +88,9 @@ namespace OsuEditor.Controls
         private Line _mouseVerticalTrackLine;
         private Line _mouseHorizontalTrackLine;
 
-        static TimelineControl()
+        static Timeline()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TimelineControl), new FrameworkPropertyMetadata(typeof(TimelineControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata(typeof(Timeline)));
         }
 
         protected override void OnRender(DrawingContext drawingContext)

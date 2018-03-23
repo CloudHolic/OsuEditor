@@ -2,10 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:OsuEditor.Controls">
-    <Style TargetType="{x:Type local:TimelineControl}">
+    <Style TargetType="{x:Type local:Timeline}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:TimelineControl}">
+                <ControlTemplate TargetType="{x:Type local:Timeline}">
                     <Grid>
                         <Grid.Children>
                             <Line x:Name="verticalTrackLine" Stroke="Black" StrokeThickness="1" Visibility="Hidden" X1="300" Width="100" StrokeDashArray="3" StrokeDashOffset="3"/>
