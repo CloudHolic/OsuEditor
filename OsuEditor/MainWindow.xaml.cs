@@ -5,7 +5,7 @@ using OsuEditor.ViewModels;
 
 namespace OsuEditor
 {
-    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>
+    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>
     {
         public MainWindow()
         {
@@ -38,6 +38,11 @@ namespace OsuEditor
         public void HandleEvent(CurPositionEvent e)
         {
             HeaderTimeline.CurrentValue = e.CurPosition;
+        }
+
+        public void HandleEvent(TimingChangedEvent e)
+        {
+            HeaderTimeline.Timings = e.NewTiming;
         }
         #endregion
     }
