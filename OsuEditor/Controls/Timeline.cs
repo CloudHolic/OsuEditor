@@ -62,7 +62,7 @@ namespace OsuEditor.Controls
         #region DependencyProperty TotalLengthProperty
         public static readonly DependencyProperty TotalLengthProperty =
             DependencyProperty.Register("TotalLengthProperty", typeof(double), typeof(Timeline),
-                new UIPropertyMetadata(10000.0));
+                new UIPropertyMetadata(100000.0));
 
         public double TotalLength
         {

@@ -5,7 +5,7 @@ using OsuEditor.ViewModels;
 
 namespace OsuEditor
 {
-    public partial class MainWindow : IEvent<BeatSnapEvent>
+    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>
     {
         public MainWindow()
         {
@@ -29,9 +29,16 @@ namespace OsuEditor
             HeaderTimeline.MaxWidth = HeaderTimeline.Width = HeaderGrid.ColumnDefinitions[0].ActualWidth - 40;
         }
 
+        #region Event Handlers
         public void HandleEvent(BeatSnapEvent e)
         {
             HeaderTimeline.BeatSnap = ((MainWIndowViewModel) DataContext).Snap = e.Snap;
         }
+
+        public void HandleEvent(CurPositionEvent e)
+        {
+            HeaderTimeline.CurrentValue = e.CurPosition;
+        }
+        #endregion
     }
 }
