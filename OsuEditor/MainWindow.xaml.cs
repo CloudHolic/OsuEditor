@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using OsuEditor.CustomExceptions;
 using OsuEditor.Events;
 using OsuEditor.ViewModels;

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using OsuEditor.Commands;
-using OsuEditor.Contents;
 using OsuEditor.CustomExceptions;
 using OsuEditor.Events;
 
@@ -60,17 +59,24 @@ namespace OsuEditor.ViewModels
             get { return Get(() => BeatValue); }
             set { Set(() => BeatValue, value); }
         }
+
+        public int PlayRate
+        {
+            get { return Get(() => PlayRate); }
+            set { Set(() => PlayRate, value); }
+        }
         #endregion
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private readonly Stopwatch _stopWatch = new Stopwatch();
-        private double _oldTime = 0;
+        private double _oldTime;
 
         public MainWIndowViewModel()
         {
             Zoom = 5.0;
             Snap = 4;
             SongLength = 100000;
+            PlayRate = 100;
             BeatSnapText = $"1/{Snap}";
             BeatValue = BeatSnapToSlider(Snap);
             
@@ -78,7 +84,7 @@ namespace OsuEditor.ViewModels
             _timer.Tick += (sender, args) =>
             {
                 var curTime = _stopWatch.Elapsed.TotalMilliseconds;
-                CurrentPosition += curTime - _oldTime;
+                CurrentPosition += (curTime - _oldTime) * PlayRate / 100;
                 _oldTime = curTime;
 
                 if (CurrentPosition > SongLength)
@@ -93,12 +99,6 @@ namespace OsuEditor.ViewModels
             EventBus.Instance.RegisterHandler(this);
         }
 
-        public void HandleEvent(BeatSnapEvent e)
-        {
-            Snap = e.Snap;
-            BeatSnapText = $"1/{e.Snap}";
-        }
-
         private static double BeatSnapToSlider(int beatSnap)
         {
             var beatSnapList = new[] { 1, 2, 3, 4, 6, 8, 12, 16, 24, 32 }.ToList();
@@ -111,6 +111,12 @@ namespace OsuEditor.ViewModels
             throw new InvalidValueException();
         }
 
+        public void HandleEvent(BeatSnapEvent e)
+        {
+            Snap = e.Snap;
+            BeatSnapText = $"1/{e.Snap}";
+        }
+        
         #region Commands
         public ICommand PlayCommand
         {

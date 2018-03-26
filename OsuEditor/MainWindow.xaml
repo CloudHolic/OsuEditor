@@ -67,7 +67,7 @@
         <StackPanel Grid.Row="2" Height="30" Orientation="Horizontal">
             <Label Width="80" Content="{Binding CurrentPosition, Converter={StaticResource MillisecondsConverter}}"
                    FontSize="16" HorizontalContentAlignment="Center" Margin="5,0,0,0"/>
-            <custom:MusicBar Height="30" Width="800" Margin="10,6,10,0" HorizontalAlignment="Left" IsTabStop="False" IsMoveToPointEnabled="True"
+            <custom:MusicBar Height="30" Width="848" Margin="10,6,10,0" HorizontalAlignment="Left" IsTabStop="False" IsMoveToPointEnabled="True"
                              Minimum="0" Maximum="{Binding SongLength}" Value="{Binding CurrentPosition}" Style="{StaticResource MusicBarSlider}"/>
             <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0"
                     Command="{Binding PlayCommand}">
@@ -104,7 +104,10 @@
                     <TextBlock Margin="5,0,0,0" Text="Test" FontSize="15"></TextBlock>
                 </StackPanel>
             </Button>
-            <Label Margin="5,0,0,0" Content="Playback Rate:" FontSize="15"/>
+            <Label Margin="5,0,0,0" Content="Playback Rate:" FontSize="15" FontWeight="Bold"/>
+            <controls:NumericUpDown x:Name="PlayRateUpDown" BorderThickness="0" Margin="7,0,0,0" Width="120" Height="30" FontSize="15" FontWeight="Bold" UpDownButtonsWidth="30"
+                                    NumericInputMode="Numbers" InterceptArrowKeys="False" InterceptMouseWheel="False" InterceptManualEnter="False"
+                                    Value="{Binding PlayRate}" Minimum="10" Maximum="150" Interval="10" StringFormat="{}{0:N0} %  "/>
         </StackPanel>
     </Grid>
 </controls:MetroWindow>
