@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -62,6 +63,8 @@ namespace OsuEditor.ViewModels
         #endregion
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly Stopwatch _stopWatch = new Stopwatch();
+        private double _oldTime = 0;
 
         public MainWIndowViewModel()
         {
@@ -70,11 +73,14 @@ namespace OsuEditor.ViewModels
             SongLength = 100000;
             BeatSnapText = $"1/{Snap}";
             BeatValue = BeatSnapToSlider(Snap);
-
+            
             _timer.Interval = TimeSpan.FromMilliseconds((double)1000 / 144);
             _timer.Tick += (sender, args) =>
             {
-                CurrentPosition += (double)1000 / 144;
+                var curTime = _stopWatch.Elapsed.TotalMilliseconds;
+                CurrentPosition += curTime - _oldTime;
+                _oldTime = curTime;
+
                 if (CurrentPosition > SongLength)
                 {
                     CurrentPosition = SongLength;
@@ -85,7 +91,6 @@ namespace OsuEditor.ViewModels
             };
 
             EventBus.Instance.RegisterHandler(this);
-            ComposeCommand.Execute(null);
         }
 
         public void HandleEvent(BeatSnapEvent e)
@@ -107,31 +112,6 @@ namespace OsuEditor.ViewModels
         }
 
         #region Commands
-        public ICommand ComposeCommand
-        {
-            get
-            {
-                return Get(() => ComposeCommand, new RelayCommand(() =>
-                {
-                    IsComposeTab = true;
-                    //HeaderContent = new ComposeHeaderView(Snap);
-                    BodyContent = new ComposeBodyView();
-                }));
-            }
-        }
-
-        public ICommand TimingCommand
-        {
-            get
-            {
-                return Get(() => TimingCommand, new RelayCommand(() =>
-                {
-                    IsComposeTab = false;
-                    BodyContent = new TimingBodyView();
-                }));
-            }
-        }
-
         public ICommand PlayCommand
         {
             get
@@ -141,9 +121,13 @@ namespace OsuEditor.ViewModels
                     if (_timer.IsEnabled)
                     {
                         _timer.Stop();
+                        _stopWatch.Stop();
                         CurrentPosition = 0;
                     }
+
+                    _oldTime = 0;
                     _timer.Start();
+                    _stopWatch.Start();
                 }));
             }
         }
@@ -154,10 +138,17 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => PauseCommand, new RelayCommand(() =>
                 {
-                    if(_timer.IsEnabled)
+                    if (_timer.IsEnabled)
+                    {
                         _timer.Stop();
+                        _stopWatch.Stop();
+                    }
                     else
+                    {
+                        _oldTime = 0;
                         _timer.Start();
+                        _stopWatch.Start();
+                    }
                 }));
             }
         }
@@ -169,8 +160,12 @@ namespace OsuEditor.ViewModels
                 return Get(() => StopCommand, new RelayCommand(() =>
                 {
                     if (_timer.IsEnabled)
+                    {
                         _timer.Stop();
+                        _stopWatch.Stop();
+                    }
                     CurrentPosition = 0;
+                    EventBus.Instance.Publish(new CurPositionEvent { CurPosition = CurrentPosition });
                 }));
             }
         }
