@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
+using OsuEditor.CustomExceptions;
 using OsuEditor.Events;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor
 {
-    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>
+    public partial class MainWindow : IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>
     {
         public MainWindow()
         {
@@ -29,12 +31,31 @@ namespace OsuEditor
             HeaderTimeline.MaxWidth = HeaderTimeline.Width = HeaderGrid.ColumnDefinitions[0].ActualWidth - 40;
         }
 
-        #region Event Handlers
-        public void HandleEvent(BeatSnapEvent e)
+        private void BeatSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            HeaderTimeline.BeatSnap = ((MainWIndowViewModel) DataContext).Snap = e.Snap;
+            if (BeatLabel == null)
+                return;
+
+            var beatSnap = SliderToBeatSnap(e.NewValue);
+
+            HeaderTimeline.BeatSnap = beatSnap;
+
+            EventBus.Instance.Publish(new BeatSnapEvent { Snap = beatSnap });
         }
 
+        private static int SliderToBeatSnap(double sliderValue)
+        {
+            var sliderValueList = new[] { 0, 2, 3, 4, 6, 8, 12, 16 }.ToList();
+            var beatSnapList = new[] { 1, 2, 3, 4, 6, 8, 12, 16 };
+
+            var index = sliderValueList.FindIndex(x => x == (int)sliderValue);
+            if (index > -1 && index < 10)
+                return beatSnapList[index];
+
+            throw new InvalidValueException();
+        }
+
+        #region Event Handlers
         public void HandleEvent(CurPositionEvent e)
         {
             HeaderTimeline.CurrentValue = e.CurPosition;

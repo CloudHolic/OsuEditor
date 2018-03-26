@@ -79,7 +79,6 @@
     <Compile Include="Models\Timing.cs" />
     <Compile Include="Util\BpmConverter.cs" />
     <Compile Include="Util\MathExt.cs" />
-    <Compile Include="ViewModels\ComposeHeaderViewModel.cs" />
     <Compile Include="ViewModels\MainWIndowViewModel.cs" />
     <Compile Include="ViewModels\TimingHeaderViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
@@ -97,10 +96,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Contents\ComposeBodyView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Contents\ComposeHeaderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,9 +117,6 @@
     </Compile>
     <Compile Include="Contents\ComposeBodyView.xaml.cs">
       <DependentUpon>ComposeBodyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Contents\ComposeHeaderView.xaml.cs">
-      <DependentUpon>ComposeHeaderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Contents\TimingBodyView.xaml.cs">
       <DependentUpon>TimingBodyView.xaml</DependentUpon>

@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using OsuEditor.Commands;
 using OsuEditor.Contents;
+using OsuEditor.CustomExceptions;
 using OsuEditor.Events;
 
 namespace OsuEditor.ViewModels
 {
-    public class MainWIndowViewModel : ViewModelBase
+    public class MainWIndowViewModel : ViewModelBase, IEvent<BeatSnapEvent>
     {
         #region Properties
         public bool IsComposeTab
@@ -40,16 +42,22 @@ namespace OsuEditor.ViewModels
             set { Set(() => CurrentPosition, value); }
         }
 
-        public object HeaderContent
-        {
-            get { return Get(() => HeaderContent); }
-            set { Set(() => HeaderContent, value); }
-        }
-
         public object BodyContent
         {
             get { return Get(() => BodyContent); }
             set { Set(() => BodyContent, value); }
+        }
+
+        public string BeatSnapText
+        {
+            get { return Get(() => BeatSnapText); }
+            set { Set(() => BeatSnapText, value); }
+        }
+
+        public double BeatValue
+        {
+            get { return Get(() => BeatValue); }
+            set { Set(() => BeatValue, value); }
         }
         #endregion
 
@@ -60,6 +68,8 @@ namespace OsuEditor.ViewModels
             Zoom = 5.0;
             Snap = 4;
             SongLength = 100000;
+            BeatSnapText = $"1/{Snap}";
+            BeatValue = BeatSnapToSlider(Snap);
 
             _timer.Interval = TimeSpan.FromMilliseconds((double)1000 / 144);
             _timer.Tick += (sender, args) =>
@@ -74,7 +84,26 @@ namespace OsuEditor.ViewModels
                 EventBus.Instance.Publish(new CurPositionEvent {CurPosition = CurrentPosition});
             };
 
+            EventBus.Instance.RegisterHandler(this);
             ComposeCommand.Execute(null);
+        }
+
+        public void HandleEvent(BeatSnapEvent e)
+        {
+            Snap = e.Snap;
+            BeatSnapText = $"1/{e.Snap}";
+        }
+
+        private static double BeatSnapToSlider(int beatSnap)
+        {
+            var beatSnapList = new[] { 1, 2, 3, 4, 6, 8, 12, 16, 24, 32 }.ToList();
+            var sliderValueList = new[] { 0, 2, 3, 4, 6, 8, 10, 12, 14, 16 };
+
+            var index = beatSnapList.FindIndex(x => x == beatSnap);
+            if (index > -1 && index < 10)
+                return sliderValueList[index];
+
+            throw new InvalidValueException();
         }
 
         #region Commands
@@ -85,7 +114,7 @@ namespace OsuEditor.ViewModels
                 return Get(() => ComposeCommand, new RelayCommand(() =>
                 {
                     IsComposeTab = true;
-                    HeaderContent = new ComposeHeaderView(Snap);
+                    //HeaderContent = new ComposeHeaderView(Snap);
                     BodyContent = new ComposeBodyView();
                 }));
             }
@@ -98,7 +127,6 @@ namespace OsuEditor.ViewModels
                 return Get(() => TimingCommand, new RelayCommand(() =>
                 {
                     IsComposeTab = false;
-                    HeaderContent = new TimingHeaderView();
                     BodyContent = new TimingBodyView();
                 }));
             }

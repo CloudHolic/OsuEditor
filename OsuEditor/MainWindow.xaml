@@ -22,51 +22,45 @@
                     <ColumnDefinition Width="339.5"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="35"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Height="35">
-                        <ToggleButton x:Name="ComposeButton" Width="160" Content="compose" FontSize="15"
-                                      BorderThickness="0" IsTabStop="False" Focusable="False"
-                                      Command="{Binding ComposeCommand}" IsChecked="{Binding IsComposeTab, Mode=TwoWay}"/>
-                        <ToggleButton x:Name="TimingButton" Width="160" Content="timing" FontSize="15"
-                                      BorderThickness="0" IsTabStop="False" Focusable="False"
-                                      Command="{Binding TimingCommand}" IsChecked="{Binding IsComposeTab, Converter={StaticResource NotConverter}, Mode=TwoWay}"/>
-                        <Button Width="160" Content="song setup" FontSize="15" BorderThickness="0"
-                                controls:ControlsHelper.ContentCharacterCasing="Normal" IsTabStop="False"
-                                Focusable="False" Command="{Binding SetupCommand}"/>
-                    </StackPanel>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Vertical">
-                            <Button ToolTip="Increase Timeline Zoom" HorizontalAlignment="Center" Height="30"
-                                    Width="30" Margin="0,10,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <Button ToolTip="Increase Timeline Zoom" HorizontalAlignment="Center" Height="30"
+                                    Width="30" Margin="0,20,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
                                     Click="IncreaseZoom_OnClick">
-                                <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}"/>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </Button>
-                            <Button ToolTip="Decrease Timeline Zoom" HorizontalAlignment="Center" Height="30"
-                                    Width="30" Margin="0" Style="{DynamicResource MetroCircleButtonStyle}"
+                            <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                        <Button ToolTip="Decrease Timeline Zoom" HorizontalAlignment="Center" Height="30"
+                                    Width="30" Margin="0,5,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
                                     Click="DecreaseZoom_OnClick">
-                                <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_minus}"/>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </Button>
-                        </StackPanel>
-                        <custom:Timeline Grid.Column="1" x:Name="HeaderTimeline" HorizontalAlignment="Left"
+                            <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_minus}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                    </StackPanel>
+                    <custom:Timeline Grid.Column="1" x:Name="HeaderTimeline" HorizontalAlignment="Left"
                                                 Zoom="10.0" CurrentValue="0"/>
-                    </Grid>
                 </Grid>
-                <ContentControl Grid.Column="1" Content="{Binding HeaderContent, Mode=OneWay}"/>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <Label Content="Beat Snap Divisor :" FontSize="25"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,15,0,0" Height="30">
+                        <Slider Width="280" Height="30" Margin="0,-5,0,0" IsTabStop="False" Minimum="0" Maximum="16" Value="{Binding BeatValue}" Style="{StaticResource BeatDivisorSlider}"
+                                IsSnapToTickEnabled="True" Ticks="0, 2, 3, 4, 6, 8, 12, 16" ValueChanged="BeatSlider_OnValueChanged">
+                            <Slider.LayoutTransform>
+                                <ScaleTransform ScaleY="1.6" CenterX="15" CenterY="15"/>
+                            </Slider.LayoutTransform>
+                        </Slider>
+                        <Label x:Name="BeatLabel" Content="{Binding BeatSnapText}" Margin="5,-8,0,0" FontSize="20"/>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
         </StackPanel>
         <ContentControl Grid.Row="1" Content="{Binding BodyContent, Mode=OneWay}"/>
