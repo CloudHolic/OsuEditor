@@ -7,7 +7,7 @@ namespace OsuEditor.Contents
         public TimingHeaderView()
         {
             InitializeComponent();
-            DataContext = new TimingHeaderViewModel();
+            DataContext = new MetronomeViewModel();
         }
     }
 }

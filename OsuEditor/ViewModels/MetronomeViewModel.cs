@@ -2,9 +2,9 @@
 
 namespace OsuEditor.ViewModels
 {
-    public class TimingHeaderViewModel : ViewModelBase, IEvent<TimingChangedEvent>
+    public class MetronomeViewModel : ViewModelBase, IEvent<TimingChangedEvent>
     {
-        public TimingHeaderViewModel()
+        public MetronomeViewModel()
         {
             EventBus.Instance.RegisterHandler(this);
         }

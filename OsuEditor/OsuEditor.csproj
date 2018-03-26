@@ -80,7 +80,7 @@
     <Compile Include="Util\BpmConverter.cs" />
     <Compile Include="Util\MathExt.cs" />
     <Compile Include="ViewModels\MainWIndowViewModel.cs" />
-    <Compile Include="ViewModels\TimingHeaderViewModel.cs" />
+    <Compile Include="ViewModels\MetronomeViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Assets\Converters.xaml">
@@ -103,7 +103,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Contents\TimingHeaderView.xaml">
+    <Page Include="Contents\MetronomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,8 +121,8 @@
     <Compile Include="Contents\TimingBodyView.xaml.cs">
       <DependentUpon>TimingBodyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Contents\TimingHeaderView.xaml.cs">
-      <DependentUpon>TimingHeaderView.xaml</DependentUpon>
+    <Compile Include="Contents\MetronomeView.xaml.cs">
+      <DependentUpon>MetronomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Timeline.cs" />
     <Compile Include="CustomExceptions\InvalidBeatmapException.cs" />
