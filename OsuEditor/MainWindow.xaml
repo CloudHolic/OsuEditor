@@ -1,13 +1,14 @@
-﻿<controls:MetroWindow x:Class="OsuEditor.MainWindow"
-                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      xmlns:custom="clr-namespace:OsuEditor.Controls"
-                      mc:Ignorable="d"
-                      Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
-                      Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
+﻿<ctrls:MetroWindow x:Class="OsuEditor.MainWindow"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                   xmlns:mdi="clr-namespace:WPF.MDI;assembly=WPF.MDI"
+                   xmlns:custom="clr-namespace:OsuEditor.Controls"
+                   mc:Ignorable="d"
+                   Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
+                   Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="105"/>
@@ -70,16 +71,117 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Expander Grid.Column="0" VerticalAlignment="Top" Margin="0,30,0,0"></Expander>
+            <mdi:MdiContainer Grid.Column="1" x:Name="PatternMdi" Theme="Luna" Background="Transparent">
+                <mdi:MdiChild Title="Pattern1" Background="Transparent" MaximizeBox="True">
+                    <Grid>
+
+                    </Grid>
+                </mdi:MdiChild>
+                <mdi:MdiChild Title="Pattern2" Background="Transparent" Position="100,100">
+                    <Grid>
+
+                    </Grid>
+                </mdi:MdiChild>
+            </mdi:MdiContainer>
             <ScrollViewer Grid.Column="2">
                 <StackPanel Orientation="Vertical">
                     <Expander Header="Metadata" VerticalAlignment="Top" Margin="0,20,5,0">
-                        <StackPanel VerticalAlignment="Top" Height="200">
-
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Artist" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="> Romanized" FontSize="9" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Title" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="> Romanized" FontSize="9" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Creator" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Source" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Tag" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <Expander Header="Countdown" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox Content="Enable countdown" Margin="0,0,0,5"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <Label Content="Speed:" Margin="0,-5,5,0"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <RadioButton GroupName="CountdownSpeedGroup" Content="Half" Focusable="False" BorderThickness="1" Margin="0,0,0,5"/>
+                                            <RadioButton GroupName="CountdownSpeedGroup" Content="Normal" Focusable="False" BorderThickness="1" Margin="0,0,0,5"/>
+                                            <RadioButton GroupName="CountdownSpeedGroup" Content="Double" Focusable="False" BorderThickness="1"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Offset:" Margin="0,0,5,0"/>
+                                        <ctrls:NumericUpDown BorderThickness="1" Interval="1" Minimum="0" Maximum="5" InterceptManualEnter="False"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander>
+                            <Expander Header="Misc. Toggles" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
+                                <StackPanel Orientation="Vertical">
+                                    <CheckBox Content="Widescreen Support" BorderThickness="1" Focusable="False" Margin="0,0,0,5"/>
+                                    <CheckBox Content="SB over combo fire" ToolTip="Display storyboard in front of combo fire" BorderThickness="1" Focusable="False" Margin="0,0,0,5"/>
+                                    <CheckBox Content="Epilepsy warning" ToolTip="Display epilepsy warning(storyboard has quick strobing)" BorderThickness="1" Focusable="False" Margin="0,0,0,5"/>
+                                    <CheckBox Content="Letterbox during breaks" BorderThickness="1" Focusable="False"/>
+                                </StackPanel>
+                            </Expander>
                         </StackPanel>
                     </Expander>
                     <Expander Header="Properties" VerticalAlignment="Top" Margin="0,20,5,0">
-                        <StackPanel VerticalAlignment="Top" Height="200">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Diff Name" Width="70"/>
+                                <TextBox Width="125"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="HP" Width="30"/>
+                                <Slider Width="125" Margin="5,5,0,0"/>
+                                <TextBox Width="30" Margin="5,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="CS" Width="30"/>
+                                <Slider Width="125" Margin="5,5,0,0"/>
+                                <TextBox Width="30" Margin="5,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="OD" Width="30"/>
+                                <Slider Width="125" Margin="5,5,0,0"/>
+                                <TextBox Width="30" Margin="5,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="AR" Width="30"/>
+                                <Slider Width="125" Margin="5,5,0,0"/>
+                                <TextBox Width="30" Margin="5,0,0,0"/>
+                            </StackPanel>
+                            <Expander Header="Audio" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
+                                <StackPanel Orientation="Vertical">
 
+                                </StackPanel>
+                            </Expander>
+                            <Expander Header="Colors" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
+                                <StackPanel Orientation="Vertical">
+
+                                </StackPanel>
+                            </Expander>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Stack Leniency"/>
+                                <Slider Width="100" Margin="5,5,0,0"/>
+                            </StackPanel>
                         </StackPanel>
                     </Expander>
                     <Expander Header="Other Difficulties" Margin="0,20,5,0" VerticalAlignment="Top">
@@ -96,7 +198,7 @@
                    FontSize="16" HorizontalContentAlignment="Center" Margin="5,0,0,0"/>
             <custom:MusicBar Height="30" Width="848" Margin="10,6,10,0" HorizontalAlignment="Left" IsTabStop="False" IsMoveToPointEnabled="True"
                              Minimum="0" Maximum="{Binding SongLength}" Value="{Binding CurrentPosition}" Style="{StaticResource MusicBarSlider}"/>
-            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0"
+            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding PlayCommand}">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
@@ -104,7 +206,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0"
+            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding PauseCommand}">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
@@ -112,7 +214,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0"
+            <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding StopCommand}">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
@@ -120,7 +222,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <Button Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" controls:ControlsHelper.CornerRadius="0"
+            <Button Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding TestCommand}">
                 <StackPanel Margin="5,0,0,0" Orientation="Horizontal" Width="60">
                     <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
@@ -132,9 +234,9 @@
                 </StackPanel>
             </Button>
             <Label Margin="5,0,0,0" Content="Playback Rate:" FontSize="15" FontWeight="Bold"/>
-            <controls:NumericUpDown x:Name="PlayRateUpDown" BorderThickness="0" Margin="7,0,0,0" Width="120" Height="30" FontSize="15" FontWeight="Bold" UpDownButtonsWidth="30"
-                                    NumericInputMode="Numbers" InterceptArrowKeys="False" InterceptMouseWheel="False" InterceptManualEnter="False"
-                                    Value="{Binding PlayRate}" Minimum="5" Maximum="150" Interval="5" StringFormat="{}{0:N0} %  "/>
+            <ctrls:NumericUpDown x:Name="PlayRateUpDown" BorderThickness="0" Margin="7,0,0,0" Width="120" Height="30" FontSize="15" FontWeight="Bold" UpDownButtonsWidth="30"
+                                 NumericInputMode="Numbers" InterceptArrowKeys="False" InterceptMouseWheel="False" InterceptManualEnter="False"
+                                 Value="{Binding PlayRate}" Minimum="5" Maximum="150" Interval="5" StringFormat="{}{0:N0} %  "/>
         </StackPanel>
     </Grid>
-</controls:MetroWindow>
+</ctrls:MetroWindow>
