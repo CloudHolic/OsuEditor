@@ -127,8 +127,9 @@ namespace OsuEditor.ViewModels
                     if (_timer.IsEnabled)
                     {
                         _timer.Stop();
-                        _stopWatch.Stop();
+                        _stopWatch.Reset();
                         CurrentPosition = 0;
+                        EventBus.Instance.Publish(new CurPositionEvent { CurPosition = CurrentPosition });
                     }
 
                     _oldTime = 0;
@@ -168,7 +169,7 @@ namespace OsuEditor.ViewModels
                     if (_timer.IsEnabled)
                     {
                         _timer.Stop();
-                        _stopWatch.Stop();
+                        _stopWatch.Reset();
                     }
                     CurrentPosition = 0;
                     EventBus.Instance.Publish(new CurPositionEvent { CurPosition = CurrentPosition });
