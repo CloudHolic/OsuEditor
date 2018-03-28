@@ -30,7 +30,7 @@
                     <StackPanel Grid.Column="0" Orientation="Vertical">
                         <Button ToolTip="Increase Timeline Zoom" HorizontalAlignment="Center" Height="30"
                                     Width="30" Margin="0,20,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
-                                    Click="IncreaseZoom_OnClick">
+                                    Click="ZoomIn_OnClick">
                             <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}"/>
@@ -39,7 +39,7 @@
                         </Button>
                         <Button ToolTip="Decrease Timeline Zoom" HorizontalAlignment="Center" Height="30"
                                     Width="30" Margin="0,5,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
-                                    Click="DecreaseZoom_OnClick">
+                                    Click="ZoomOut_OnClick">
                             <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_minus}"/>
@@ -53,13 +53,14 @@
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <Label Content="Beat Snap Divisor :" FontSize="25"/>
                     <StackPanel Orientation="Horizontal" Margin="0,15,0,0" Height="30">
-                        <Slider Width="280" Height="30" Margin="0,-5,0,0" IsTabStop="False" Minimum="0" Maximum="16" Value="{Binding BeatValue}" Style="{StaticResource BeatDivisorSlider}"
-                                IsSnapToTickEnabled="True" Ticks="0, 2, 3, 4, 6, 8, 12, 16" ValueChanged="BeatSlider_OnValueChanged">
+                        <Slider Width="280" Height="30" Margin="0,-5,0,0" IsTabStop="False" Minimum="0" Maximum="16" Style="{StaticResource BeatDivisorSlider}"
+                                Value="{Binding CurrentMap.Edit.BeatDivisor, Converter={StaticResource BeatSnapToSliderConverter}}"
+                                IsSnapToTickEnabled="True" Ticks="0, 2, 3, 4, 6, 8, 12, 16">
                             <Slider.LayoutTransform>
                                 <ScaleTransform ScaleY="1.6" CenterX="15" CenterY="15"/>
                             </Slider.LayoutTransform>
                         </Slider>
-                        <Label x:Name="BeatLabel" Content="{Binding BeatSnapText}" Margin="5,-8,0,0" FontSize="20"/>
+                        <Label x:Name="BeatLabel" Content="{Binding CurrentMap.Edit.BeatDivisor, Converter={StaticResource SnapTextConverter}}" Margin="5,-8,0,0" FontSize="20"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -71,49 +72,38 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Expander Grid.Column="0" VerticalAlignment="Top" Margin="0,30,0,0"></Expander>
-            <mdi:MdiContainer Grid.Column="1" x:Name="PatternMdi" Theme="Luna" Background="Transparent">
-                <mdi:MdiChild Title="Pattern1" Background="Transparent" MaximizeBox="True">
-                    <Grid>
-
-                    </Grid>
-                </mdi:MdiChild>
-                <mdi:MdiChild Title="Pattern2" Background="Transparent" Position="100,100">
-                    <Grid>
-
-                    </Grid>
-                </mdi:MdiChild>
-            </mdi:MdiContainer>
+            <mdi:MdiContainer Grid.Column="1" x:Name="PatternMdi" Theme="Luna" Background="Transparent"/>
             <ScrollViewer Grid.Column="2">
                 <StackPanel Orientation="Vertical">
                     <Expander Header="Metadata" VerticalAlignment="Top" Margin="0,20,5,0">
                         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Artist" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.ArtistUnicode}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="> Romanized" FontSize="9" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Artist}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Title" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.TitleUnicode}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="> Romanized" FontSize="9" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Title}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Creator" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Creator}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Source" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Source}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Tag" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Tags, Converter={StaticResource ListToStringConverter}}"/>
                             </StackPanel>
                             <Expander Header="Countdown" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
                                 <StackPanel Orientation="Vertical">
@@ -146,36 +136,64 @@
                         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Diff Name" Width="70"/>
-                                <TextBox Width="125"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Version}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="HP" Width="30"/>
-                                <Slider Width="125" Margin="5,5,0,0"/>
-                                <TextBox Width="30" Margin="5,0,0,0"/>
+                                <Slider Width="125" Margin="5,5,0,0" Minimum="0.0" Maximum="10.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
+                                        Value="{Binding CurrentMap.Diff.HPDrainRate}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
+                                         Text="{Binding CurrentMap.Diff.HPDrainRate, Converter={StaticResource DoubleToStringConverter}}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="CS" Width="30"/>
-                                <Slider Width="125" Margin="5,5,0,0"/>
-                                <TextBox Width="30" Margin="5,0,0,0"/>
+                                <Slider Width="125" Margin="5,5,0,0" Minimum="2.0" Maximum="7.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
+                                        Value="{Binding CurrentMap.Diff.CircleSize}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
+                                         Text="{Binding CurrentMap.Diff.CircleSize, Converter={StaticResource DoubleToStringConverter}}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="OD" Width="30"/>
-                                <Slider Width="125" Margin="5,5,0,0"/>
-                                <TextBox Width="30" Margin="5,0,0,0"/>
+                                <Slider Width="125" Margin="5,5,0,0" Minimum="0.0" Maximum="10.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
+                                        Value="{Binding CurrentMap.Diff.OverallDifficulty}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
+                                         Text="{Binding CurrentMap.Diff.OverallDifficulty, Converter={StaticResource DoubleToStringConverter}}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="AR" Width="30"/>
-                                <Slider Width="125" Margin="5,5,0,0"/>
-                                <TextBox Width="30" Margin="5,0,0,0"/>
+                                <Slider Width="125" Margin="5,5,0,0" Minimum="0.0" Maximum="10.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
+                                        Value="{Binding CurrentMap.Diff.ApproachRate}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
+                                         Text="{Binding CurrentMap.Diff.ApproachRate, Converter={StaticResource DoubleToStringConverter}}"/>
                             </StackPanel>
                             <Expander Header="Audio" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
                                 <StackPanel Orientation="Vertical">
-
+                                    <GroupBox Header="Default sample set" Style="{x:Null}" BorderThickness="1">
+                                        <ListBox>
+                                            <ListBoxItem Content="Normal"/>
+                                            <ListBoxItem Content="Soft"/>
+                                            <ListBoxItem Content="Drum"/>
+                                        </ListBox>
+                                    </GroupBox>
+                                    <CheckBox Content="Enable custom overrides" BorderThickness="1" Focusable="False" Margin="0,5,0,0"/>
+                                    <Label Content="Sample volume:" Margin="0,5,0,0"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Slider Width="140" Margin="0,5,0,0"/>
+                                        <TextBox Width="30" Margin="5,0,0,0"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Expander>
                             <Expander Header="Colors" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
                                 <StackPanel Orientation="Vertical">
-
+                                    <CheckBox Content="Enable custom colors" BorderThickness="1" Focusable="False"/>
+                                    <ListBox Margin="0,5,0,0">
+                                        <ListBoxItem Content="Combo1" HorizontalContentAlignment="Center" Background="Green"/>
+                                        <ListBoxItem Content="Combo2" HorizontalContentAlignment="Center" Background="Blue"/>
+                                        <ListBoxItem Content="Combo3" HorizontalContentAlignment="Center" Background="Red"/>
+                                        <ListBoxItem Content="Combo4" HorizontalContentAlignment="Center" Background="Orange"/>
+                                    </ListBox>
+                                    <Button Content="Background Color" Focusable="False" BorderThickness="0" HorizontalContentAlignment="Center" Background="Gray"
+                                            ctrls:ControlsHelper.CornerRadius="0"/>
                                 </StackPanel>
                             </Expander>
                             <StackPanel Orientation="Horizontal">
@@ -185,13 +203,19 @@
                         </StackPanel>
                     </Expander>
                     <Expander Header="Other Difficulties" Margin="0,20,5,0" VerticalAlignment="Top">
-                        <StackPanel VerticalAlignment="Top" Height="200">
-
-                        </StackPanel>
+                        <ListBox>
+                            <ListBoxItem>Normal</ListBoxItem>
+                            <ListBoxItem>Hard</ListBoxItem>
+                            <ListBoxItem>MX</ListBoxItem>
+                            <ListBoxItem>SC</ListBoxItem>
+                        </ListBox>
                     </Expander>
+                    <Button Content="        Initial Settings" Margin="0,20,5,0" HorizontalContentAlignment="Left" Background="SlateGray"
+                            ctrls:ControlsHelper.CornerRadius="0" Focusable="False" BorderThickness="0"/>
+                    <Button Content="        Editor Settings" Margin="0,20,5,0" HorizontalContentAlignment="Left" Background="SlateGray"
+                            ctrls:ControlsHelper.CornerRadius="0" Focusable="False" BorderThickness="0"/>
                 </StackPanel>
             </ScrollViewer>
-
         </Grid>
         <StackPanel Grid.Row="2" Height="30" Orientation="Horizontal">
             <Label Width="80" Content="{Binding CurrentPosition, Converter={StaticResource MillisecondsConverter}}"

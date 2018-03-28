@@ -1,6 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:cvt="clr-namespace:OsuEditor.Converters">
-    <cvt:NotConverter x:Key="NotConverter"/>
+    <cvt:BeatSnapToSliderConverter x:Key="BeatSnapToSliderConverter"/>
+    <cvt:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
+    <cvt:ListToStringConverter x:Key="ListToStringConverter"/>
     <cvt:MillisecondsConverter x:Key="MillisecondsConverter"/>
+    <cvt:NotConverter x:Key="NotConverter"/>
+    <cvt:SnapTextConverter x:Key="SnapTextConverter"/>
 </ResourceDictionary>

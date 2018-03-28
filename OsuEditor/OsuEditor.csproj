@@ -188,8 +188,12 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Controls\MusicBar.cs" />
+    <Compile Include="Converters\BeatSnapToSliderConverter.cs" />
+    <Compile Include="Converters\DoubleToStringConverter.cs" />
+    <Compile Include="Converters\LIstToStringConverter.cs" />
     <Compile Include="Converters\MillisecondsConverter.cs" />
     <Compile Include="Converters\NotConverter.cs" />
+    <Compile Include="Converters\SnapTextConverter.cs" />
     <Compile Include="Events\CurPositionEvent.cs" />
     <Compile Include="Events\TimingChangedEvent.cs" />
     <Compile Include="Models\Timing.cs" />

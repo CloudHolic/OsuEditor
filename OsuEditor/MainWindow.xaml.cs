@@ -8,7 +8,7 @@ using OsuEditor.ViewModels;
 
 namespace OsuEditor
 {
-    public partial class MainWindow : IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>
+    public partial class MainWindow : IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>, IEvent<BeatSnapEvent>
     {
         public MainWindow()
         {
@@ -17,43 +17,36 @@ namespace OsuEditor
             EventBus.Instance.RegisterHandler(this);
         }
 
-        private void IncreaseZoom_OnClick(object sender, RoutedEventArgs e)
+        private void ZoomIn_OnClick(object sender, RoutedEventArgs e)
         {
-            ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Min(30, HeaderTimeline.Zoom + 0.1);
+            ((MainWIndowViewModel) DataContext).CurrentMap.Edit.TimelineZoom =
+                HeaderTimeline.Zoom = Math.Max(0, HeaderTimeline.Zoom - 0.1);
         }
 
-        private void DecreaseZoom_OnClick(object sender, RoutedEventArgs e)
+        private void ZoomOut_OnClick(object sender, RoutedEventArgs e)
         {
-            ((MainWIndowViewModel)DataContext).Zoom = HeaderTimeline.Zoom = Math.Max(0, HeaderTimeline.Zoom - 0.1);
+            ((MainWIndowViewModel) DataContext).CurrentMap.Edit.TimelineZoom =
+                HeaderTimeline.Zoom = Math.Min(30, HeaderTimeline.Zoom + 0.1);
         }
-
+        
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             HeaderTimeline.MaxWidth = HeaderTimeline.Width = HeaderGrid.ColumnDefinitions[0].ActualWidth - 40;
         }
 
-        private void BeatSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void DoubleTextBox_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (BeatLabel == null)
-                return;
-
-            var beatSnap = SliderToBeatSnap(e.NewValue);
-
-            HeaderTimeline.BeatSnap = beatSnap;
-
-            EventBus.Instance.Publish(new BeatSnapEvent { Snap = beatSnap });
-        }
-
-        private static int SliderToBeatSnap(double sliderValue)
-        {
-            var sliderValueList = new[] { 0, 2, 3, 4, 6, 8, 12, 16 }.ToList();
-            var beatSnapList = new[] { 1, 2, 3, 4, 6, 8, 12, 16 };
-
-            var index = sliderValueList.FindIndex(x => x == (int)sliderValue);
-            if (index > -1 && index < 10)
-                return beatSnapList[index];
-
-            throw new InvalidValueException();
+            if (e.Text != ".")
+            {
+                foreach (var c in e.Text)
+                {
+                    if (!char.IsDigit(c))
+                    {
+                        e.Handled = true;
+                        break;
+                    }
+                }
+            }
         }
 
         #region Event Handlers
@@ -65,6 +58,11 @@ namespace OsuEditor
         public void HandleEvent(TimingChangedEvent e)
         {
             HeaderTimeline.Timings = e.NewTiming;
+        }
+
+        public void HandleEvent(BeatSnapEvent e)
+        {
+            HeaderTimeline.BeatSnap = e.Snap;
         }
         #endregion
     }
