@@ -6,7 +6,10 @@
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    xmlns:mdi="clr-namespace:WPF.MDI;assembly=WPF.MDI"
                    xmlns:custom="clr-namespace:OsuEditor.Controls"
+                   xmlns:dlgs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d"
+                   dlgs:DialogParticipation.Register="{Binding}"
                    Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
                    Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
     <Grid>
@@ -79,31 +82,31 @@
                         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Artist" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.ArtistUnicode}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.ArtistUnicode, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="> Romanized" FontSize="9" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Artist}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Artist, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Title" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.TitleUnicode}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.TitleUnicode, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="> Romanized" FontSize="9" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Title}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Title, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Creator" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Creator}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Creator, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Source" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Source}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Source, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Tag" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Tags, Converter={StaticResource ListToStringConverter}}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Tags, Converter={StaticResource ListToStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <Expander Header="Countdown" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
                                 <StackPanel Orientation="Vertical">
@@ -124,10 +127,10 @@
                             </Expander>
                             <Expander Header="Misc. Toggles" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
                                 <StackPanel Orientation="Vertical">
-                                    <CheckBox Content="Widescreen Support" BorderThickness="1" Focusable="False" Margin="0,0,0,5"/>
+                                    <CheckBox Content="Widescreen Support" BorderThickness="1" Focusable="False" Margin="0,0,0,5" IsChecked="{Binding CurrentMap.Gen.WidescreenStoryboard, UpdateSourceTrigger=PropertyChanged}"/>
                                     <CheckBox Content="SB over combo fire" ToolTip="Display storyboard in front of combo fire" BorderThickness="1" Focusable="False" Margin="0,0,0,5"/>
                                     <CheckBox Content="Epilepsy warning" ToolTip="Display epilepsy warning(storyboard has quick strobing)" BorderThickness="1" Focusable="False" Margin="0,0,0,5"/>
-                                    <CheckBox Content="Letterbox during breaks" BorderThickness="1" Focusable="False"/>
+                                    <CheckBox Content="Letterbox during breaks" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentMap.Gen.LetterboxInBreaks, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
                             </Expander>
                         </StackPanel>
@@ -136,35 +139,75 @@
                         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Diff Name" Width="70"/>
-                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Version}"/>
+                                <TextBox Width="125" Text="{Binding CurrentMap.Meta.Version, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="HP" Width="30"/>
                                 <Slider Width="125" Margin="5,5,0,0" Minimum="0.0" Maximum="10.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
                                         Value="{Binding CurrentMap.Diff.HPDrainRate}"/>
-                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
-                                         Text="{Binding CurrentMap.Diff.HPDrainRate, Converter={StaticResource DoubleToStringConverter}}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput">
+                                    <TextBox.Text>
+                                        <Binding Path="CurrentMap.Diff.HPDrainRate" Converter="{StaticResource DoubleToStringConverter}">
+                                            <Binding.ConverterParameter>
+                                                <x:Array Type="sys:Double">
+                                                    <sys:Double>0.0</sys:Double>
+                                                    <sys:Double>10.0</sys:Double>
+                                                </x:Array>
+                                            </Binding.ConverterParameter>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="CS" Width="30"/>
                                 <Slider Width="125" Margin="5,5,0,0" Minimum="2.0" Maximum="7.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
                                         Value="{Binding CurrentMap.Diff.CircleSize}"/>
-                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
-                                         Text="{Binding CurrentMap.Diff.CircleSize, Converter={StaticResource DoubleToStringConverter}}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput">
+                                    <TextBox.Text>
+                                        <Binding Path="CurrentMap.Diff.CircleSize" Converter="{StaticResource DoubleToStringConverter}">
+                                            <Binding.ConverterParameter>
+                                                <x:Array Type="sys:Double">
+                                                    <sys:Double>2.0</sys:Double>
+                                                    <sys:Double>7.0</sys:Double>
+                                                </x:Array>
+                                            </Binding.ConverterParameter>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="OD" Width="30"/>
                                 <Slider Width="125" Margin="5,5,0,0" Minimum="0.0" Maximum="10.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
                                         Value="{Binding CurrentMap.Diff.OverallDifficulty}"/>
-                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
-                                         Text="{Binding CurrentMap.Diff.OverallDifficulty, Converter={StaticResource DoubleToStringConverter}}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput">
+                                    <TextBox.Text>
+                                        <Binding Path="CurrentMap.Diff.OverallDifficulty" Converter="{StaticResource DoubleToStringConverter}">
+                                            <Binding.ConverterParameter>
+                                                <x:Array Type="sys:Double">
+                                                    <sys:Double>0.0</sys:Double>
+                                                    <sys:Double>10.0</sys:Double>
+                                                </x:Array>
+                                            </Binding.ConverterParameter>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="AR" Width="30"/>
                                 <Slider Width="125" Margin="5,5,0,0" Minimum="0.0" Maximum="10.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
                                         Value="{Binding CurrentMap.Diff.ApproachRate}"/>
-                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput"
-                                         Text="{Binding CurrentMap.Diff.ApproachRate, Converter={StaticResource DoubleToStringConverter}}"/>
+                                <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="DoubleTextBox_OnPreviewTextInput">
+                                    <TextBox.Text>
+                                        <Binding Path="CurrentMap.Diff.ApproachRate" Converter="{StaticResource DoubleToStringConverter}">
+                                            <Binding.ConverterParameter>
+                                                <x:Array Type="sys:Double">
+                                                    <sys:Double>0.0</sys:Double>
+                                                    <sys:Double>10.0</sys:Double>
+                                                </x:Array>
+                                            </Binding.ConverterParameter>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </StackPanel>
                             <Expander Header="Audio" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
                                 <StackPanel Orientation="Vertical">
@@ -211,9 +254,9 @@
                         </ListBox>
                     </Expander>
                     <Button Content="        Initial Settings" Margin="0,20,5,0" HorizontalContentAlignment="Left" Background="SlateGray"
-                            ctrls:ControlsHelper.CornerRadius="0" Focusable="False" BorderThickness="0"/>
+                            ctrls:ControlsHelper.CornerRadius="0" Focusable="False" BorderThickness="0" Command="{Binding InitialCommand}"/>
                     <Button Content="        Editor Settings" Margin="0,20,5,0" HorizontalContentAlignment="Left" Background="SlateGray"
-                            ctrls:ControlsHelper.CornerRadius="0" Focusable="False" BorderThickness="0"/>
+                            ctrls:ControlsHelper.CornerRadius="0" Focusable="False" BorderThickness="0" Command="{Binding EditorCommand}"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
@@ -260,7 +303,7 @@
             <Label Margin="5,0,0,0" Content="Playback Rate:" FontSize="15" FontWeight="Bold"/>
             <ctrls:NumericUpDown x:Name="PlayRateUpDown" BorderThickness="0" Margin="7,0,0,0" Width="120" Height="30" FontSize="15" FontWeight="Bold" UpDownButtonsWidth="30"
                                  NumericInputMode="Numbers" InterceptArrowKeys="False" InterceptMouseWheel="False" InterceptManualEnter="False"
-                                 Value="{Binding PlayRate}" Minimum="5" Maximum="150" Interval="5" StringFormat="{}{0:N0} %  "/>
+                                 Value="{Binding PlayRate, UpdateSourceTrigger=PropertyChanged}" Minimum="5" Maximum="150" Interval="5" StringFormat="{}{0:N0} %  "/>
         </StackPanel>
     </Grid>
 </ctrls:MetroWindow>

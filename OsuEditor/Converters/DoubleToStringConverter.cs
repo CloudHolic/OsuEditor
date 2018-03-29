@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
+using OsuEditor.Util;
 
 namespace OsuEditor.Converters
 {
@@ -16,8 +17,10 @@ namespace OsuEditor.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var bounds = parameter == null ? new[] { double.MinValue, double.MaxValue } : parameter as double[];
+            Debug.Assert(bounds != null, nameof(bounds) + " != null");
             double.TryParse((string)value, out var converted);
-            return converted;
+            return MathExt.Clamp(converted, bounds[0], bounds[1]);
         }
     }
 }

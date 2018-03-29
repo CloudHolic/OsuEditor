@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
+using MahApps.Metro.Controls.Dialogs;
 using OsuEditor.Commands;
-using OsuEditor.CustomExceptions;
+using OsuEditor.Contents;
 using OsuEditor.Events;
 using OsuParser;
 using OsuParser.Structures;
@@ -44,7 +43,10 @@ namespace OsuEditor.ViewModels
         private readonly Stopwatch _stopWatch = new Stopwatch();
         private double _oldTime;
 
-        public MainWIndowViewModel()
+        private readonly IDialogCoordinator _dialogCoordinator;
+        private readonly MetroDialogSettings _dialogSettings;
+
+        public MainWIndowViewModel(IDialogCoordinator coordinatorInstance)
         {
             CurrentMap = Parser.CreateBeatmap();
             PlayRate = 100;
@@ -69,9 +71,39 @@ namespace OsuEditor.ViewModels
             };
 
             EventBus.Instance.RegisterHandler(this);
+            _dialogCoordinator = coordinatorInstance;
+            _dialogSettings = new MetroDialogSettings
+            {
+                AnimateHide = false,
+                AnimateShow = false,
+                ColorScheme = MetroDialogColorScheme.Theme,
+                OwnerCanCloseWithDialog = false
+            };
         }
 
         #region Commands
+        public ICommand InitialCommand
+        {
+            get
+            {
+                return Get(() => InitialCommand, new RelayCommand(async () =>
+                {
+                    await _dialogCoordinator.ShowMetroDialogAsync(this, new InitialSettingView(), _dialogSettings);
+                }));
+            }
+        }
+
+        public ICommand EditorCommand
+        {
+            get
+            {
+                return Get(() => EditorCommand, new RelayCommand(async () =>
+                {
+                    await _dialogCoordinator.ShowMetroDialogAsync(this, new EditorSettingView(), _dialogSettings);
+                }));
+            }
+        }
+
         public ICommand PlayCommand
         {
             get

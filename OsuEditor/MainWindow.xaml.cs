@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using OsuEditor.CustomExceptions;
+using MahApps.Metro.Controls.Dialogs;
 using OsuEditor.Events;
 using OsuEditor.ViewModels;
 
@@ -13,7 +12,7 @@ namespace OsuEditor
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWIndowViewModel();
+            DataContext = new MainWIndowViewModel(DialogCoordinator.Instance);
             EventBus.Instance.RegisterHandler(this);
         }
 

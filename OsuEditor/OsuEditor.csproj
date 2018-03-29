@@ -196,9 +196,13 @@
     <Compile Include="Converters\SnapTextConverter.cs" />
     <Compile Include="Events\CurPositionEvent.cs" />
     <Compile Include="Events\TimingChangedEvent.cs" />
+    <Compile Include="Models\Bookmark.cs" />
+    <Compile Include="Models\Period.cs" />
     <Compile Include="Models\Timing.cs" />
     <Compile Include="Util\BpmConverter.cs" />
     <Compile Include="Util\MathExt.cs" />
+    <Compile Include="ViewModels\EditorSettingViewModel.cs" />
+    <Compile Include="ViewModels\InitialSettingViewModel.cs" />
     <Compile Include="ViewModels\MainWIndowViewModel.cs" />
     <Compile Include="ViewModels\MetronomeViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
@@ -215,11 +219,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Contents\ComposeBodyView.xaml">
+    <Page Include="Contents\InitialSettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Contents\TimingBodyView.xaml">
+    <Page Include="Contents\EditorSettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,11 +239,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Contents\ComposeBodyView.xaml.cs">
-      <DependentUpon>ComposeBodyView.xaml</DependentUpon>
+    <Compile Include="Contents\InitialSettingView.xaml.cs">
+      <DependentUpon>InitialSettingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Contents\TimingBodyView.xaml.cs">
-      <DependentUpon>TimingBodyView.xaml</DependentUpon>
+    <Compile Include="Contents\EditorSettingView.xaml.cs">
+      <DependentUpon>EditorSettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Contents\MetronomeView.xaml.cs">
       <DependentUpon>MetronomeView.xaml</DependentUpon>
