@@ -21,7 +21,6 @@ namespace OsuEditor.ViewModels
 
             Closed?.Invoke(this, EventArgs.Empty);
         }
-
     }
 
     public abstract class DialogViewModelBase<TResult> : ViewModelBase, IDialogViewModelBase

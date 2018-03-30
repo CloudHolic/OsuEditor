@@ -118,6 +118,7 @@
     <Compile Include="Events\CurPositionEvent.cs" />
     <Compile Include="Events\TimingChangedEvent.cs" />
     <Compile Include="Models\Bookmark.cs" />
+    <Compile Include="Models\EditorSettings.cs" />
     <Compile Include="Models\InitSettings.cs" />
     <Compile Include="Models\Period.cs" />
     <Compile Include="Models\PlayMode.cs" />

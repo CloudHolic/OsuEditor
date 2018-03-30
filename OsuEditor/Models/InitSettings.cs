@@ -12,7 +12,7 @@
 
         public InitSettings()
         {
-            Mp3Path = null;
+            Mp3Path = string.Empty;
             Mode = PlayMode.Std;
             Keys = 0;
             SpecialStyle = false;

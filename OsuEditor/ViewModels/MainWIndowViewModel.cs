@@ -118,9 +118,10 @@ namespace OsuEditor.ViewModels
         {
             get
             {
-                return Get(() => EditorCommand, new RelayCommand(() =>
+                return Get(() => EditorCommand, new RelayCommand(async () =>
                 {
-                    //await _dialogManager.ShowDialogAsync<EditorSettingView>();
+                    var editorSettingView = new EditorSettingView(new EditorSettings());
+                    var result = await _dialogManager.ShowDialogAsync<EditorSettings>(editorSettingView);
                 }));
             }
         }

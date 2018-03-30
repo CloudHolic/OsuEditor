@@ -5,8 +5,6 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:dlgs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                   xmlns:behaviors="clr-namespace:OsuEditor.Controls"
-                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    mc:Ignorable="d" Width="400" Height="240" AllowDrop="True"
                    VerticalAlignment="Center" HorizontalAlignment="Center" Drop="InitialSettingView_OnDrop">
     <dlgs:CustomDialog.DialogTop>
