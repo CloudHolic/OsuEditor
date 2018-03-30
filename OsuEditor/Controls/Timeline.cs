@@ -105,7 +105,7 @@ namespace OsuEditor.Controls
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
             drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 5), new Point(ActualWidth / 2, 0), new Point(ActualWidth / 2, ActualHeight));
 
-            var transform = CurrentValue / Zoom - ActualWidth / 2;
+            var transform = (CurrentValue / Zoom) - (ActualWidth / 2);
             var timingPeriods = Timings.Offset.Count;
             
             var beatLists = new List<List<double>>();
@@ -118,7 +118,7 @@ namespace OsuEditor.Controls
                 var startIndex = (int) Math.Ceiling((transform - offset) / beatLength);
                 var endIndex = (int) Math.Truncate((transform + ActualWidth - offset) / beatLength);
                 for (var j = startIndex; j <= endIndex; j++)
-                    beats.Add(j * beatLength - transform + offset);
+                    beats.Add((j * beatLength) - transform + offset);
 
                 beatLists.Add(beats);
             }
@@ -132,10 +132,10 @@ namespace OsuEditor.Controls
 
                 foreach (var beat in beats)
                 {
-                    if (beat >= nextOffset - transform || i > 0 && beat < offset - transform)
+                    if (beat >= nextOffset - transform || (i > 0 && beat < offset - transform))
                         continue;
 
-                    var beatNumber = Math.Abs((beat + transform - offset) / curBeatLength % Timings.BeatsPerMeasure[i]);
+                    var beatNumber = Math.Abs(((beat + transform - offset) / curBeatLength) % Timings.BeatsPerMeasure[i]);
                     if (beatNumber < 0.001 || beatNumber > Timings.BeatsPerMeasure[i] - 0.001)
                         drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 2),
                             new Point(beat, ActualHeight - 50), new Point(beat, ActualHeight));
@@ -148,8 +148,8 @@ namespace OsuEditor.Controls
                     {
                         for (var j = 1; j < BeatSnap; j++)
                         {
-                            var snapCor = beat - j * curBeatLength / BeatSnap;
-                            if (snapCor < 0 || i > 0 && snapCor < offset - transform)
+                            var snapCor = beat - ((j * curBeatLength) / BeatSnap);
+                            if (snapCor < 0 || (i > 0 && snapCor < offset - transform))
                                 break;
 
                             var height = CalcLineHeight(BeatSnap, j);
@@ -160,7 +160,7 @@ namespace OsuEditor.Controls
 
                     for (var j = 1; j < BeatSnap; j++)
                     {
-                        var snapCor = beat + j * curBeatLength / BeatSnap;
+                        var snapCor = beat + ((j * curBeatLength) / BeatSnap);
                         if (snapCor > ActualWidth || snapCor >= nextOffset - transform)
                             break;
 
@@ -176,7 +176,6 @@ namespace OsuEditor.Controls
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-
         }
 
         public void RaiseHorizontalRulerMoveEvent(MouseEventArgs e)
