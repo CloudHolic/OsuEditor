@@ -1,9 +1,28 @@
 ﻿using System;
-using System.Reflection;
-using System.Windows.Input;
 
 namespace OsuEditor.Commands
 {
+    public class RelayCommand : RelayCommandBase
+    {
+        public RelayCommand(Action execute) : this(execute, () => true)
+        {
+        }
+
+        public RelayCommand(Action execute, Func<bool> canExecute) : base(o => execute(), o => canExecute())
+        {
+        }
+
+        public bool CanExecute()
+        {
+            return CanExecute(null);
+        }
+
+        public void Execute()
+        {
+            Execute(null);
+        }
+    }
+
     public class RelayCommand<T> : RelayCommandBase
     {
         public RelayCommand(Action<T> execute) : this(execute, o => true)
@@ -25,27 +44,6 @@ namespace OsuEditor.Commands
         public void Execute(T parameter)
         {
             Execute((object)parameter);
-        }
-    }
-
-    public class RelayCommand : RelayCommandBase
-    {
-        public RelayCommand(Action execute) : this(execute, () => true)
-        {
-        }
-
-        public RelayCommand(Action execute, Func<bool> canExecute) : base(o => execute(), o => canExecute())
-        {
-        }
-
-        public bool CanExecute()
-        {
-            return CanExecute(null);
-        }
-
-        public void Execute()
-        {
-            Execute(null);
         }
     }
 }
