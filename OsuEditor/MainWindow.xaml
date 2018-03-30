@@ -72,7 +72,6 @@
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Expander Grid.Column="0" VerticalAlignment="Top" Margin="0,30,0,0"></Expander>
             <mdi:MdiContainer Grid.Column="1" x:Name="PatternMdi" Theme="Luna" Background="Transparent"/>
             <ScrollViewer Grid.Column="2">
                 <StackPanel Orientation="Vertical">
