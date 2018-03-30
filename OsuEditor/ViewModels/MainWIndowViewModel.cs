@@ -54,7 +54,6 @@ namespace OsuEditor.ViewModels
             SongLength = 100000;
             CurrentMap.Edit.BeatDivisor = 4;
             CurrentMap.Edit.TimelineZoom = 5.0;
-            CurrentMap.Gen.Mode = 3;
 
             _timer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
             _timer.Tick += (sender, args) =>
@@ -121,7 +120,7 @@ namespace OsuEditor.ViewModels
                 return Get(() => EditorCommand, new RelayCommand(async () =>
                 {
                     var editorSettingView = new EditorSettingView(new EditorSettings());
-                    var result = await _dialogManager.ShowDialogAsync<EditorSettings>(editorSettingView);
+                    await _dialogManager.ShowDialogAsync<EditorSettings>(editorSettingView);
                 }));
             }
         }
