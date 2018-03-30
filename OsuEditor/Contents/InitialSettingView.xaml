@@ -5,16 +5,18 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:dlgs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                   mc:Ignorable="d" Width="400" Height="240"
-                   VerticalAlignment="Center" HorizontalAlignment="Center">
+                   xmlns:behaviors="clr-namespace:OsuEditor.Controls"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   mc:Ignorable="d" Width="400" Height="240" AllowDrop="True"
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Drop="InitialSettingView_OnDrop">
     <dlgs:CustomDialog.DialogTop>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="35"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Initial Settings" FontSize="20"/>
-            <Button Grid.Column="1" Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0"
+            <Label Grid.Column="0" Content="Initial Settings" FontSize="20" Margin="10,0,0,0"/>
+            <Button Grid.Column="1" Width="30" Margin="0,0,5,0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0"
                     ctrls:ControlsHelper.CornerRadius="0" Command="{Binding CloseCommand}">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
@@ -29,7 +31,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
                 <Label Content="MP3 File Path" FontSize="15"/>
                 <TextBox Margin="10,0,0,0" Width="200" Text="{Binding Mp3Path, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Margin="10,0,0,0" Content="Open" Width="55" BorderThickness="1"/>
+                <Button Margin="10,0,0,0" Content="Open" Width="55" BorderThickness="1" Command="{Binding OpenFileCommand}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
                 <Label Content="Mode" FontSize="15"/>

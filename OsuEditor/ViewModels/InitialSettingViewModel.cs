@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
+using Microsoft.Win32;
 using OsuEditor.Commands;
 using OsuEditor.Models;
 
@@ -41,6 +43,25 @@ namespace OsuEditor.ViewModels
         }
 
         #region Commands
+        public ICommand OpenFileCommand
+        {
+            get
+            {
+                return Get(() => OpenFileCommand, new RelayCommand(() =>
+                {
+                    var ofd = new OpenFileDialog
+                    {
+                        Filter = @"MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*",
+                        RestoreDirectory = true
+                    };
+
+                    var result = ofd.ShowDialog();
+                    if (result.HasValue && result.Value)
+                        Mp3Path = ofd.FileName;
+                }));
+            }
+        }
+
         public ICommand SaveCommand
         {
             get

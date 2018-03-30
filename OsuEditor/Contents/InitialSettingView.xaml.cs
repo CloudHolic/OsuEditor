@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using OsuEditor.Models;
 using OsuEditor.ViewModels;
 
@@ -22,6 +23,15 @@ namespace OsuEditor.Contents
                     break;
                 }
             }
+        }
+
+        private void InitialSettingView_OnDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                return;
+
+            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            ((InitialSettingViewModel) DataContext).Mp3Path = files?[0];
         }
     }
 }
