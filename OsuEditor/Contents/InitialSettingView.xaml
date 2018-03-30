@@ -33,17 +33,17 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
                 <Label Content="Mode" FontSize="15"/>
-                <ComboBox Margin="10,0,0,0" Width="130">
-                    <ComboBoxItem Content="Osu!"/>
-                    <ComboBoxItem Content="Taiko"/>
-                    <ComboBoxItem Content="Catch the Beat"/>
-                    <ComboBoxItem Content="Osu! Mania"/>
-                </ComboBox>
-                <Label Margin="50,0,0,0" Content="Keys" FontSize="15"/>
-                <TextBox Margin="10,0,0,0" Width="50"/>
+                <ComboBox x:Name="ModeComboBox" Margin="10,0,0,0" Width="130" SelectedValue="{Binding Mode}" 
+                          ItemsSource="{Binding Mode, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}"
+                          SelectedValuePath="Item1" DisplayMemberPath="Item2"/>
+                <Label Margin="50,0,0,0" Content="Keys" FontSize="15"
+                       Visibility="{Binding Mode, Converter={StaticResource PlayModeToVisibilityConverter}, ConverterParameter=3}"/>
+                <TextBox Margin="10,0,0,0" Width="50" Text="{Binding Keys, UpdateSourceTrigger=PropertyChanged}"
+                         Visibility="{Binding Mode, Converter={StaticResource PlayModeToVisibilityConverter}, ConverterParameter=3}"
+                         PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="30,0,30,0">
-                <CheckBox Content="Use special Style (N+1 style)"/>
+            <StackPanel Orientation="Horizontal" Margin="30,0,30,0" Visibility="{Binding Mode, Converter={StaticResource PlayModeToVisibilityConverter}, ConverterParameter=3}">
+                <CheckBox Content="Use special Style (N+1 style)" Focusable="False" IsChecked="{Binding SpecialStyle}"/>
             </StackPanel>
         </StackPanel>
     </dlgs:CustomDialog.Content>

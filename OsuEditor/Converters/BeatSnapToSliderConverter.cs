@@ -8,6 +8,7 @@ using OsuEditor.Events;
 
 namespace OsuEditor.Converters
 {
+    [ValueConversion(typeof(int), typeof(int))]
     public class BeatSnapToSliderConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

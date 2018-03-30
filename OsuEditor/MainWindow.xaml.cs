@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using MahApps.Metro.Controls.Dialogs;
 using OsuEditor.Events;
 using OsuEditor.ViewModels;
 
@@ -12,7 +11,7 @@ namespace OsuEditor
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWIndowViewModel(DialogCoordinator.Instance);
+            DataContext = new MainWIndowViewModel();
             EventBus.Instance.RegisterHandler(this);
         }
 

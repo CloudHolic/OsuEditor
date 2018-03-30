@@ -6,6 +6,7 @@ using OsuEditor.Util;
 
 namespace OsuEditor.Converters
 {
+    [ValueConversion(typeof(double), typeof(string))]
     public class DoubleToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

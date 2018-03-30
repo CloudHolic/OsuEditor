@@ -6,10 +6,8 @@
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    xmlns:mdi="clr-namespace:WPF.MDI;assembly=WPF.MDI"
                    xmlns:custom="clr-namespace:OsuEditor.Controls"
-                   xmlns:dlgs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d"
-                   dlgs:DialogParticipation.Register="{Binding}"
                    Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
                    Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
     <Grid>
@@ -158,7 +156,8 @@
                                     </TextBox.Text>
                                 </TextBox>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" 
+                                        Visibility="{Binding CurrentMap.Gen.Mode, Converter={StaticResource PlayModeToVisibilityConverter}, ConverterParameter=4, IsAsync=True}">
                                 <Label Content="CS" Width="30"/>
                                 <Slider Width="125" Margin="5,5,0,0" Minimum="2.0" Maximum="7.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
                                         Value="{Binding CurrentMap.Diff.CircleSize}"/>
@@ -192,7 +191,8 @@
                                     </TextBox.Text>
                                 </TextBox>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" 
+                                        Visibility="{Binding CurrentMap.Gen.Mode, Converter={StaticResource PlayModeToVisibilityConverter}, ConverterParameter=4, IsAsync=True}">
                                 <Label Content="AR" Width="30"/>
                                 <Slider Width="125" Margin="5,5,0,0" Minimum="0.0" Maximum="10.0" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True"
                                         Value="{Binding CurrentMap.Diff.ApproachRate}"/>
@@ -226,7 +226,8 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Expander>
-                            <Expander Header="Colors" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
+                            <Expander Header="Colors" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal"
+                                      Visibility="{Binding CurrentMap.Gen.Mode, Converter={StaticResource PlayModeToVisibilityConverter}, ConverterParameter=0, IsAsync=True}">
                                 <StackPanel Orientation="Vertical">
                                     <CheckBox Content="Enable custom colors" BorderThickness="1" Focusable="False"/>
                                     <ListBox Margin="0,5,0,0">
@@ -239,7 +240,8 @@
                                             ctrls:ControlsHelper.CornerRadius="0"/>
                                 </StackPanel>
                             </Expander>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" 
+                                        Visibility="{Binding CurrentMap.Gen.Mode, Converter={StaticResource PlayModeToVisibilityConverter}, ConverterParameter=0, IsAsync=True}">
                                 <Label Content="Stack Leniency"/>
                                 <Slider Width="100" Margin="5,5,0,0"/>
                             </StackPanel>

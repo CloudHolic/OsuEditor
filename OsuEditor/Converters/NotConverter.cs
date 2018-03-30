@@ -5,6 +5,7 @@ using System.Windows.Data;
 
 namespace OsuEditor.Converters
 {
+    [ValueConversion(typeof(bool), typeof(bool))]
     public class NotConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

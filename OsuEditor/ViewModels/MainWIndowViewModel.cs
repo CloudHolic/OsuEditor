@@ -6,6 +6,8 @@ using MahApps.Metro.Controls.Dialogs;
 using OsuEditor.Commands;
 using OsuEditor.Contents;
 using OsuEditor.Events;
+using OsuEditor.Models;
+using OsuEditor.Util;
 using OsuParser;
 using OsuParser.Structures;
 
@@ -43,18 +45,18 @@ namespace OsuEditor.ViewModels
         private readonly Stopwatch _stopWatch = new Stopwatch();
         private double _oldTime;
 
-        private readonly IDialogCoordinator _dialogCoordinator;
-        private readonly MetroDialogSettings _dialogSettings;
+        private readonly ICustomDialogManager _dialogManager;
 
-        public MainWIndowViewModel(IDialogCoordinator coordinatorInstance)
+        public MainWIndowViewModel()
         {
             CurrentMap = Parser.CreateBeatmap();
             PlayRate = 100;
             SongLength = 100000;
             CurrentMap.Edit.BeatDivisor = 4;
             CurrentMap.Edit.TimelineZoom = 5.0;
+            CurrentMap.Gen.Mode = 3;
 
-            _timer.Interval = TimeSpan.FromMilliseconds((double)1000 / 144);
+            _timer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
             _timer.Tick += (sender, args) =>
             {
                 var curTime = _stopWatch.Elapsed.TotalMilliseconds;
@@ -71,14 +73,12 @@ namespace OsuEditor.ViewModels
             };
 
             EventBus.Instance.RegisterHandler(this);
-            _dialogCoordinator = coordinatorInstance;
-            _dialogSettings = new MetroDialogSettings
+
+            _dialogManager = new CustomDialogManager(new MetroDialogSettings
             {
-                AnimateHide = false,
                 AnimateShow = false,
-                ColorScheme = MetroDialogColorScheme.Theme,
-                OwnerCanCloseWithDialog = false
-            };
+                AnimateHide = false
+            });
         }
 
         #region Commands
@@ -88,7 +88,28 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => InitialCommand, new RelayCommand(async () =>
                 {
-                    await _dialogCoordinator.ShowMetroDialogAsync(this, new InitialSettingView(), _dialogSettings);
+                    var initSettingView = new InitialSettingView(new InitSettings
+                    {
+                        Mp3Path = string.Empty,
+                        Mode = (PlayMode) CurrentMap.Gen.Mode,
+                        Keys = CurrentMap.Gen.Mode == 3 ? (int) CurrentMap.Diff.CircleSize : 4,
+                        SpecialStyle = CurrentMap.Gen.SpecialStyle
+                    });
+
+                    var result = await _dialogManager.ShowDialogAsync<InitSettings>(initSettingView);
+                    if (result != null)
+                    {
+                        //TODO: Copy MP3 file to the basic mapset directory.
+
+                        CurrentMap.Gen.Mode = (int) result.Mode;
+                        if (CurrentMap.Gen.Mode == 3)
+                        {
+                            CurrentMap.Diff.CircleSize = result.Keys;
+                            CurrentMap.Gen.SpecialStyle = result.SpecialStyle;
+                        }
+
+                        RaisePropertyChanged(nameof(CurrentMap));
+                    }
                 }));
             }
         }
@@ -97,9 +118,9 @@ namespace OsuEditor.ViewModels
         {
             get
             {
-                return Get(() => EditorCommand, new RelayCommand(async () =>
+                return Get(() => EditorCommand, new RelayCommand(() =>
                 {
-                    await _dialogCoordinator.ShowMetroDialogAsync(this, new EditorSettingView(), _dialogSettings);
+                    //await _dialogManager.ShowDialogAsync<EditorSettingView>();
                 }));
             }
         }
