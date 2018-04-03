@@ -72,6 +72,46 @@
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HeadersVisibility="None" Background="White">
+
+                </DataGrid>
+                <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Add" ctrls:ControlsHelper.ContentCharacterCasing="Normal"/>
+                        <Button Grid.Column="1" Content="Delete" ctrls:ControlsHelper.ContentCharacterCasing="Normal"/>
+                    </Grid>
+                    <GroupBox Header="Timing Point Property" Style="{x:Null}" BorderThickness="1" Margin="0,10,0,0">
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <Label Content="Offset: " Margin="-5,0,0,0"/>
+                                <TextBox Width="65"/>
+                                <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <CheckBox Content="Measure" BorderThickness="1" Focusable="False"/>
+                                <TextBox Width="30" Margin="20,0,0,0" HorizontalAlignment="Right"/>
+                            </StackPanel>
+                            <CheckBox Content="Speed Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <CheckBox Content="Bookmark Point" BorderThickness="1" Focusable="False"/>
+                            <StackPanel Orientation="Horizontal" Margin="20,5,0,0">
+                                <Label Content="Note: "/>
+                                <TextBox Width="140"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </Grid>
             <mdi:MdiContainer Grid.Column="1" x:Name="PatternMdi" Theme="Luna" Background="Transparent"/>
             <ScrollViewer Grid.Column="2">
                 <StackPanel Orientation="Vertical">
@@ -105,9 +145,9 @@
                                 <Label Content="Tag" Width="70"/>
                                 <TextBox Width="125" Text="{Binding CurrentMap.Meta.Tags, Converter={StaticResource ListToStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
-                            <Expander Header="Countdown" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
+                            <Expander Header="Countdown" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal" BorderThickness="1">
                                 <StackPanel Orientation="Vertical">
-                                    <CheckBox Content="Enable countdown" Margin="0,0,0,5"/>
+                                    <CheckBox Content="Enable countdown" Margin="0,0,0,5" Focusable="False"/>
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                         <Label Content="Speed:" Margin="0,-5,5,0"/>
                                         <StackPanel Orientation="Vertical">
