@@ -116,7 +116,7 @@
                                 <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="0"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                <CheckBox x:Name="MeasureCheckBox" Content="Measure" BorderThickness="1" Focusable="False"/>
+                                <CheckBox x:Name="MeasureCheckBox" Content="Measure" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.MeasureChange}"/>
                                 <TextBox Width="40" Margin="20,0,0,0" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2"
                                          IsReadOnly="{Binding ElementName=MeasureCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          Text="{Binding CurrentTiming.Measure}"/>
@@ -130,9 +130,10 @@
                                          HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.SpeedRate}"/>
                                 <Label Content="%"/>
                             </StackPanel>
-                            <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.HitSoundChange}"/>
                             <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Preview}"/>
-                            <CheckBox x:Name="BookmarkCheckBox" Content="Bookmark Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <CheckBox x:Name="BookmarkCheckBox" Content="Bookmark Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"
+                                      IsChecked="{Binding CurrentTiming.BookmarkChange}"/>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5"
                                         Visibility="{Binding ElementName=BookmarkCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Label Content="Note: "/>

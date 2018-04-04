@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 // ReSharper disable InvertIf
 namespace OsuEditor.ViewModels
 {
-    public class VerifiableViewModelBase : ViewModelBase, IDataErrorInfo
+    public abstract class VerifiableViewModelBase : ViewModelBase, IDataErrorInfo
     {
         private readonly ConcurrentDictionary<string, Binder> _ruleMap = new ConcurrentDictionary<string, Binder>();
         

@@ -70,37 +70,7 @@ namespace OsuEditor.ViewModels
             CurrentMap.Edit.BeatDivisor = 4;
             CurrentMap.Edit.TimelineZoom = 5.0;
 
-            TimingMarks = new ObservableCollection<TimingMark>
-            {
-                new TimingMark
-                {
-                    Offset = 1000,
-                    Bpm = 150,
-                    SpeedRate = 100,
-                    Measure = 4,
-                    HitSound = DefaultHitSound.Normal,
-                    Volume = 100,
-                    Kiai = false,
-                    Preview = false,
-                    Bookmark = new Bookmark()
-                },
-                new TimingMark
-                {
-                    Offset = 2000,
-                    Bpm = 170,
-                    SpeedRate = 130,
-                    Measure = 4,
-                    HitSound = DefaultHitSound.Soft,
-                    Volume = 70,
-                    Kiai = true,
-                    Preview = true,
-                    Bookmark = new Bookmark
-                    {
-                        Offset = 2000,
-                        Memo = "123"
-                    }
-                }
-            };
+            TimingMarks = new ObservableCollection<TimingMark>();
 
             _timer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
             _timer.Tick += (sender, args) =>
@@ -135,7 +105,22 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => AddTimingMarkCommand, new RelayCommand(() =>
                 {
-                    var newTiming = new TimingMark(TimingMarks.Last())
+                    if (TimingMarks.Count == 0)
+                    {
+                        TimingMarks.Add(new TimingMark {Offset = (int) CurrentPosition});
+                        return;
+                    }
+
+                    //  Find previous TimingMark
+                    TimingMark prevMark = null;
+                    foreach (var timing in TimingMarks)
+                        if (CurrentPosition >= timing.Offset)
+                            prevMark = timing;
+
+                    if (prevMark == null)
+                        prevMark = TimingMarks.First();
+
+                    var newTiming = new TimingMark(prevMark)
                     {
                         Offset = (int) CurrentPosition,
                         Preview = false,
@@ -143,6 +128,7 @@ namespace OsuEditor.ViewModels
                     };
 
                     TimingMarks.Add(newTiming);
+                    TimingMarks = new ObservableCollection<TimingMark>(TimingMarks.OrderBy(x => x.Offset));
                 }));
             }
         }
