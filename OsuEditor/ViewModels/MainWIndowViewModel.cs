@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MahApps.Metro.Controls.Dialogs;
@@ -39,6 +42,18 @@ namespace OsuEditor.ViewModels
             get { return Get(() => CurrentMap); }
             set { Set(() => CurrentMap, value); }
         }
+
+        public ObservableCollection<TimingMark> TimingMarks
+        {
+            get { return Get(() => TimingMarks); }
+            set { Set(() => TimingMarks, value); }
+        }
+
+        public TimingMark CurrentTiming
+        {
+            get { return Get(() => CurrentTiming); }
+            set { Set(() => CurrentTiming, value); }
+        }
         #endregion
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
@@ -54,6 +69,38 @@ namespace OsuEditor.ViewModels
             SongLength = 100000;
             CurrentMap.Edit.BeatDivisor = 4;
             CurrentMap.Edit.TimelineZoom = 5.0;
+
+            TimingMarks = new ObservableCollection<TimingMark>
+            {
+                new TimingMark
+                {
+                    Offset = 1000,
+                    Bpm = 150,
+                    SpeedRate = 100,
+                    Measure = 4,
+                    HitSound = DefaultHitSound.Normal,
+                    Volume = 100,
+                    Kiai = false,
+                    Preview = false,
+                    Bookmark = new Bookmark()
+                },
+                new TimingMark
+                {
+                    Offset = 2000,
+                    Bpm = 170,
+                    SpeedRate = 130,
+                    Measure = 4,
+                    HitSound = DefaultHitSound.Soft,
+                    Volume = 70,
+                    Kiai = true,
+                    Preview = true,
+                    Bookmark = new Bookmark
+                    {
+                        Offset = 2000,
+                        Memo = "123"
+                    }
+                }
+            };
 
             _timer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
             _timer.Tick += (sender, args) =>
@@ -81,6 +128,36 @@ namespace OsuEditor.ViewModels
         }
 
         #region Commands
+
+        public ICommand AddTimingMarkCommand
+        {
+            get
+            {
+                return Get(() => AddTimingMarkCommand, new RelayCommand(() =>
+                {
+                    var newTiming = new TimingMark(TimingMarks.Last())
+                    {
+                        Offset = (int) CurrentPosition,
+                        Preview = false,
+                        Bookmark = new Bookmark()
+                    };
+
+                    TimingMarks.Add(newTiming);
+                }));
+            }
+        }
+
+        public ICommand DeleteTimingMarkCommand
+        {
+            get
+            {
+                return Get(() => DeleteTimingMarkCommand, new RelayCommand(() =>
+                {
+                    TimingMarks.Remove(CurrentTiming);
+                }));
+            }
+        }
+
         public ICommand InitialCommand
         {
             get

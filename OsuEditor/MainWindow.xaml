@@ -10,6 +10,11 @@
                    mc:Ignorable="d"
                    Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
                    Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
+    <ctrls:MetroWindow.Resources>
+        <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </ctrls:MetroWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="105"/>
@@ -77,37 +82,77 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HeadersVisibility="None" Background="White">
-
-                </DataGrid>
-                <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,10,0,0">
+                <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                    <Setter Property="ctrls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Header="Offset" DisplayMemberBinding="{Binding Offset, Converter={StaticResource MillisecondsConverter}}" Width="65"/>
+                            <GridViewColumn Header="BPM" DisplayMemberBinding="{Binding Bpm}" Width="40"/>
+                            <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding SpeedRate, Converter={StaticResource SpeedRateConverter}}" Width="40"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,5,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Add" ctrls:ControlsHelper.ContentCharacterCasing="Normal"/>
-                        <Button Grid.Column="1" Content="Delete" ctrls:ControlsHelper.ContentCharacterCasing="Normal"/>
+                        <Button Grid.Column="0" Content="Add" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding AddTimingMarkCommand}"/>
+                        <Button Grid.Column="1" Content="Delete" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding DeleteTimingMarkCommand}"/>
                     </Grid>
-                    <GroupBox Header="Timing Point Property" Style="{x:Null}" BorderThickness="1" Margin="0,10,0,0">
+                    <GroupBox Header="Timing Point Property" Style="{x:Null}" BorderThickness="1" Margin="0,5,0,0">
                         <StackPanel Orientation="Vertical" Margin="5">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <Label Content="Offset: " Margin="-5,0,0,0"/>
-                                <TextBox Width="65"/>
+                                <TextBox Width="65" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Offset}"/>
                                 <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="0"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                <CheckBox Content="Measure" BorderThickness="1" Focusable="False"/>
-                                <TextBox Width="30" Margin="20,0,0,0" HorizontalAlignment="Right"/>
+                                <CheckBox x:Name="MeasureCheckBox" Content="Measure" BorderThickness="1" Focusable="False"/>
+                                <TextBox Width="40" Margin="20,0,0,0" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2"
+                                         IsReadOnly="{Binding ElementName=MeasureCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
+                                         Text="{Binding CurrentTiming.Measure}"/>
                             </StackPanel>
-                            <CheckBox Content="Speed Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <CheckBox x:Name="SpeedCheckBox" Content="Speed Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <StackPanel Orientation="Horizontal" Margin="20,0,0,5">
+                                <Label Content="BPM:"/>
+                                <TextBox Width="50" Margin="5,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
+                                         HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Bpm}"/>
+                                <TextBox Width="50" Margin="15,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
+                                         HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.SpeedRate}"/>
+                                <Label Content="%"/>
+                            </StackPanel>
                             <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
-                            <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
-                            <CheckBox Content="Bookmark Point" BorderThickness="1" Focusable="False"/>
-                            <StackPanel Orientation="Horizontal" Margin="20,5,0,0">
+                            <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Preview}"/>
+                            <CheckBox x:Name="BookmarkCheckBox" Content="Bookmark Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <StackPanel Orientation="Horizontal" Margin="20,0,0,5"
+                                        Visibility="{Binding ElementName=BookmarkCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Label Content="Note: "/>
-                                <TextBox Width="140"/>
+                                <TextBox Width="140" HorizontalContentAlignment="Left" Height="20" MinHeight="20" Padding="-2"/>
                             </StackPanel>
+                            <ToggleButton Margin="10,0,10,0" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Kiai}">
+                                <ToggleButton.Style>
+                                    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="False">
+                                                <Setter Property="Content" Value="Kiai Off"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Background" Value="Orange"/>
+                                                <Setter Property="Content" Value="Kiai On"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

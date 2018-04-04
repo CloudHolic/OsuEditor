@@ -5,17 +5,14 @@ using System.Windows.Data;
 
 namespace OsuEditor.Converters
 {
-    [ValueConversion(typeof(double), typeof(string))]
-    public class MillisecondsConverter : IValueConverter
+    [ValueConversion(typeof(int), typeof(string))]
+    public class SpeedRateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Debug.Assert(value != null, nameof(value) + " != null");
-            var origin = (int) Math.Round(System.Convert.ToDouble(value));
-            var min = origin / 60000;
-            var sec = (origin - (min * 60000)) / 1000;
-            var millisec = origin - (min * 60000) - (sec * 1000);
-            return $"{min:00}:{sec:00}.{millisec:000}";
+            var origin = (double) System.Convert.ToInt32(value) / 100;
+            return $"x{origin:0.00}";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

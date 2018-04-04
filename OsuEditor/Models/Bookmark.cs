@@ -17,5 +17,11 @@
             Offset = offset;
             Memo = memo;
         }
+
+        public Bookmark(Bookmark prevBookmark)
+        {
+            Offset = prevBookmark.Offset;
+            Memo = prevBookmark.Memo;
+        }
     }
 }

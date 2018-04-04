@@ -108,6 +108,7 @@
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Controls\MusicBar.cs" />
     <Compile Include="Converters\BeatSnapToSliderConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\EnumToCollectionConverter.cs" />
     <Compile Include="Converters\LIstToStringConverter.cs" />
@@ -115,13 +116,16 @@
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\PlayModeToVisibilityConverter.cs" />
     <Compile Include="Converters\SnapTextConverter.cs" />
+    <Compile Include="Converters\SpeedRateConverter.cs" />
     <Compile Include="Events\CurPositionEvent.cs" />
     <Compile Include="Events\TimingChangedEvent.cs" />
     <Compile Include="Models\Bookmark.cs" />
+    <Compile Include="Models\DefaultHitSound.cs" />
     <Compile Include="Models\EditorSettings.cs" />
     <Compile Include="Models\InitSettings.cs" />
     <Compile Include="Models\Period.cs" />
     <Compile Include="Models\PlayMode.cs" />
+    <Compile Include="Models\TimingMark.cs" />
     <Compile Include="Models\Timing.cs" />
     <Compile Include="Util\BpmConverter.cs" />
     <Compile Include="Util\CustomDialogManager.cs" />
