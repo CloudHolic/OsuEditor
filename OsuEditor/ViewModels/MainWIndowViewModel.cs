@@ -144,6 +144,28 @@ namespace OsuEditor.ViewModels
             }
         }
 
+        public ICommand GroupTimingMarkCommand
+        {
+            get
+            {
+                return Get(() => GroupTimingMarkCommand, new RelayCommand(() =>
+                {
+
+                }));
+            }
+        }
+
+        public ICommand UngroupTimingMarkCommand
+        {
+            get
+            {
+                return Get(() => UngroupTimingMarkCommand, new RelayCommand(() =>
+                {
+
+                }));
+            }
+        }
+
         public ICommand InitialCommand
         {
             get

@@ -82,31 +82,45 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
-                    <ListView.View>
-                        <GridView>
-                            <GridView.ColumnHeaderContainerStyle>
-                                <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                    <Setter Property="ctrls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
-                                    <Setter Property="IsHitTestVisible" Value="False"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                </Style>
-                            </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn Header="Offset" DisplayMemberBinding="{Binding Offset, Converter={StaticResource MillisecondsConverter}}" Width="65"/>
-                            <GridViewColumn Header="BPM" DisplayMemberBinding="{Binding Bpm}" Width="40"/>
-                            <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding SpeedRate, Converter={StaticResource SpeedRateConverter}}" Width="40"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                        <Setter Property="ctrls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+                                        <Setter Property="IsHitTestVisible" Value="False"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridViewColumn Header="Offset" DisplayMemberBinding="{Binding Offset, Converter={StaticResource MillisecondsConverter}}" Width="65"/>
+                                <GridViewColumn Header="BPM" DisplayMemberBinding="{Binding Bpm}" Width="40"/>
+                                <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding SpeedRate, Converter={StaticResource SpeedRateConverter}}" Width="40"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid Grid.Row="1" Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Add" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding AddTimingMarkCommand}"/>
+                        <Button Grid.Column="1" Content="Delete" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding DeleteTimingMarkCommand}"/>
+                    </Grid>
+                </Grid>
                 <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,5,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Add" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding AddTimingMarkCommand}"/>
-                        <Button Grid.Column="1" Content="Delete" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding DeleteTimingMarkCommand}"/>
+                        <Button Grid.Column="0" Content="Group" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding GroupTimingMarkCommand}"/>
+                        <Button Grid.Column="1" Content="Ungroup" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding UngroupTimingMarkCommand}"/>
                     </Grid>
                     <GroupBox Header="Timing Point Property" Style="{x:Null}" BorderThickness="1" Margin="0,5,0,0">
                         <StackPanel Orientation="Vertical" Margin="5">
