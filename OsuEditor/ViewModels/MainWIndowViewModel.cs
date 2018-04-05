@@ -150,7 +150,7 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => GroupTimingMarkCommand, new RelayCommand(() =>
                 {
-
+                    //TODO: Add group command.
                 }));
             }
         }
@@ -161,7 +161,7 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => UngroupTimingMarkCommand, new RelayCommand(() =>
                 {
-
+                    //TODO: Add ungroup command.
                 }));
             }
         }
