@@ -5,6 +5,7 @@
     <cvt:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <cvt:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
     <cvt:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
+    <cvt:IntToStringConverter x:Key="IntToStringConverter"/>
     <cvt:ListToStringConverter x:Key="ListToStringConverter"/>
     <cvt:MillisecondsConverter x:Key="MillisecondsConverter"/>
     <cvt:NotConverter x:Key="NotConverter"/>

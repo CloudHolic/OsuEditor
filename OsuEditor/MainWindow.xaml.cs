@@ -46,6 +46,18 @@ namespace OsuEditor
                 }
             }
         }
+        
+        private void IntTextBox_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            foreach (var c in e.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    e.Handled = true;
+                    break;
+                }
+            }
+        }
 
         #region Event Handlers
         public void HandleEvent(CurPositionEvent e)

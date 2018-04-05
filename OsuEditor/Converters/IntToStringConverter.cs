@@ -6,21 +6,20 @@ using OsuEditor.Util;
 
 namespace OsuEditor.Converters
 {
-    [ValueConversion(typeof(double), typeof(string))]
-    public class DoubleToStringConverter : IValueConverter
+    [ValueConversion(typeof(int), typeof(string))]
+    public class IntToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Debug.Assert(value != null, nameof(value) + " != null");
-            var origin = System.Convert.ToDouble(value);
-            return Math.Abs(origin % 1) < 0.01 ? value.ToString().Split('.')[0] : value.ToString();
+            return System.Convert.ToInt32(value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var bounds = parameter == null ? new[] { double.MinValue, double.MaxValue } : parameter as double[];
+            var bounds = parameter == null ? new[] { int.MinValue, int.MaxValue } : parameter as int[];
             Debug.Assert(bounds != null, nameof(bounds) + " != null");
-            double.TryParse((string)value, out var converted);
+            int.TryParse((string)value, out var converted);
             return MathExt.Clamp(converted, bounds[0], bounds[1]);
         }
     }

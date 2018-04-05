@@ -311,17 +311,26 @@
                             <Expander Header="Audio" Margin="5" ctrls:ControlsHelper.ContentCharacterCasing="Normal">
                                 <StackPanel Orientation="Vertical">
                                     <GroupBox Header="Default sample set" Style="{x:Null}" BorderThickness="1">
-                                        <ListBox>
-                                            <ListBoxItem Content="Normal"/>
-                                            <ListBoxItem Content="Soft"/>
-                                            <ListBoxItem Content="Drum"/>
-                                        </ListBox>
+                                        <ListBox ItemsSource="{Binding CurrentTiming.HitSound, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}"
+                                                 SelectedValue="{Binding CurrentTiming.HitSound}" SelectedValuePath="Item1" DisplayMemberPath="Item2"/>
                                     </GroupBox>
                                     <CheckBox Content="Enable custom overrides" BorderThickness="1" Focusable="False" Margin="0,5,0,0"/>
                                     <Label Content="Sample volume:" Margin="0,5,0,0"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <Slider Width="140" Margin="0,5,0,0"/>
-                                        <TextBox Width="30" Margin="5,0,0,0"/>
+                                        <Slider Width="140" Margin="0,5,0,0" Minimum="0" Maximum="100" TickFrequency="1" TickPlacement="None" IsSnapToTickEnabled="True"
+                                                Value="{Binding CurrentTiming.Volume}"/>
+                                        <TextBox Width="30" Margin="5,0,0,0" PreviewTextInput="IntTextBox_OnPreviewTextInput">
+                                            <TextBox.Text>
+                                                <Binding Path="CurrentTiming.Volume" Converter="{StaticResource IntToStringConverter}">
+                                                    <Binding.ConverterParameter>
+                                                        <x:Array Type="sys:Int32">
+                                                            <sys:Int32>0</sys:Int32>
+                                                            <sys:Int32>100</sys:Int32>
+                                                        </x:Array>
+                                                    </Binding.ConverterParameter>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
                                     </StackPanel>
                                 </StackPanel>
                             </Expander>

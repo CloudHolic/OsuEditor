@@ -70,7 +70,8 @@ namespace OsuEditor.ViewModels
             CurrentMap.Edit.BeatDivisor = 4;
             CurrentMap.Edit.TimelineZoom = 5.0;
 
-            TimingMarks = new ObservableCollection<TimingMark>();
+            TimingMarks = new ObservableCollection<TimingMark> {new TimingMark()};
+            CurrentTiming = TimingMarks[0];
 
             _timer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
             _timer.Tick += (sender, args) =>
@@ -98,7 +99,6 @@ namespace OsuEditor.ViewModels
         }
 
         #region Commands
-
         public ICommand AddTimingMarkCommand
         {
             get
