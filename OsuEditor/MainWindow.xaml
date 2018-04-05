@@ -87,7 +87,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
+                    <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding CurrentTiming, UpdateSourceTrigger=PropertyChanged}">
                         <ListView.View>
                             <GridView>
                                 <GridView.ColumnHeaderContainerStyle>
@@ -125,23 +125,30 @@
                     <GroupBox Header="Timing Point Property" Style="{x:Null}" BorderThickness="1" Margin="0,5,0,0">
                         <StackPanel Orientation="Vertical" Margin="5">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                <Label Content="Offset: " Margin="-5,0,0,0"/>
-                                <TextBox Width="65" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Offset}"/>
-                                <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="0"/>
+                                <Label Content="Offset:" Margin="-5,0,0,0"/>
+                                <TextBox Width="65" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Offset, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
+                                <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="1"
+                                        Command="{Binding UseCurrentTimeCommand}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <CheckBox x:Name="MeasureCheckBox" Content="Measure" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.MeasureChange}"/>
                                 <TextBox Width="40" Margin="20,0,0,0" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2"
                                          IsReadOnly="{Binding ElementName=MeasureCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
-                                         Text="{Binding CurrentTiming.Measure}"/>
+                                         Text="{Binding CurrentTiming.Measure}" PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
                             </StackPanel>
-                            <CheckBox x:Name="SpeedCheckBox" Content="Speed Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <CheckBox x:Name="SpeedCheckBox" Content="Speed Change" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.SpeedChange}"/>
+                                <CheckBox Content="New Base" BorderThickness="1" Focusable="False" Margin="5,0,0,0" IsChecked="{Binding CurrentTiming.NewBase}"/>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5">
                                 <Label Content="BPM:"/>
                                 <TextBox Width="50" Margin="5,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
-                                         HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Bpm}"/>
+                                         HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Bpm}"
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
                                 <TextBox Width="50" Margin="15,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
-                                         HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.SpeedRate}"/>
+                                         HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.SpeedRate}"
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
                                 <Label Content="%"/>
                             </StackPanel>
                             <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.HitSoundChange}"/>

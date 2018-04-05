@@ -1,37 +1,196 @@
-﻿namespace OsuEditor.Models
+﻿using System.ComponentModel;
+
+namespace OsuEditor.Models
 {
-    public class TimingMark
+    public class TimingMark : INotifyPropertyChanged
     {
-        public int Offset { get; set; }
+        #region int Offset
+        private int _offset;
+        public int Offset
+        {
+            get => _offset;
+            set
+            {
+                _offset = value;
+                OnPropertyChanged(nameof(Offset));
+            }
+        }
+        #endregion
 
-        public bool SpeedChange { get; set; }
+        #region bool SpeedChange
+        private bool _speedChange;
+        public bool SpeedChange
+        {
+            get => _speedChange;
+            set
+            {
+                _speedChange = value;
+                OnPropertyChanged(nameof(SpeedChange));
+            }
+        }
+        #endregion
 
-        public double Bpm { get; set; }
+        #region bool NewBase
+        private bool _newBase;
+        public bool NewBase
+        {
+            get => _newBase;
+            set
+            {
+                _newBase = value;
+                OnPropertyChanged(nameof(NewBase));
+            }
+        }
+        #endregion
 
-        public int SpeedRate { get; set; }
+        #region double BPM
+        private double _bpm;
+        public double Bpm
+        {
+            get => _bpm;
+            set
+            {
+                _bpm = value;
+                OnPropertyChanged(nameof(Bpm));
+            }
+        }
+        #endregion
 
-        public bool MeasureChange { get; set; }
+        #region int SpeedRate
+        private int _speedRate;
+        public int SpeedRate
+        {
+            get => _speedRate;
+            set
+            {
+                _speedRate = value;
+                OnPropertyChanged(nameof(SpeedRate));
+            }
+        }
+        #endregion
 
-        public int Measure { get; set; }
+        #region bool MeasureChange
+        private bool _measureChange;
+        public bool MeasureChange
+        {
+            get => _measureChange;
+            set
+            {
+                _measureChange = value;
+                OnPropertyChanged(nameof(MeasureChange));
+            }
+        }
+        #endregion
 
-        public bool HitSoundChange { get; set; }
+        #region int Measure
+        private int _measure;
+        public int Measure
+        {
+            get => _measure;
+            set
+            {
+                _measure = value;
+                OnPropertyChanged(nameof(Measure));
+            }
+        }
+        #endregion
 
-        public DefaultHitSound HitSound { get; set; }
+        #region bool HitSoundChange
+        private bool _hitSoundChange;
+        public bool HitSoundChange
+        {
+            get => _hitSoundChange;
+            set
+            {
+                _hitSoundChange = value;
+                OnPropertyChanged(nameof(HitSoundChange));
+            }
+        }
+        #endregion
 
-        public int Volume { get; set; }
+        #region DefaultHitSound HitSound
+        private DefaultHitSound _hitSound;
+        public DefaultHitSound HitSound
+        {
+            get => _hitSound;
+            set
+            {
+                _hitSound = value;
+                OnPropertyChanged(nameof(HitSound));
+            }
+        }
+        #endregion
 
-        public bool Kiai { get; set; }
+        #region int Volume
+        private int _volume;
+        public int Volume
+        {
+            get => _volume;
+            set
+            {
+                _volume = value;
+                OnPropertyChanged(nameof(Volume));
+            }
+        }
+        #endregion
 
-        public bool Preview { get; set; }
+        #region bool Kiai
+        private bool _kiai;
+        public bool Kiai
+        {
+            get => _kiai;
+            set
+            {
+                _kiai = value;
+                OnPropertyChanged(nameof(Kiai));
+            }
+        }
+        #endregion
 
-        public bool BookMarkChange { get; set; }
+        #region bool Preview
+        private bool _preview;
+        public bool Preview
+        {
+            get => _preview;
+            set
+            {
+                _preview = value;
+                OnPropertyChanged(nameof(Preview));
+            }
+        }
+        #endregion
 
-        public Bookmark Bookmark { get; set; }
-        
+        #region bool BookMarkChange
+        private bool _bookMarkChange;
+        public bool BookMarkChange
+        {
+            get => _bookMarkChange;
+            set
+            {
+                _bookMarkChange = value;
+                OnPropertyChanged(nameof(BookMarkChange));
+            }
+        }
+        #endregion
+
+        #region Bookmark Bookmark
+        private Bookmark _bookmark;
+        public Bookmark Bookmark
+        {
+            get => _bookmark;
+            set
+            {
+                _bookmark = value;
+                OnPropertyChanged(nameof(Bookmark));
+            }
+        }
+        #endregion
+
         public TimingMark()
         {
             Offset = 0;
-            SpeedChange = false;
+            SpeedChange = true;
+            NewBase = true;
             Bpm = 120;
             SpeedRate = 100;
             MeasureChange = false;
@@ -49,6 +208,7 @@
         {
             Offset = prevMark.Offset;
             SpeedChange = false;
+            NewBase = prevMark.NewBase;
             Bpm = prevMark.Bpm;
             SpeedRate = prevMark.SpeedRate;
             MeasureChange = false;
@@ -60,6 +220,13 @@
             Preview = prevMark.Preview;
             BookMarkChange = false;
             Bookmark = new Bookmark(prevMark.Bookmark);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

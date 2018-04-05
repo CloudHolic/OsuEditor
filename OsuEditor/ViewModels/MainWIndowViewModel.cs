@@ -108,6 +108,7 @@ namespace OsuEditor.ViewModels
                     if (TimingMarks.Count == 0)
                     {
                         TimingMarks.Add(new TimingMark {Offset = (int) CurrentPosition});
+                        CurrentTiming = TimingMarks[0];
                         return;
                     }
 
@@ -129,6 +130,7 @@ namespace OsuEditor.ViewModels
 
                     TimingMarks.Add(newTiming);
                     TimingMarks = new ObservableCollection<TimingMark>(TimingMarks.OrderBy(x => x.Offset));
+                    CurrentTiming = newTiming;
                 }));
             }
         }
@@ -162,6 +164,20 @@ namespace OsuEditor.ViewModels
                 return Get(() => UngroupTimingMarkCommand, new RelayCommand(() =>
                 {
                     //TODO: Add ungroup command.
+                }));
+            }
+        }
+
+        public ICommand UseCurrentTimeCommand
+        {
+            get
+            {
+                return Get(() => UseCurrentTimeCommand, new RelayCommand(() =>
+                {
+                    if (CurrentTiming == null)
+                        return;
+
+                    CurrentTiming.Offset = (int) CurrentPosition;
                 }));
             }
         }
