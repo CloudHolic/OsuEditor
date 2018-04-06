@@ -188,7 +188,7 @@
                                 <Popup PlacementTarget="{Binding ElementName=OffsetTextBox}" IsOpen="{Binding OffsetErrorOccurred}"
                                        PopupAnimation="Fade" AllowsTransparency="True">
                                     <Border Margin="1" BorderBrush="Red" BorderThickness="1">
-                                        <TextBlock Text="You should set non-duplicated offset." Background="Red" Foreground="White"/>
+                                        <TextBlock Text="This offset already has a timing point." Background="Red" Foreground="White"/>
                                     </Border>
                                 </Popup>
                                 <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="1"
