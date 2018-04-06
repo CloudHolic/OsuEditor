@@ -36,8 +36,8 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Vertical">
                         <Button ToolTip="Increase Timeline Zoom" HorizontalAlignment="Center" Height="30"
-                                    Width="30" Margin="0,20,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
-                                    Click="ZoomIn_OnClick">
+                                Width="30" Margin="0,20,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Click="ZoomIn_OnClick">
                             <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}"/>
@@ -45,8 +45,8 @@
                             </Rectangle>
                         </Button>
                         <Button ToolTip="Decrease Timeline Zoom" HorizontalAlignment="Center" Height="30"
-                                    Width="30" Margin="0,5,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
-                                    Click="ZoomOut_OnClick">
+                                Width="30" Margin="0,5,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Click="ZoomOut_OnClick">
                             <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_minus}"/>
@@ -55,7 +55,7 @@
                         </Button>
                     </StackPanel>
                     <custom:Timeline Grid.Column="1" x:Name="HeaderTimeline" HorizontalAlignment="Left"
-                                                Zoom="10.0" CurrentValue="0"/>
+                                     Zoom="10.0" CurrentValue="0"/>
                 </Grid>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <Label Content="Beat Snap Divisor :" FontSize="25"/>
