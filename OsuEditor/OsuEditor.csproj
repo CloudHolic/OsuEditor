@@ -108,6 +108,7 @@
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Controls\MusicBar.cs" />
     <Compile Include="Converters\BeatSnapToSliderConverter.cs" />
+    <Compile Include="Converters\BooleanToDecorationConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\EnumToCollectionConverter.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Converters\SpeedRateConverter.cs" />
     <Compile Include="Events\CurPositionEvent.cs" />
     <Compile Include="Events\TimingChangedEvent.cs" />
+    <Compile Include="Events\CurrentTimingChangedEvent.cs" />
     <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\DefaultHitSound.cs" />
     <Compile Include="Models\EditorSettings.cs" />
@@ -138,7 +140,7 @@
     <Compile Include="ViewModels\EditorSettingViewModel.cs" />
     <Compile Include="ViewModels\IDialogViewModelBase.cs" />
     <Compile Include="ViewModels\InitialSettingViewModel.cs" />
-    <Compile Include="ViewModels\MainWIndowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MetronomeViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

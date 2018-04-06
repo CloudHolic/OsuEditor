@@ -16,7 +16,7 @@ using OsuParser.Structures;
 
 namespace OsuEditor.ViewModels
 {
-    public class MainWIndowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         #region Properties
         public double SongLength
@@ -54,15 +54,22 @@ namespace OsuEditor.ViewModels
             get { return Get(() => CurrentTiming); }
             set { Set(() => CurrentTiming, value); }
         }
+
+        public bool OffsetErrorOccurred
+        {
+            get { return Get(() => OffsetErrorOccurred); }
+            set { Set(() => OffsetErrorOccurred, value); }
+        }
         #endregion
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
+        public DispatcherTimer ErrorTimer { get; } = new DispatcherTimer();
         private readonly Stopwatch _stopWatch = new Stopwatch();
         private double _oldTime;
 
         private readonly ICustomDialogManager _dialogManager;
 
-        public MainWIndowViewModel()
+        public MainWindowViewModel()
         {
             CurrentMap = Parser.CreateBeatmap();
             PlayRate = 100;
@@ -72,6 +79,7 @@ namespace OsuEditor.ViewModels
 
             TimingMarks = new ObservableCollection<TimingMark> {new TimingMark()};
             CurrentTiming = TimingMarks[0];
+            OffsetErrorOccurred = false;
 
             _timer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
             _timer.Tick += (sender, args) =>
@@ -83,10 +91,18 @@ namespace OsuEditor.ViewModels
                 if (CurrentPosition > SongLength)
                 {
                     CurrentPosition = SongLength;
+                    CurrentPosition = SongLength;
                     _timer.Stop();
                 }
 
                 EventBus.Instance.Publish(new CurPositionEvent {CurPosition = CurrentPosition});
+            };
+
+            ErrorTimer.Interval = TimeSpan.FromSeconds(2);
+            ErrorTimer.Tick += (sender, args) =>
+            {
+                OffsetErrorOccurred = false;
+                ErrorTimer.Stop();
             };
 
             EventBus.Instance.RegisterHandler(this);
@@ -105,25 +121,35 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => AddTimingMarkCommand, new RelayCommand(() =>
                 {
+                    var normalizeCurrentOffset = (int)Math.Round(CurrentPosition);
+
                     if (TimingMarks.Count == 0)
                     {
-                        TimingMarks.Add(new TimingMark {Offset = (int) CurrentPosition});
+                        TimingMarks.Add(new TimingMark {Offset = normalizeCurrentOffset});
                         CurrentTiming = TimingMarks[0];
+                        EventBus.Instance.Publish(new CurrentTimingChangedEvent());
                         return;
                     }
-
+                    
                     //  Find previous TimingMark
                     TimingMark prevMark = null;
                     foreach (var timing in TimingMarks)
-                        if (CurrentPosition >= timing.Offset)
+                    {
+                        if (normalizeCurrentOffset == timing.Offset)
+                        {
+                            CurrentTiming = timing;
+                            return;
+                        }
+                        if (normalizeCurrentOffset > timing.Offset)
                             prevMark = timing;
+                    }
 
                     if (prevMark == null)
                         prevMark = TimingMarks.First();
 
                     var newTiming = new TimingMark(prevMark)
                     {
-                        Offset = (int) CurrentPosition,
+                        Offset = normalizeCurrentOffset,
                         Preview = false,
                         Bookmark = new Bookmark()
                     };
@@ -131,6 +157,11 @@ namespace OsuEditor.ViewModels
                     TimingMarks.Add(newTiming);
                     TimingMarks = new ObservableCollection<TimingMark>(TimingMarks.OrderBy(x => x.Offset));
                     CurrentTiming = newTiming;
+                    EventBus.Instance.Publish(new CurrentTimingChangedEvent
+                    {
+                        Bpm = CurrentTiming.Bpm,
+                        Offset = CurrentTiming.Offset
+                    });
                 }));
             }
         }
@@ -152,7 +183,6 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => GroupTimingMarkCommand, new RelayCommand(() =>
                 {
-                    //TODO: Add group command.
                 }));
             }
         }
@@ -163,7 +193,6 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => UngroupTimingMarkCommand, new RelayCommand(() =>
                 {
-                    //TODO: Add ungroup command.
                 }));
             }
         }
@@ -177,7 +206,25 @@ namespace OsuEditor.ViewModels
                     if (CurrentTiming == null)
                         return;
 
-                    CurrentTiming.Offset = (int) CurrentPosition;
+                    var normalizeCurrentOffset = (int) Math.Round(CurrentPosition);
+
+                    foreach (var timing in TimingMarks)
+                    {
+                        if (timing == CurrentTiming)
+                            continue;
+
+                        if (timing.Offset == normalizeCurrentOffset)
+                        {
+                            OffsetErrorOccurred = true;
+                            if (ErrorTimer.IsEnabled)
+                                ErrorTimer.Stop();
+                            ErrorTimer.Start();
+
+                            return;
+                        }
+                    }
+
+                    CurrentTiming.Offset = (int) Math.Round(CurrentPosition);
                 }));
             }
         }

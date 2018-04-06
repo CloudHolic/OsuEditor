@@ -7,6 +7,7 @@
                    xmlns:mdi="clr-namespace:WPF.MDI;assembly=WPF.MDI"
                    xmlns:custom="clr-namespace:OsuEditor.Controls"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                   xmlns:models="clr-namespace:OsuEditor.Models"
                    mc:Ignorable="d"
                    Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
                    Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
@@ -87,7 +88,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding CurrentTiming, UpdateSourceTrigger=PropertyChanged}">
+                    <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
                         <ListView.View>
                             <GridView>
                                 <GridView.ColumnHeaderContainerStyle>
@@ -98,9 +99,40 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                     </Style>
                                 </GridView.ColumnHeaderContainerStyle>
-                                <GridViewColumn Header="Offset" DisplayMemberBinding="{Binding Offset, Converter={StaticResource MillisecondsConverter}}" Width="65"/>
+                                <GridViewColumn Header="Offset" Width="65">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate DataType="{x:Type models:TimingMark}">
+                                            <TextBlock Text="{Binding Offset, Converter={StaticResource MillisecondsConverter}}" VerticalAlignment="Center"
+                                                       TextDecorations="{Binding NewBase, Converter={StaticResource BooleanToDecorationConverter}}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Header="BPM" DisplayMemberBinding="{Binding Bpm}" Width="40"/>
                                 <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding SpeedRate, Converter={StaticResource SpeedRateConverter}}" Width="40"/>
+                                <GridViewColumn Header="Notes" Width="78">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate DataType="{x:Type models:TimingMark}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
+                                                        Visibility="{Binding BookMarkChange, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
+                                                    <TextBlock HorizontalAlignment="Center" Text="B" FontSize="9" Margin="0,0,0,1"/>
+                                                </Border>
+                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
+                                                        Visibility="{Binding HitSoundChange, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
+                                                    <TextBlock HorizontalAlignment="Center" Text="H" FontSize="9" Margin="0,0,0,1"/>
+                                                </Border>
+                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
+                                                        Visibility="{Binding MeasureChange, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
+                                                    <TextBlock HorizontalAlignment="Center" Text="M" FontSize="9" Margin="0,0,0,1"/>
+                                                </Border>
+                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0"
+                                                        Visibility="{Binding Preview, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
+                                                    <TextBlock HorizontalAlignment="Center" Text="P" FontSize="9" Margin="0,0,0,1"/>
+                                                </Border>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -126,8 +158,15 @@
                         <StackPanel Orientation="Vertical" Margin="5">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <Label Content="Offset:" Margin="-5,0,0,0"/>
-                                <TextBox Width="65" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Offset, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                         PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
+                                <TextBox x:Name="OffsetTextBox" Width="65" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" 
+                                         Text="{Binding CurrentTiming.Offset, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput" GotFocus="OffsetTextBox_OnGotFocus" LostFocus="OffsetTextBox_OnLostFocus"/>
+                                <Popup PlacementTarget="{Binding ElementName=OffsetTextBox}" IsOpen="{Binding OffsetErrorOccurred}"
+                                       PopupAnimation="Fade" AllowsTransparency="True">
+                                    <Border Margin="1" BorderBrush="Red" BorderThickness="1">
+                                        <TextBlock Text="You should set non-duplicated offset." Background="Red" Foreground="White"/>
+                                    </Border>
+                                </Popup>
                                 <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="1"
                                         Command="{Binding UseCurrentTimeCommand}"/>
                             </StackPanel>
@@ -139,13 +178,14 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <CheckBox x:Name="SpeedCheckBox" Content="Speed Change" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.SpeedChange}"/>
-                                <CheckBox Content="New Base" BorderThickness="1" Focusable="False" Margin="5,0,0,0" IsChecked="{Binding CurrentTiming.NewBase}"/>
+                                <CheckBox x:Name="NewBaseCheckBox" Content="New Base" BorderThickness="1" Focusable="False" Margin="5,0,0,0" IsChecked="{Binding CurrentTiming.NewBase}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5">
                                 <Label Content="BPM:"/>
-                                <TextBox Width="50" Margin="5,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
+                                <TextBox x:Name="BpmTextBox" Width="50" Margin="5,0,0,0"
+                                         IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Bpm}"
-                                         PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput" LostFocus="BpmTextBox_OnLostFocus" />
                                 <TextBox Width="50" Margin="15,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.SpeedRate}"
                                          PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
@@ -154,7 +194,7 @@
                             <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.HitSoundChange}"/>
                             <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Preview}"/>
                             <CheckBox x:Name="BookmarkCheckBox" Content="Bookmark Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"
-                                      IsChecked="{Binding CurrentTiming.BookmarkChange}"/>
+                                      IsChecked="{Binding CurrentTiming.BookMarkChange}"/>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5"
                                         Visibility="{Binding ElementName=BookmarkCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Label Content="Note: "/>

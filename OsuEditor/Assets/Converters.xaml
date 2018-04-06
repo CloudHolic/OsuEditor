@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:cvt="clr-namespace:OsuEditor.Converters">
     <cvt:BeatSnapToSliderConverter x:Key="BeatSnapToSliderConverter"/>
+    <cvt:BooleanToDecorationConverter x:Key="BooleanToDecorationConverter"/>
     <cvt:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <cvt:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
     <cvt:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
