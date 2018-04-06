@@ -102,8 +102,32 @@
                                 <GridViewColumn Header="Offset" Width="65">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate DataType="{x:Type models:TimingMark}">
-                                            <TextBlock Text="{Binding Offset, Converter={StaticResource MillisecondsConverter}}" VerticalAlignment="Center"
-                                                       TextDecorations="{Binding NewBase, Converter={StaticResource BooleanToDecorationConverter}}"/>
+                                            <Grid HorizontalAlignment="Stretch" Margin="-7,-4,-9,-4">
+                                                <Grid.Background>
+                                                    <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
+                                                        <Binding.ConverterParameter>
+                                                            <x:Array Type="Brush">
+                                                                <Brush>#FFB732</Brush>
+                                                                <Brush>Transparent</Brush>
+                                                            </x:Array>
+                                                        </Binding.ConverterParameter>
+                                                    </Binding>
+                                                </Grid.Background>
+                                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="7,4,9,4"
+                                                           Text="{Binding Offset, Converter={StaticResource MillisecondsConverter}}"
+                                                           TextDecorations="{Binding NewBase, Converter={StaticResource BooleanToDecorationConverter}}">
+                                                    <TextBlock.Foreground>
+                                                        <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
+                                                            <Binding.ConverterParameter>
+                                                                <x:Array Type="Brush">
+                                                                    <Brush>Black</Brush>
+                                                                    <Brush>White</Brush>
+                                                                </x:Array>
+                                                            </Binding.ConverterParameter>
+                                                        </Binding>
+                                                    </TextBlock.Foreground>
+                                                </TextBlock>
+                                            </Grid>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -208,7 +232,7 @@
                                                 <Setter Property="Content" Value="Kiai Off"/>
                                             </Trigger>
                                             <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="Background" Value="Orange"/>
+                                                <Setter Property="Background" Value="#FFB732"/>
                                                 <Setter Property="Content" Value="Kiai On"/>
                                             </Trigger>
                                         </Style.Triggers>

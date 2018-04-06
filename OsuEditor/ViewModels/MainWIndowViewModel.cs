@@ -62,7 +62,7 @@ namespace OsuEditor.ViewModels
         }
         #endregion
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly DispatcherTimer _playTimer = new DispatcherTimer();
         public DispatcherTimer ErrorTimer { get; } = new DispatcherTimer();
         private readonly Stopwatch _stopWatch = new Stopwatch();
         private double _oldTime;
@@ -81,8 +81,8 @@ namespace OsuEditor.ViewModels
             CurrentTiming = TimingMarks[0];
             OffsetErrorOccurred = false;
 
-            _timer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
-            _timer.Tick += (sender, args) =>
+            _playTimer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
+            _playTimer.Tick += (sender, args) =>
             {
                 var curTime = _stopWatch.Elapsed.TotalMilliseconds;
                 CurrentPosition += (curTime - _oldTime) * PlayRate / 100;
@@ -92,7 +92,7 @@ namespace OsuEditor.ViewModels
                 {
                     CurrentPosition = SongLength;
                     CurrentPosition = SongLength;
-                    _timer.Stop();
+                    _playTimer.Stop();
                 }
 
                 EventBus.Instance.Publish(new CurPositionEvent {CurPosition = CurrentPosition});
@@ -279,16 +279,16 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => PlayCommand, new RelayCommand(() =>
                 {
-                    if (_timer.IsEnabled)
+                    if (_playTimer.IsEnabled)
                     {
-                        _timer.Stop();
+                        _playTimer.Stop();
                         _stopWatch.Reset();
                         CurrentPosition = 0;
                         EventBus.Instance.Publish(new CurPositionEvent { CurPosition = CurrentPosition });
                     }
 
                     _oldTime = 0;
-                    _timer.Start();
+                    _playTimer.Start();
                     _stopWatch.Start();
                 }));
             }
@@ -300,15 +300,15 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => PauseCommand, new RelayCommand(() =>
                 {
-                    if (_timer.IsEnabled)
+                    if (_playTimer.IsEnabled)
                     {
-                        _timer.Stop();
+                        _playTimer.Stop();
                         _stopWatch.Stop();
                     }
                     else
                     {
                         _oldTime = 0;
-                        _timer.Start();
+                        _playTimer.Start();
                         _stopWatch.Start();
                     }
                 }));
@@ -321,9 +321,9 @@ namespace OsuEditor.ViewModels
             {
                 return Get(() => StopCommand, new RelayCommand(() =>
                 {
-                    if (_timer.IsEnabled)
+                    if (_playTimer.IsEnabled)
                     {
-                        _timer.Stop();
+                        _playTimer.Stop();
                         _stopWatch.Reset();
                     }
                     CurrentPosition = 0;

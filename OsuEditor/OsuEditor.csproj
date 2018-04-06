@@ -108,6 +108,7 @@
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Controls\MusicBar.cs" />
     <Compile Include="Converters\BeatSnapToSliderConverter.cs" />
+    <Compile Include="Converters\BooleanToBackgroundConverter.cs" />
     <Compile Include="Converters\BooleanToDecorationConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
