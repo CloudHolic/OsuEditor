@@ -106,6 +106,9 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
+    <Compile Include="Contents\OpenCreateView.xaml.cs">
+      <DependentUpon>OpenCreateView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MusicBar.cs" />
     <Compile Include="Converters\BeatSnapToSliderConverter.cs" />
     <Compile Include="Converters\BooleanToBackgroundConverter.cs" />
@@ -143,6 +146,7 @@
     <Compile Include="ViewModels\InitialSettingViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MetronomeViewModel.cs" />
+    <Compile Include="ViewModels\OpenCreateViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Assets\Converters.xaml">
@@ -166,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Contents\MetronomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Contents\OpenCreateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

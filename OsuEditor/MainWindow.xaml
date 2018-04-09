@@ -83,100 +83,86 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
-                        <ListView.View>
-                            <GridView>
-                                <GridView.ColumnHeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                        <Setter Property="ctrls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
-                                        <Setter Property="IsHitTestVisible" Value="False"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    </Style>
-                                </GridView.ColumnHeaderContainerStyle>
-                                <GridViewColumn Header="Offset" Width="65">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate DataType="{x:Type models:TimingMark}">
-                                            <Grid HorizontalAlignment="Stretch" Margin="-7,-4,-9,-4">
-                                                <Grid.Background>
+                <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                    <Setter Property="ctrls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Header="Offset" Width="65">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type models:TimingMark}">
+                                        <Grid HorizontalAlignment="Stretch" Margin="-7,-4,-9,-4">
+                                            <Grid.Background>
+                                                <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
+                                                    <Binding.ConverterParameter>
+                                                        <x:Array Type="Brush">
+                                                            <Brush>#FFB732</Brush>
+                                                            <Brush>Transparent</Brush>
+                                                        </x:Array>
+                                                    </Binding.ConverterParameter>
+                                                </Binding>
+                                            </Grid.Background>
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="7,4,9,4"
+                                                           Text="{Binding Offset, Converter={StaticResource MillisecondsConverter}}"
+                                                           TextDecorations="{Binding NewBase, Converter={StaticResource BooleanToDecorationConverter}}">
+                                                <TextBlock.Foreground>
                                                     <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
                                                         <Binding.ConverterParameter>
                                                             <x:Array Type="Brush">
-                                                                <Brush>#FFB732</Brush>
-                                                                <Brush>Transparent</Brush>
+                                                                <Brush>Black</Brush>
+                                                                <Brush>White</Brush>
                                                             </x:Array>
                                                         </Binding.ConverterParameter>
                                                     </Binding>
-                                                </Grid.Background>
-                                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="7,4,9,4"
-                                                           Text="{Binding Offset, Converter={StaticResource MillisecondsConverter}}"
-                                                           TextDecorations="{Binding NewBase, Converter={StaticResource BooleanToDecorationConverter}}">
-                                                    <TextBlock.Foreground>
-                                                        <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
-                                                            <Binding.ConverterParameter>
-                                                                <x:Array Type="Brush">
-                                                                    <Brush>Black</Brush>
-                                                                    <Brush>White</Brush>
-                                                                </x:Array>
-                                                            </Binding.ConverterParameter>
-                                                        </Binding>
-                                                    </TextBlock.Foreground>
-                                                </TextBlock>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="BPM" DisplayMemberBinding="{Binding Bpm}" Width="40"/>
-                                <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding SpeedRate, Converter={StaticResource SpeedRateConverter}}" Width="40"/>
-                                <GridViewColumn Header="Notes" Width="78">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate DataType="{x:Type models:TimingMark}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
+                                                </TextBlock.Foreground>
+                                            </TextBlock>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="BPM" DisplayMemberBinding="{Binding Bpm}" Width="40"/>
+                            <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding SpeedRate, Converter={StaticResource SpeedRateConverter}}" Width="40"/>
+                            <GridViewColumn Header="Notes" Width="78">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type models:TimingMark}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
                                                         Visibility="{Binding BookMarkChange, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
-                                                    <TextBlock HorizontalAlignment="Center" Text="B" FontSize="9" Margin="0,0,0,1"/>
-                                                </Border>
-                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
+                                                <TextBlock HorizontalAlignment="Center" Text="B" FontSize="9" Margin="0,0,0,1"/>
+                                            </Border>
+                                            <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
                                                         Visibility="{Binding HitSoundChange, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
-                                                    <TextBlock HorizontalAlignment="Center" Text="H" FontSize="9" Margin="0,0,0,1"/>
-                                                </Border>
-                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
+                                                <TextBlock HorizontalAlignment="Center" Text="H" FontSize="9" Margin="0,0,0,1"/>
+                                            </Border>
+                                            <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
                                                         Visibility="{Binding MeasureChange, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
-                                                    <TextBlock HorizontalAlignment="Center" Text="M" FontSize="9" Margin="0,0,0,1"/>
-                                                </Border>
-                                                <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0"
+                                                <TextBlock HorizontalAlignment="Center" Text="M" FontSize="9" Margin="0,0,0,1"/>
+                                            </Border>
+                                            <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0"
                                                         Visibility="{Binding Preview, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
-                                                    <TextBlock HorizontalAlignment="Center" Text="P" FontSize="9" Margin="0,0,0,1"/>
-                                                </Border>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Grid Grid.Row="1" Margin="0,5,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Add" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding AddTimingMarkCommand}"/>
-                        <Button Grid.Column="1" Content="Delete" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding DeleteTimingMarkCommand}"/>
-                    </Grid>
-                </Grid>
+                                                <TextBlock HorizontalAlignment="Center" Text="P" FontSize="9" Margin="0,0,0,1"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
                 <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,5,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Group" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding GroupTimingMarkCommand}"/>
-                        <Button Grid.Column="1" Content="Ungroup" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding UngroupTimingMarkCommand}"/>
+                        <Button Grid.Column="0" Content="Add" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding AddTimingMarkCommand}"/>
+                        <Button Grid.Column="1" Content="Delete" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Focusable="False" Command="{Binding DeleteTimingMarkCommand}"/>
                     </Grid>
                     <GroupBox Header="Timing Point Property" Style="{x:Null}" BorderThickness="1" Margin="0,5,0,0">
                         <StackPanel Orientation="Vertical" Margin="5">

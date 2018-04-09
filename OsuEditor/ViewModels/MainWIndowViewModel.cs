@@ -73,7 +73,7 @@ namespace OsuEditor.ViewModels
         {
             CurrentMap = Parser.CreateBeatmap();
             PlayRate = 100;
-            SongLength = 100000;
+            SongLength = 200000;
             CurrentMap.Edit.BeatDivisor = 4;
             CurrentMap.Edit.TimelineZoom = 5.0;
 
@@ -173,26 +173,6 @@ namespace OsuEditor.ViewModels
                 return Get(() => DeleteTimingMarkCommand, new RelayCommand(() =>
                 {
                     TimingMarks.Remove(CurrentTiming);
-                }));
-            }
-        }
-
-        public ICommand GroupTimingMarkCommand
-        {
-            get
-            {
-                return Get(() => GroupTimingMarkCommand, new RelayCommand(() =>
-                {
-                }));
-            }
-        }
-
-        public ICommand UngroupTimingMarkCommand
-        {
-            get
-            {
-                return Get(() => UngroupTimingMarkCommand, new RelayCommand(() =>
-                {
                 }));
             }
         }
