@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using OsuEditor.Util;
-using OsuParser.Structures;
 
 namespace OsuEditor.Models
 {
