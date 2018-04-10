@@ -64,6 +64,7 @@ namespace OsuEditor.Util
             var result = new ObservableCollection<TimingMark>();
 
             TimingPoint prevPoint = null;
+            TimingPoint secondPrevPoint = null;
             double prevBpm = -1;
             foreach (var cur in point)
             {
@@ -96,6 +97,12 @@ namespace OsuEditor.Util
                     {
                         var lastPoint = result.Last();
                         lastPoint.SpeedRate = (int) Math.Round(-10000 / cur.MsPerBeat);
+                        lastPoint.MeasureChange = secondPrevPoint == null || secondPrevPoint.Meter != cur.Meter;
+                        lastPoint.HitSoundChange = secondPrevPoint == null ||
+                                                   secondPrevPoint.SampleSet != cur.SampleSet ||
+                                                   secondPrevPoint.Volume != cur.Volume;
+                        lastPoint.HitSound = (DefaultHitSound) (cur.SampleSet - 1);
+                        lastPoint.Volume = cur.Volume;
                         lastPoint.Kiai = cur.Kiai;
                     }
                     else
@@ -119,6 +126,7 @@ namespace OsuEditor.Util
                     }
                 }
 
+                secondPrevPoint = prevPoint;
                 prevPoint = cur;
             }
 
@@ -181,6 +189,7 @@ namespace OsuEditor.Util
         public static Timing TimingMarkListToTiming(ObservableCollection<TimingMark> marks)
         {
             var result = new Timing();
+            Period curKiai = null;
 
             foreach (var cur in marks)
             {
@@ -188,6 +197,24 @@ namespace OsuEditor.Util
                     result.PreviewPoint = cur.Offset;
                 if (cur.BookMarkChange)
                     result.Bookmarks.Add(cur.Bookmark);
+
+                if (cur.NewBase || cur.MeasureChange)
+                {
+                    result.Offset.Add(cur.Offset);
+                    result.BeatLength.Add(BpmConverter.BpmToBeat(cur.Bpm));
+                    result.BeatsPerMeasure.Add(cur.Measure);
+                }
+
+                if (cur.Kiai)
+                    if (curKiai == null)
+                        curKiai = new Period {StartTime = cur.Offset};
+                if(!cur.Kiai)
+                    if (curKiai != null && curKiai.EndTime == -1)
+                    {
+                        curKiai.EndTime = cur.Offset;
+                        result.KiaiPeriods.Add(new Period(curKiai));
+                        curKiai = null;
+                    }
             }
 
             return result;

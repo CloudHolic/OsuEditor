@@ -8,13 +8,19 @@
 
         public Period()
         {
-            StartTime = EndTime = 0;
+            StartTime = EndTime = -1;
         }
 
         public Period(int startTime, int endTime)
         {
             StartTime = startTime;
             EndTime = endTime;
+        }
+
+        public Period(Period prevPreriod)
+        {
+            StartTime = prevPreriod.StartTime;
+            EndTime = prevPreriod.EndTime;
         }
     }
 }
