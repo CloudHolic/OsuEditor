@@ -36,6 +36,7 @@ namespace OsuEditor.Models
             BeatLength = new List<double> { beatLength };
             BeatsPerMeasure = new List<int> { beatsPerMeasure };
             Offset = new List<int> {offset};
+            PreviewPoint = preview;
             Bookmarks = new List<Bookmark>();
             BreakPeriods = new List<Period>();
             KiaiPeriods = new List<Period>();
@@ -50,16 +51,6 @@ namespace OsuEditor.Models
             Bookmarks = new List<Bookmark>(bookMarks);
             BreakPeriods = new List<Period>(breaks);
             KiaiPeriods = new List<Period>(kiais);
-        }
-
-        public static List<TimingPoint> TimingToTimingPoints()
-        {
-            return new List<TimingPoint>();
-        }
-
-        public static Timing TimingPointsToTiming()
-        {
-            return new Timing();
         }
     }
 }
