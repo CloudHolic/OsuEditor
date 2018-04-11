@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using OsuEditor.Commands;
-using OsuEditor.Models;
+using OsuEditor.Models.Dialogs;
 
 namespace OsuEditor.ViewModels
 {

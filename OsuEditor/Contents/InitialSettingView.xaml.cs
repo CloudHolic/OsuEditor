@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
-using OsuEditor.Models;
+using OsuEditor.Models.Dialogs;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor.Contents
@@ -30,8 +31,9 @@ namespace OsuEditor.Contents
             if (!e.Data.GetDataPresent(DataFormats.FileDrop))
                 return;
 
-            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
-            ((InitialSettingViewModel) DataContext).Mp3Path = files?[0];
+            var path = ((string[]) e.Data.GetData(DataFormats.FileDrop))?[0];
+            if(File.Exists(path))
+                ((InitialSettingViewModel) DataContext).Mp3Path = path;
         }
     }
 }

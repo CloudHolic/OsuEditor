@@ -1,4 +1,4 @@
-﻿using OsuEditor.Models;
+﻿using OsuEditor.Models.Dialogs;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor.Contents

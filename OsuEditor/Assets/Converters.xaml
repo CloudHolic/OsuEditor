@@ -6,6 +6,7 @@
     <cvt:BooleanToDecorationConverter x:Key="BooleanToDecorationConverter"/>
     <cvt:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <cvt:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
+    <cvt:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
     <cvt:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
     <cvt:IntToStringConverter x:Key="IntToStringConverter"/>
     <cvt:ListToStringConverter x:Key="ListToStringConverter"/>

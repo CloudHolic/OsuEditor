@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using OsuEditor.Commands;
 using OsuEditor.Models;
+using OsuEditor.Models.Dialogs;
 
 namespace OsuEditor.ViewModels
 {

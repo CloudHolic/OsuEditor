@@ -80,6 +80,7 @@
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -106,8 +107,8 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
-    <Compile Include="Contents\OpenCreateView.xaml.cs">
-      <DependentUpon>OpenCreateView.xaml</DependentUpon>
+    <Compile Include="Contents\OpenWindow.xaml.cs">
+      <DependentUpon>OpenWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MusicBar.cs" />
     <Compile Include="Converters\BeatSnapToSliderConverter.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Converters\BooleanToDecorationConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
+    <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Converters\EnumToCollectionConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="Converters\LIstToStringConverter.cs" />
@@ -128,10 +130,12 @@
     <Compile Include="Events\CurrentTimingChangedEvent.cs" />
     <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\DefaultHitSound.cs" />
-    <Compile Include="Models\EditorSettings.cs" />
-    <Compile Include="Models\InitSettings.cs" />
+    <Compile Include="Models\Dialogs\EditorSettings.cs" />
+    <Compile Include="Models\Dialogs\InitSettings.cs" />
+    <Compile Include="Models\Dialogs\OpenSettings.cs" />
     <Compile Include="Models\Period.cs" />
     <Compile Include="Models\PlayMode.cs" />
+    <Compile Include="Models\StartMethod.cs" />
     <Compile Include="Models\TimingMark.cs" />
     <Compile Include="Models\Timing.cs" />
     <Compile Include="Util\BpmConverter.cs" />
@@ -146,7 +150,7 @@
     <Compile Include="ViewModels\InitialSettingViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MetronomeViewModel.cs" />
-    <Compile Include="ViewModels\OpenCreateViewModel.cs" />
+    <Compile Include="ViewModels\OpenWindowViewModel.cs" />
     <Compile Include="ViewModels\VerifiableViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Assets\Converters.xaml">
@@ -173,7 +177,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Contents\OpenCreateView.xaml">
+    <Page Include="Contents\OpenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -248,12 +252,13 @@
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\packages\NETStandard.Library.2.0.2\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.2\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.2\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.2\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
 </Project>

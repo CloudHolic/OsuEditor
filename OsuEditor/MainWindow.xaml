@@ -10,7 +10,7 @@
                    xmlns:models="clr-namespace:OsuEditor.Models"
                    mc:Ignorable="d"
                    Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
-                   Loaded="MainWindow_OnLoaded" ResizeMode="NoResize">
+                   Loaded="MainWindow_OnLoaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <ctrls:MetroWindow.Resources>
         <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>

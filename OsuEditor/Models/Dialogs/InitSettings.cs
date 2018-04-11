@@ -1,4 +1,4 @@
-﻿namespace OsuEditor.Models
+﻿namespace OsuEditor.Models.Dialogs
 {
     public class InitSettings
     {

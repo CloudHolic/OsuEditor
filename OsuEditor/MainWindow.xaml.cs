@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using OsuEditor.Events;
 using OsuEditor.Models;
+using OsuEditor.Models.Dialogs;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor
@@ -12,10 +13,10 @@ namespace OsuEditor
     {
         private int _prevOffset;
 
-        public MainWindow()
+        public MainWindow(OpenSettings settings)
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            DataContext = new MainWindowViewModel(settings);
             EventBus.Instance.RegisterHandler(this);
         }
 

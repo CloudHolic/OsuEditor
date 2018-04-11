@@ -9,6 +9,7 @@ using OsuEditor.Commands;
 using OsuEditor.Contents;
 using OsuEditor.Events;
 using OsuEditor.Models;
+using OsuEditor.Models.Dialogs;
 using OsuEditor.Util;
 using OsuParser;
 using OsuParser.Structures;
@@ -68,7 +69,7 @@ namespace OsuEditor.ViewModels
 
         private readonly ICustomDialogManager _dialogManager;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(OpenSettings settings)
         {
             CurrentMap = Parser.CreateBeatmap();
             PlayRate = 100;
