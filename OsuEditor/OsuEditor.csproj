@@ -48,6 +48,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=59d6d24383174ac4, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocation.1.0.0\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="OsuParser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Assets\Binaries\OsuParser.dll</HintPath>

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MahApps.Metro.Controls.Dialogs;
+using NAudio;
+using NAudio.Wave;
 using OsuEditor.Commands;
 using OsuEditor.Contents;
 using OsuEditor.Events;
@@ -89,9 +91,6 @@ namespace OsuEditor.ViewModels
         {
             CurrentMap = Parser.CreateBeatmap();
             PlayRate = 100;
-            SongLength = 200000;
-            CurrentMap.Edit.BeatDivisor = 4;
-            CurrentMap.Edit.TimelineZoom = 5.0;
 
             TimingMarks = new ObservableCollection<TimingMark> {new TimingMark()};
             CurrentTiming = TimingMarks[0];
@@ -332,6 +331,9 @@ namespace OsuEditor.ViewModels
                         EventBus.Instance.Publish(new CurPositionEvent { CurPosition = CurrentPosition });
                     }
 
+                    if (Math.Abs(SongLength) < 0.001 || CurrentDiff == null)
+                        return;
+
                     _oldTime = 0;
                     _playTimer.Start();
                     _stopWatch.Start();
@@ -388,6 +390,9 @@ namespace OsuEditor.ViewModels
         public void HandleEvent(ChangeCurrentMapEvent e)
         {
             CurrentMap = Parser.LoadOsuFile(e.OsuFileName);
+
+            var reader = new Mp3FileReader(Path.Combine(_mapsetPath, CurrentMap.Gen.AudioFilename));
+            SongLength = reader.TotalTime.TotalMilliseconds;
 
             var bookmarks = new List<Bookmark>();
             foreach (var cur in CurrentMap.Edit.Bookmarks)
