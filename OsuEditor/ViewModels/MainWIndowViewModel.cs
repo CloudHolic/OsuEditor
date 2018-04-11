@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -16,7 +18,7 @@ using OsuParser.Structures;
 
 namespace OsuEditor.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IEvent<ChangeCurrentMapEvent>
     {
         #region Properties
         public double SongLength
@@ -60,6 +62,18 @@ namespace OsuEditor.ViewModels
             get { return Get(() => OffsetErrorOccurred); }
             set { Set(() => OffsetErrorOccurred, value); }
         }
+
+        public ObservableCollection<DiffVersion> Diffs
+        {
+            get { return Get(() => Diffs); }
+            set { Set(() => Diffs, value); }
+        }
+
+        public DiffVersion CurrentDiff
+        {
+            get { return Get(() => CurrentDiff); }
+            set { Set(() => CurrentDiff, value); }
+        }
         #endregion
 
         private readonly DispatcherTimer _playTimer = new DispatcherTimer();
@@ -69,7 +83,9 @@ namespace OsuEditor.ViewModels
 
         private readonly ICustomDialogManager _dialogManager;
 
-        public MainWindowViewModel(OpenSettings settings)
+        private string _mapsetPath;
+
+        public MainWindowViewModel()
         {
             CurrentMap = Parser.CreateBeatmap();
             PlayRate = 100;
@@ -79,6 +95,9 @@ namespace OsuEditor.ViewModels
 
             TimingMarks = new ObservableCollection<TimingMark> {new TimingMark()};
             CurrentTiming = TimingMarks[0];
+
+            Diffs = new ObservableCollection<DiffVersion>();
+            
             OffsetErrorOccurred = false;
 
             _playTimer.Interval = TimeSpan.FromMilliseconds((double) 1000 / 144);
@@ -114,7 +133,27 @@ namespace OsuEditor.ViewModels
             });
         }
 
+        public void InitSettings(OpenSettings settings)
+        {
+            if (settings.Method == StartMethod.Open)
+            {
+                _mapsetPath = settings.MapsetPath;
+                var osuFiles = Directory.GetFiles(_mapsetPath, "*.osu", SearchOption.TopDirectoryOnly);
+                foreach (var cur in osuFiles)
+                {
+                    Diffs.Add(new DiffVersion
+                    {
+                        DiffName = OsuParserExtensions.GetDiffName(cur),
+                        FileName = cur
+                    });
+                }
+            }
+            if (settings.Method == StartMethod.Create)
+                InitialCommand.Execute(null);
+        }
+        
         #region Commands
+        #region TimingMark 관련
         public ICommand AddTimingMarkCommand
         {
             get
@@ -208,7 +247,31 @@ namespace OsuEditor.ViewModels
                 }));
             }
         }
+        #endregion
 
+        #region Difficulty Panel 관련
+        public ICommand AddDifficultyCommand
+        {
+            get { return Get(() => AddDifficultyCommand, new RelayCommand(() => { })); }
+        }
+
+        public ICommand OpenDifficultyCommand
+        {
+            get { return Get(() => OpenDifficultyCommand, new RelayCommand(() => { })); }
+        }
+
+        public ICommand RenameDifficultyCommand
+        {
+            get { return Get(() => RenameDifficultyCommand, new RelayCommand(() => { })); }
+        }
+
+        public ICommand DeleteDifficultyCommand
+        {
+            get { return Get(() => DeleteDifficultyCommand, new RelayCommand(() => { })); }
+        }
+        #endregion
+
+        #region Dialog 관련
         public ICommand InitialCommand
         {
             get
@@ -217,7 +280,7 @@ namespace OsuEditor.ViewModels
                 {
                     var initSettingView = new InitialSettingView(new InitSettings
                     {
-                        Mp3Path = string.Empty,
+                        Mp3Path = CurrentMap.Gen.AudioFilename,
                         Mode = (PlayMode) CurrentMap.Gen.Mode,
                         Keys = CurrentMap.Gen.Mode == 3 ? (int) CurrentMap.Diff.CircleSize : 4,
                         SpecialStyle = CurrentMap.Gen.SpecialStyle
@@ -252,7 +315,9 @@ namespace OsuEditor.ViewModels
                 }));
             }
         }
+        #endregion
 
+        #region MusicBar 관련
         public ICommand PlayCommand
         {
             get
@@ -314,13 +379,30 @@ namespace OsuEditor.ViewModels
 
         public ICommand TestCommand
         {
-            get
-            {
-                return Get(() => TestCommand, new RelayCommand(() =>
+            get { return Get(() => TestCommand, new RelayCommand(() => { })); }
+        }
+        #endregion
+        #endregion
+
+        #region Event Handler
+        public void HandleEvent(ChangeCurrentMapEvent e)
+        {
+            CurrentMap = Parser.LoadOsuFile(e.OsuFileName);
+
+            var bookmarks = new List<Bookmark>();
+            foreach (var cur in CurrentMap.Edit.Bookmarks)
+                bookmarks.Add(new Bookmark
                 {
-                    //TODO: Implement Test.
-                }));
-            }
+                    Offset = cur,
+                    Memo = string.Empty
+                });
+
+            TimingMarks = TimingConverter.TimingPointListToTimingMarkList(CurrentMap.Timing, CurrentMap.Gen.PreviewTime, bookmarks);
+            CurrentTiming = TimingMarks[0];
+            EventBus.Instance.Publish(new TimingChangedEvent
+            {
+                NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks)
+            });
         }
         #endregion
     }

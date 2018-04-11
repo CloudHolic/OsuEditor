@@ -74,7 +74,7 @@
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.05*"/>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -83,7 +83,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}">
+                <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                     <ListView.View>
                         <GridView>
                             <GridView.ColumnHeaderContainerStyle>
@@ -94,10 +94,10 @@
                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                 </Style>
                             </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn Header="Offset" Width="65">
+                            <GridViewColumn Header="Offset" Width="75">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate DataType="{x:Type models:TimingMark}">
-                                        <Grid HorizontalAlignment="Stretch" Margin="-7,-4,-9,-4">
+                                        <Grid HorizontalAlignment="Stretch" Margin="-15,-4,-18,-4">
                                             <Grid.Background>
                                                 <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
                                                     <Binding.ConverterParameter>
@@ -108,9 +108,9 @@
                                                     </Binding.ConverterParameter>
                                                 </Binding>
                                             </Grid.Background>
-                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="7,4,9,4"
-                                                           Text="{Binding Offset, Converter={StaticResource MillisecondsConverter}}"
-                                                           TextDecorations="{Binding NewBase, Converter={StaticResource BooleanToDecorationConverter}}">
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,4,10,4"
+                                                       Text="{Binding Offset, Converter={StaticResource MillisecondsConverter}}"
+                                                       TextDecorations="{Binding NewBase, Converter={StaticResource BooleanToDecorationConverter}}">
                                                 <TextBlock.Foreground>
                                                     <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
                                                         <Binding.ConverterParameter>
@@ -177,18 +177,18 @@
                                         <TextBlock Text="This offset already has a timing point." Background="Red" Foreground="White"/>
                                     </Border>
                                 </Popup>
-                                <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="5,0,0,0" Focusable="False" BorderThickness="1"
+                                <Button Content="Use Current Time" ctrls:ControlsHelper.ContentCharacterCasing="Normal" Margin="15,0,0,0" Focusable="False" BorderThickness="1"
                                         Command="{Binding UseCurrentTimeCommand}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <CheckBox x:Name="MeasureCheckBox" Content="Measure" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.MeasureChange}"/>
-                                <TextBox Width="40" Margin="20,0,0,0" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2"
+                                <TextBox Width="40" Margin="30,0,0,0" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2"
                                          IsReadOnly="{Binding ElementName=MeasureCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          Text="{Binding CurrentTiming.Measure}" PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                 <CheckBox x:Name="SpeedCheckBox" Content="Speed Change" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.SpeedChange}"/>
-                                <CheckBox x:Name="NewBaseCheckBox" Content="New Base" BorderThickness="1" Focusable="False" Margin="5,0,0,0" IsChecked="{Binding CurrentTiming.NewBase}"/>
+                                <CheckBox x:Name="NewBaseCheckBox" Content="New Base" BorderThickness="1" Focusable="False" Margin="15,0,0,0" IsChecked="{Binding CurrentTiming.NewBase}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5">
                                 <Label Content="BPM:"/>
@@ -196,7 +196,7 @@
                                          IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Bpm}"
                                          PreviewTextInput="IntTextBox_OnPreviewTextInput" LostFocus="BpmTextBox_OnLostFocus" />
-                                <TextBox Width="50" Margin="15,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
+                                <TextBox Width="50" Margin="25,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.SpeedRate}"
                                          PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
                                 <Label Content="%"/>
@@ -412,13 +412,27 @@
                             </StackPanel>
                         </StackPanel>
                     </Expander>
-                    <Expander Header="Other Difficulties" Margin="0,20,5,0" VerticalAlignment="Top">
-                        <ListBox>
-                            <ListBoxItem>Normal</ListBoxItem>
-                            <ListBoxItem>Hard</ListBoxItem>
-                            <ListBoxItem>MX</ListBoxItem>
-                            <ListBoxItem>SC</ListBoxItem>
-                        </ListBox>
+                    <Expander Header="Other Difficulties" Margin="0,20,5,0" VerticalAlignment="Top" IsExpanded="True">
+                        <StackPanel Orientation="Vertical">
+                            <ListBox x:Name="DiffListBox" ItemsSource="{Binding Diffs}" SelectedItem="{Binding CurrentDiff}"
+                                     MouseDoubleClick="DiffListBox_OnMouseDoubleClick">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu BorderThickness="1">
+                                        <MenuItem Header="Open" Command="{Binding OpenDifficultyCommand}"/>
+                                        <MenuItem Header="Rename" Command="{Binding RenameDifficultyCommand}"/>
+                                        <MenuItem Header="Delete" Command="{Binding DeleteDifficultyCommand}"/>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:DiffVersion}">
+                                        <TextBlock Text="{Binding DiffName}" FontWeight="{Binding Activated, Converter={StaticResource BooleanToFontWeightConverter}}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <Button Content="Add new Difficulty" HorizontalContentAlignment="Left" Margin="0,5,0,0" Focusable="False" BorderThickness="0"
+                                    ctrls:ControlsHelper.CornerRadius="0" ctrls:ControlsHelper.ContentCharacterCasing="Normal"
+                                    Command="{Binding AddDifficultyCommand}"/>
+                        </StackPanel>
                     </Expander>
                     <Button Content="        Initial Settings" Margin="0,20,5,0" HorizontalContentAlignment="Left" Background="SlateGray"
                             ctrls:ControlsHelper.CornerRadius="0" Focusable="False" BorderThickness="0" Command="{Binding InitialCommand}"/>

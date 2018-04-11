@@ -114,6 +114,7 @@
     <Compile Include="Converters\BeatSnapToSliderConverter.cs" />
     <Compile Include="Converters\BooleanToBackgroundConverter.cs" />
     <Compile Include="Converters\BooleanToDecorationConverter.cs" />
+    <Compile Include="Converters\BooleanToFontWeightConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Converters\PlayModeToVisibilityConverter.cs" />
     <Compile Include="Converters\SnapTextConverter.cs" />
     <Compile Include="Converters\SpeedRateConverter.cs" />
+    <Compile Include="Events\ChangeCurrentMapEvent.cs" />
     <Compile Include="Events\CurPositionEvent.cs" />
     <Compile Include="Events\TimingChangedEvent.cs" />
     <Compile Include="Events\CurrentTimingChangedEvent.cs" />
@@ -133,16 +135,20 @@
     <Compile Include="Models\Dialogs\EditorSettings.cs" />
     <Compile Include="Models\Dialogs\InitSettings.cs" />
     <Compile Include="Models\Dialogs\OpenSettings.cs" />
+    <Compile Include="Models\DiffVersion.cs" />
     <Compile Include="Models\Period.cs" />
     <Compile Include="Models\PlayMode.cs" />
     <Compile Include="Models\StartMethod.cs" />
     <Compile Include="Models\TimingMark.cs" />
     <Compile Include="Models\Timing.cs" />
     <Compile Include="Util\BpmConverter.cs" />
+    <Compile Include="Util\DirectoryUtil.cs" />
     <Compile Include="Util\CustomDialogManager.cs" />
     <Compile Include="Util\EnumExtensions.cs" />
     <Compile Include="Util\ICustomDialogManager.cs" />
     <Compile Include="Util\MathExt.cs" />
+    <Compile Include="Util\OsuParserExtensions.cs" />
+    <Compile Include="Util\StringExtensions.cs" />
     <Compile Include="Util\TimingConverter.cs" />
     <Compile Include="ViewModels\DialogViewModelBase.cs" />
     <Compile Include="ViewModels\EditorSettingViewModel.cs" />

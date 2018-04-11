@@ -2,7 +2,6 @@
 using OsuEditor.Contents;
 using OsuEditor.Models;
 using OsuEditor.Models.Dialogs;
-using OsuEditor.Util;
 
 namespace OsuEditor
 {
@@ -12,6 +11,7 @@ namespace OsuEditor
         {
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+            //TODO: Add default settings, load them.
             var openWindow = new OpenWindow(new OpenSettings
             {
                 MapsetPath = string.Empty,

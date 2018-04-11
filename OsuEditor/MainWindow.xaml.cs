@@ -1,23 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using OsuEditor.Events;
 using OsuEditor.Models;
 using OsuEditor.Models.Dialogs;
+using OsuEditor.Util;
 using OsuEditor.ViewModels;
+using OsuParser;
 
 namespace OsuEditor
 {
-    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>, IEvent<CurrentTimingChangedEvent>
+    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>,
+        IEvent<CurrentTimingChangedEvent>
     {
         private int _prevOffset;
+        private readonly OpenSettings _settings;
 
         public MainWindow(OpenSettings settings)
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(settings);
+            DataContext = new MainWindowViewModel();
             EventBus.Instance.RegisterHandler(this);
+
+            _settings = settings;
         }
 
         private void ZoomIn_OnClick(object sender, RoutedEventArgs e)
@@ -31,10 +39,12 @@ namespace OsuEditor
             ((MainWindowViewModel) DataContext).CurrentMap.Edit.TimelineZoom =
                 HeaderTimeline.Zoom = Math.Min(30, HeaderTimeline.Zoom + 0.1);
         }
-        
+
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             HeaderTimeline.MaxWidth = HeaderTimeline.Width = HeaderGrid.ColumnDefinitions[0].ActualWidth - 40;
+
+            ((MainWindowViewModel) DataContext).InitSettings(_settings);
         }
 
         private void DoubleTextBox_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -51,7 +61,7 @@ namespace OsuEditor
                 }
             }
         }
-        
+
         private void IntTextBox_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             foreach (var c in e.Text)
@@ -63,7 +73,7 @@ namespace OsuEditor
                 }
             }
         }
-        
+
         private void OffsetTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             _prevOffset = Convert.ToInt32(OffsetTextBox.Text);
@@ -82,7 +92,7 @@ namespace OsuEditor
                 if (timing.Offset == Convert.ToInt32(OffsetTextBox.Text))
                 {
                     viewModel.OffsetErrorOccurred = true;
-                    if(viewModel.ErrorTimer.IsEnabled)
+                    if (viewModel.ErrorTimer.IsEnabled)
                         viewModel.ErrorTimer.Stop();
                     viewModel.ErrorTimer.Start();
                     OffsetTextBox.Text = _prevOffset.ToString();
@@ -100,6 +110,7 @@ namespace OsuEditor
         }
 
         #region Event Handlers
+
         public void HandleEvent(CurPositionEvent e)
         {
             HeaderTimeline.CurrentValue = e.CurPosition;
@@ -146,6 +157,21 @@ namespace OsuEditor
                 }
             }
         }
+
         #endregion
+
+        private void DiffListBox_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (DiffListBox.SelectedIndex == -1)
+                return;
+
+            foreach (var diff in ((MainWindowViewModel) DataContext).Diffs)
+                diff.Activated = diff == ((MainWindowViewModel) DataContext).CurrentDiff;
+            
+            EventBus.Instance.Publish(new ChangeCurrentMapEvent
+            {
+                OsuFileName = ((MainWindowViewModel) DataContext).CurrentDiff.FileName
+            });
+        }
     }
 }

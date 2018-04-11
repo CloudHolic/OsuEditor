@@ -4,6 +4,7 @@
     <cvt:BeatSnapToSliderConverter x:Key="BeatSnapToSliderConverter"/>
     <cvt:BooleanToBackgroundConverter x:Key="BooleanToBackgroundConverter"/>
     <cvt:BooleanToDecorationConverter x:Key="BooleanToDecorationConverter"/>
+    <cvt:BooleanToFontWeightConverter x:Key="BooleanToFontWeightConverter"/>
     <cvt:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <cvt:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
     <cvt:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>

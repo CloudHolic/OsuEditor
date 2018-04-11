@@ -12,10 +12,17 @@ namespace OsuEditor.Converters
         {
             Debug.Assert(value != null, nameof(value) + " != null");
             var origin = (int) Math.Round(System.Convert.ToDouble(value));
+            var isMinus = false;
+            if (origin < 0)
+            {
+                origin *= -1;
+                isMinus = true;
+            }
+
             var min = origin / 60000;
             var sec = (origin - (min * 60000)) / 1000;
             var millisec = origin - (min * 60000) - (sec * 1000);
-            return $"{min:00}:{sec:00}.{millisec:000}";
+            return (isMinus ? "-" : string.Empty) + $"{min:00}:{sec:00}.{millisec:000}";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -21,9 +21,9 @@ namespace OsuEditor.Models
 
         public Timing()
         {
-            BeatLength = new List<double> {BpmConverter.BpmToBeat(160), BpmConverter.BpmToBeat(240)};
-            BeatsPerMeasure = new List<int> {4, 3};
-            Offset = new List<int> {0, 1234};
+            BeatLength = new List<double>();
+            BeatsPerMeasure = new List<int>();
+            Offset = new List<int>();
             PreviewPoint = 1500;
             Bookmarks = new List<Bookmark>();
             BreakPeriods = new List<Period>();

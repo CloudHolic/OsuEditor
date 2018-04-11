@@ -146,6 +146,7 @@ namespace OsuEditor.Util
                 {
                     Offset = preview,
                     SpeedChange = false,
+                    NewBase = false,
                     HitSoundChange = false,
                     MeasureChange = false,
                     Preview = true,
@@ -173,6 +174,7 @@ namespace OsuEditor.Util
                     {
                         Offset = cur.Offset,
                         SpeedChange = false,
+                        NewBase = false,
                         HitSoundChange = false,
                         MeasureChange = false,
                         Preview = false,
