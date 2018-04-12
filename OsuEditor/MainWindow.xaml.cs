@@ -122,9 +122,16 @@ namespace OsuEditor
                 OsuFileName = ((MainWindowViewModel)DataContext).CurrentDiff.FileName
             });
         }
+        
+        private void MainMusicBar_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            EventBus.Instance.Publish(new CurPositionEvent
+            {
+                CurPosition = ((MainWindowViewModel) DataContext).CurrentPosition
+            });
+        }
 
         #region Event Handlers
-
         public void HandleEvent(CurPositionEvent e)
         {
             HeaderTimeline.CurrentValue = e.CurPosition;
@@ -172,7 +179,6 @@ namespace OsuEditor
                 }
             }
         }
-
         #endregion
     }
 }

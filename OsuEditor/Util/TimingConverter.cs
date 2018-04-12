@@ -131,30 +131,33 @@ namespace OsuEditor.Util
             }
 
             //  Add preview point
-            for(var i = 0; i < result.Count; i++)
+            if (preview >= 0)
             {
-                if (result[i].Offset < preview)
-                    continue;
-
-                if (result[i].Offset == preview)
+                for (var i = 0; i < result.Count; i++)
                 {
-                    result[i].Preview = true;
+                    if (result[i].Offset < preview)
+                        continue;
+
+                    if (result[i].Offset == preview)
+                    {
+                        result[i].Preview = true;
+                        break;
+                    }
+
+                    result.Insert(i, new TimingMark(result[i - 1])
+                    {
+                        Offset = preview,
+                        SpeedChange = false,
+                        NewBase = false,
+                        HitSoundChange = false,
+                        MeasureChange = false,
+                        Preview = true,
+                        BookMarkChange = false
+                    });
                     break;
                 }
-
-                result.Insert(i, new TimingMark(result[i - 1])
-                {
-                    Offset = preview,
-                    SpeedChange = false,
-                    NewBase = false,
-                    HitSoundChange = false,
-                    MeasureChange = false,
-                    Preview = true,
-                    BookMarkChange = false
-                });
-                break;
             }
-            
+
             //  Add bookmark points
             foreach (var cur in bookmarks)
             {

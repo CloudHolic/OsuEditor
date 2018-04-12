@@ -8,6 +8,7 @@
                    xmlns:custom="clr-namespace:OsuEditor.Controls"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    xmlns:models="clr-namespace:OsuEditor.Models"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    mc:Ignorable="d"
                    Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
                    Loaded="MainWindow_OnLoaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -202,7 +203,13 @@
                                 <Label Content="%"/>
                             </StackPanel>
                             <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.HitSoundChange}"/>
-                            <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Preview}"/>
+                            <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Preview}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding PreviewCheckedCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </CheckBox>
                             <CheckBox x:Name="BookmarkCheckBox" Content="Bookmark Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"
                                       IsChecked="{Binding CurrentTiming.BookMarkChange}"/>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5"
@@ -445,7 +452,8 @@
             <Label Width="80" Content="{Binding CurrentPosition, Converter={StaticResource MillisecondsConverter}}"
                    FontSize="16" HorizontalContentAlignment="Center" Margin="5,0,0,0"/>
             <custom:MusicBar x:Name="MainMusicBar" Height="30" Width="848" Margin="10,6,10,0" HorizontalAlignment="Left" IsTabStop="False" IsMoveToPointEnabled="True"
-                             Minimum="0" Maximum="{Binding SongLength}" Value="{Binding CurrentPosition}" Style="{StaticResource MusicBarSlider}"/>
+                             Minimum="0" Maximum="{Binding SongLength}" Value="{Binding CurrentPosition}" Style="{StaticResource MusicBarSlider}"
+                             ValueChanged="MainMusicBar_OnValueChanged"/>
             <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding PlayCommand}">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

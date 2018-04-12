@@ -24,7 +24,7 @@ namespace OsuEditor.Models
             BeatLength = new List<double>();
             BeatsPerMeasure = new List<int>();
             Offset = new List<int>();
-            PreviewPoint = 1500;
+            PreviewPoint = -1;
             Bookmarks = new List<Bookmark>();
             BreakPeriods = new List<Period>();
             KiaiPeriods = new List<Period>();

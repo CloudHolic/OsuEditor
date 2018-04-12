@@ -248,6 +248,24 @@ namespace OsuEditor.ViewModels
         }
         #endregion
 
+        #region Preview 관련
+        public ICommand PreviewCheckedCommand
+        {
+            get
+            {
+                return Get(() => PreviewCheckedCommand, new RelayCommand(() =>
+                {
+                    foreach (var timing in TimingMarks)
+                        timing.Preview = timing == CurrentTiming;
+                    EventBus.Instance.Publish(new TimingChangedEvent
+                    {
+                        NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks)
+                    });
+                }));
+            }
+        }
+        #endregion
+
         #region Difficulty Panel 관련
         public ICommand AddDifficultyCommand
         {

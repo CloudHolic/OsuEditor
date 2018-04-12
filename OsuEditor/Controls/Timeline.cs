@@ -170,7 +170,17 @@ namespace OsuEditor.Controls
                 }
             }
 
-            //TODO: Draw notes, preview points, SV points, break periods
+            if (Timings.PreviewPoint >= 0)
+            {
+                var corPreview = Timings.PreviewPoint / Zoom;
+                if (corPreview >= transform && corPreview <= transform + ActualWidth)
+                {
+                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Blue), 1),
+                        new Point(corPreview - transform, 0), new Point(corPreview - transform, ActualHeight));
+                }
+            }
+
+            //TODO: Draw notes, SV points, break periods
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
