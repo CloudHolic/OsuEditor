@@ -109,6 +109,20 @@ namespace OsuEditor
             });
         }
 
+        private void DiffListBox_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (DiffListBox.SelectedIndex == -1)
+                return;
+
+            foreach (var diff in ((MainWindowViewModel)DataContext).Diffs)
+                diff.Activated = diff == ((MainWindowViewModel)DataContext).CurrentDiff;
+
+            EventBus.Instance.Publish(new ChangeCurrentMapEvent
+            {
+                OsuFileName = ((MainWindowViewModel)DataContext).CurrentDiff.FileName
+            });
+        }
+
         #region Event Handlers
 
         public void HandleEvent(CurPositionEvent e)
@@ -159,19 +173,5 @@ namespace OsuEditor
         }
 
         #endregion
-
-        private void DiffListBox_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (DiffListBox.SelectedIndex == -1)
-                return;
-
-            foreach (var diff in ((MainWindowViewModel) DataContext).Diffs)
-                diff.Activated = diff == ((MainWindowViewModel) DataContext).CurrentDiff;
-            
-            EventBus.Instance.Publish(new ChangeCurrentMapEvent
-            {
-                OsuFileName = ((MainWindowViewModel) DataContext).CurrentDiff.FileName
-            });
-        }
     }
 }
