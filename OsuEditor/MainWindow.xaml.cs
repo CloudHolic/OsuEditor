@@ -133,6 +133,7 @@ namespace OsuEditor
         public void HandleEvent(TimingChangedEvent e)
         {
             HeaderTimeline.Timings = e.NewTiming;
+            MainMusicBar.Timings = e.NewTiming;
         }
 
         public void HandleEvent(BeatSnapEvent e)
