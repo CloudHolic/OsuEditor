@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MahApps.Metro.Controls.Dialogs;
-using NAudio;
 using NAudio.Wave;
 using OsuEditor.Commands;
 using OsuEditor.Contents;
@@ -425,6 +424,11 @@ namespace OsuEditor.ViewModels
             EventBus.Instance.Publish(new TimingChangedEvent
             {
                 NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks)
+            });
+
+            EventBus.Instance.Publish(new BeatSnapEvent
+            {
+                Snap = CurrentMap.Edit.BeatDivisor
             });
         }
         #endregion
