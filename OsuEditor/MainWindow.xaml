@@ -10,7 +10,7 @@
                    xmlns:models="clr-namespace:OsuEditor.Models"
                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    mc:Ignorable="d"
-                   Title="Osu! Editor" Height="798" Width="1360" TitleCharacterCasing="Normal"
+                   Title="{Binding CurrentMap.Meta, Converter={StaticResource MainWindowTitleConverter}}" Height="798" Width="1360" TitleCharacterCasing="Normal"
                    Loaded="MainWindow_OnLoaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <ctrls:MetroWindow.Resources>
         <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">

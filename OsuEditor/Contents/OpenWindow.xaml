@@ -5,7 +5,7 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                    mc:Ignorable="d" Width="710" Height="310" AllowDrop="True" Drop="OpenWindow_OnDrop"
-                   Title="Osu! Editor" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+                   Title="Osu! Editor" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" TitleCharacterCasing="Normal">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

@@ -124,6 +124,7 @@
     <Compile Include="Converters\EnumToCollectionConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="Converters\LIstToStringConverter.cs" />
+    <Compile Include="Converters\MainWindowTitleConverter.cs" />
     <Compile Include="Converters\MillisecondsConverter.cs" />
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\PlayModeToVisibilityConverter.cs" />

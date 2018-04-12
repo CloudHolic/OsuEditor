@@ -11,6 +11,7 @@
     <cvt:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
     <cvt:IntToStringConverter x:Key="IntToStringConverter"/>
     <cvt:ListToStringConverter x:Key="ListToStringConverter"/>
+    <cvt:MainWindowTitleConverter x:Key="MainWindowTitleConverter"/>
     <cvt:MillisecondsConverter x:Key="MillisecondsConverter"/>
     <cvt:NotConverter x:Key="NotConverter"/>
     <cvt:PlayModeToVisibilityConverter x:Key="PlayModeToVisibilityConverter"/>
