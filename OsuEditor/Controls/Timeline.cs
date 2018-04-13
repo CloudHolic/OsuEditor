@@ -178,12 +178,12 @@ namespace OsuEditor.Controls
                 if (corPreview >= transform && corPreview <= transform + ActualWidth)
                 {
                     var labelText = new FormattedText("P", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 10,
                         new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Transparent),
-                        new Pen(new SolidColorBrush(Colors.White), 2), new Point(corPreview - transform, 10), 10, 10);
-                    drawingContext.DrawText(labelText, new Point(corPreview - transform - 4, 0));
+                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Green),
+                        new Pen(new SolidColorBrush(Colors.White), 1), new Point(corPreview - transform, 10), 7, 7);
+                    drawingContext.DrawText(labelText, new Point(corPreview - transform - 2, 3));
                 }
             }
 
@@ -193,20 +193,20 @@ namespace OsuEditor.Controls
                 if (corOffset >= transform && corOffset <= transform + ActualWidth)
                 {
                     var labelText = new FormattedText("B", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 10,
                         new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Transparent),
-                        new Pen(new SolidColorBrush(Colors.White), 2), new Point(corOffset - transform, 30), 10, 10);
-                    drawingContext.DrawText(labelText, new Point(corOffset - transform - 4, 20));
+                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Blue),
+                        new Pen(new SolidColorBrush(Colors.White), 1), new Point(corOffset - transform, 25), 7, 7);
+                    drawingContext.DrawText(labelText, new Point(corOffset - transform - 2, 18));
 
                     if (!string.IsNullOrWhiteSpace(bookmark.Memo))
                     {
                         var noteText = new FormattedText(bookmark.Memo, CultureInfo.CurrentCulture,
-                            FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                            FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 10,
                             new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                        drawingContext.DrawText(noteText, new Point(corOffset - transform + 15, 20));
+                        drawingContext.DrawText(noteText, new Point(corOffset - transform + 10, 18));
                     }
                 }
             }
@@ -218,12 +218,12 @@ namespace OsuEditor.Controls
                 if (corOffset >= transform && corOffset <= transform + ActualWidth)
                 {
                     var labelText = new FormattedText("S", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 10,
                         new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Transparent),
-                        new Pen(new SolidColorBrush(Colors.White), 2), new Point(corOffset - transform, 50), 10, 10);
-                    drawingContext.DrawText(labelText, new Point(corOffset - transform - 4, 40));
+                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.OrangeRed),
+                        new Pen(new SolidColorBrush(Colors.White), 1), new Point(corOffset - transform, 40), 7, 7);
+                    drawingContext.DrawText(labelText, new Point(corOffset - transform - 2, 33));
 
                     var rawText = string.Empty;
                     if (Math.Abs(svPoint.Bpm - prevBpm) > 0.001)
@@ -237,9 +237,9 @@ namespace OsuEditor.Controls
                     if (string.IsNullOrEmpty(rawText))
                         continue;
                     var svText = new FormattedText(rawText, CultureInfo.CurrentCulture,
-                        FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 10,
                         new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
-                    drawingContext.DrawText(svText, new Point(corOffset - transform + 15, 40));
+                    drawingContext.DrawText(svText, new Point(corOffset - transform + 10, 33));
                 }
             }
 
