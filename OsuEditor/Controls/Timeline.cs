@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using OsuEditor.CustomExceptions;
-using OsuEditor.Models;
 using OsuEditor.Models.Timings;
 using OsuEditor.Util;
 

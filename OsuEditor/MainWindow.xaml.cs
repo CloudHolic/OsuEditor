@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using OsuEditor.Events;
-using OsuEditor.Models;
 using OsuEditor.Models.Dialogs;
 using OsuEditor.Models.Timings;
 using OsuEditor.ViewModels;
