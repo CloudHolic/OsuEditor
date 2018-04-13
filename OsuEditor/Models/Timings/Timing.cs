@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using OsuEditor.Util;
 
-namespace OsuEditor.Models
+namespace OsuEditor.Models.Timings
 {
     public class Timing
     {
@@ -19,6 +18,8 @@ namespace OsuEditor.Models
 
         public List<Period> KiaiPeriods { get; set; }
 
+        public List<SvPoint> SvPoints { get; set; }
+
         public Timing()
         {
             BeatLength = new List<double>();
@@ -28,6 +29,7 @@ namespace OsuEditor.Models
             Bookmarks = new List<Bookmark>();
             BreakPeriods = new List<Period>();
             KiaiPeriods = new List<Period>();
+            SvPoints = new List<SvPoint>();
         }
 
         public Timing(double beatLength, int beatsPerMeasure, int offset, int preview)
@@ -39,9 +41,11 @@ namespace OsuEditor.Models
             Bookmarks = new List<Bookmark>();
             BreakPeriods = new List<Period>();
             KiaiPeriods = new List<Period>();
+            SvPoints = new List<SvPoint>();
         }
 
-        public Timing(List<double> beatLength, List<int> beatsPerMeasure, List<int> offset, int preivewPoint, List<Bookmark> bookMarks, List<Period> breaks, List<Period> kiais)
+        public Timing(List<double> beatLength, List<int> beatsPerMeasure, List<int> offset, int preivewPoint,
+            List<Bookmark> bookMarks, List<Period> breaks, List<Period> kiais, List<SvPoint> svPoints)
         {
             BeatLength = new List<double>(beatLength);
             BeatsPerMeasure = new List<int>(beatsPerMeasure);
@@ -50,6 +54,7 @@ namespace OsuEditor.Models
             Bookmarks = new List<Bookmark>(bookMarks);
             BreakPeriods = new List<Period>(breaks);
             KiaiPeriods = new List<Period>(kiais);
+            SvPoints = new List<SvPoint>(svPoints);
         }
     }
 }

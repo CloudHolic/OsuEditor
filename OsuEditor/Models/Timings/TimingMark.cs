@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace OsuEditor.Models
+namespace OsuEditor.Models.Timings
 {
     public class TimingMark : INotifyPropertyChanged
     {
@@ -174,8 +174,8 @@ namespace OsuEditor.Models
         #endregion
 
         #region Bookmark Bookmark
-        private Bookmark _bookmark;
-        public Bookmark Bookmark
+        private string _bookmark;
+        public string Bookmark
         {
             get => _bookmark;
             set
@@ -201,7 +201,7 @@ namespace OsuEditor.Models
             Kiai = false;
             Preview = false;
             BookMarkChange = false;
-            Bookmark = new Bookmark();
+            Bookmark = string.Empty;
         }
 
         public TimingMark(TimingMark prevMark)
@@ -219,7 +219,7 @@ namespace OsuEditor.Models
             Kiai = prevMark.Kiai;
             Preview = prevMark.Preview;
             BookMarkChange = false;
-            Bookmark = new Bookmark(prevMark.Bookmark);
+            Bookmark = prevMark.Bookmark;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

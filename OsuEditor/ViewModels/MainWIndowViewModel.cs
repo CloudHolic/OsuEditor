@@ -13,6 +13,7 @@ using OsuEditor.Contents;
 using OsuEditor.Events;
 using OsuEditor.Models;
 using OsuEditor.Models.Dialogs;
+using OsuEditor.Models.Timings;
 using OsuEditor.Util;
 using OsuParser;
 using OsuParser.Structures;
@@ -74,6 +75,12 @@ namespace OsuEditor.ViewModels
         {
             get { return Get(() => CurrentDiff); }
             set { Set(() => CurrentDiff, value); }
+        }
+
+        public string CurrentBookmarkNote
+        {
+            get { return Get(() => CurrentBookmarkNote); }
+            set { Set(() => CurrentBookmarkNote, value); }
         }
         #endregion
 
@@ -188,7 +195,7 @@ namespace OsuEditor.ViewModels
                     {
                         Offset = normalizeCurrentOffset,
                         Preview = false,
-                        Bookmark = new Bookmark()
+                        Bookmark = string.Empty
                     };
 
                     TimingMarks.Add(newTiming);
@@ -214,6 +221,7 @@ namespace OsuEditor.ViewModels
             }
         }
 
+        #region Current Timing 관련
         public ICommand UseCurrentTimeCommand
         {
             get
@@ -242,12 +250,12 @@ namespace OsuEditor.ViewModels
                     }
 
                     CurrentTiming.Offset = (int) Math.Round(CurrentPosition);
+                    CurrentTimingChangedCommand.Execute(null);
                 }));
             }
         }
         #endregion
 
-        #region Preview 관련
         public ICommand PreviewCheckedCommand
         {
             get
@@ -256,6 +264,16 @@ namespace OsuEditor.ViewModels
                 {
                     foreach (var timing in TimingMarks)
                         timing.Preview = timing == CurrentTiming;
+                    CurrentTimingChangedCommand.Execute(null);
+                }));
+            }
+        }
+        public ICommand CurrentTimingChangedCommand
+        {
+            get
+            {
+                return Get(() => CurrentTimingChangedCommand, new RelayCommand(() =>
+                {
                     EventBus.Instance.Publish(new TimingChangedEvent
                     {
                         NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks)

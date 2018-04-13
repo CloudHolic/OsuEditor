@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using OsuEditor.CustomExceptions;
 using OsuEditor.Models;
+using OsuEditor.Models.Timings;
 using OsuEditor.Util;
 
 namespace OsuEditor.Controls
@@ -174,11 +176,74 @@ namespace OsuEditor.Controls
             {
                 var corPreview = Timings.PreviewPoint / Zoom;
                 if (corPreview >= transform && corPreview <= transform + ActualWidth)
-                    drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Yellow), 1),
-                        new Point(corPreview - transform, 0), new Point(corPreview - transform, ActualHeight));
+                {
+                    var labelText = new FormattedText("P", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Transparent),
+                        new Pen(new SolidColorBrush(Colors.White), 2), new Point(corPreview - transform, 10), 10, 10);
+                    drawingContext.DrawText(labelText, new Point(corPreview - transform - 4, 0));
+                }
             }
 
-            //TODO: Draw notes, SV points, break periods, bookmarks
+            foreach (var bookmark in Timings.Bookmarks)
+            {
+                var corOffset = bookmark.Offset / Zoom;
+                if (corOffset >= transform && corOffset <= transform + ActualWidth)
+                {
+                    var labelText = new FormattedText("B", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Transparent),
+                        new Pen(new SolidColorBrush(Colors.White), 2), new Point(corOffset - transform, 30), 10, 10);
+                    drawingContext.DrawText(labelText, new Point(corOffset - transform - 4, 20));
+
+                    if (!string.IsNullOrWhiteSpace(bookmark.Memo))
+                    {
+                        var noteText = new FormattedText(bookmark.Memo, CultureInfo.CurrentCulture,
+                            FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                            new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+                        drawingContext.DrawText(noteText, new Point(corOffset - transform + 15, 20));
+                    }
+                }
+            }
+
+            double prevBpm = -1;
+            foreach (var svPoint in Timings.SvPoints)
+            {
+                var corOffset = svPoint.Offset / Zoom;
+                if (corOffset >= transform && corOffset <= transform + ActualWidth)
+                {
+                    var labelText = new FormattedText("S", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                        new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+                    drawingContext.DrawEllipse(new SolidColorBrush(Colors.Transparent),
+                        new Pen(new SolidColorBrush(Colors.White), 2), new Point(corOffset - transform, 50), 10, 10);
+                    drawingContext.DrawText(labelText, new Point(corOffset - transform - 4, 40));
+
+                    var rawText = string.Empty;
+                    if (Math.Abs(svPoint.Bpm - prevBpm) > 0.001)
+                    {
+                        rawText += $"{svPoint.Bpm}BPM";
+                        prevBpm = svPoint.Bpm;
+                    }
+                    if (svPoint.Rate != 100)
+                        rawText += (string.IsNullOrEmpty(rawText) ? string.Empty : ", ") + $"x{(double) svPoint.Rate / 100}";
+
+                    if (string.IsNullOrEmpty(rawText))
+                        continue;
+                    var svText = new FormattedText(rawText, CultureInfo.CurrentCulture,
+                        FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), 15,
+                        new SolidColorBrush(Colors.White), VisualTreeHelper.GetDpi(this).PixelsPerDip);
+                    drawingContext.DrawText(svText, new Point(corOffset - transform + 15, 40));
+                }
+            }
+
+            //TODO: Draw notes, break periods
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

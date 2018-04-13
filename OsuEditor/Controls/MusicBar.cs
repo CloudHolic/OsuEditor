@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using OsuEditor.Models;
+using OsuEditor.Models.Timings;
 
 namespace OsuEditor.Controls
 {

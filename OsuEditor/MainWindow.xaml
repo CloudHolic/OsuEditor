@@ -8,6 +8,7 @@
                    xmlns:custom="clr-namespace:OsuEditor.Controls"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    xmlns:models="clr-namespace:OsuEditor.Models"
+                   xmlns:timings="clr-namespace:OsuEditor.Models.Timings"
                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    mc:Ignorable="d"
                    Title="{Binding CurrentMap.Meta, Converter={StaticResource MainWindowTitleConverter}}" Height="798" Width="1360" TitleCharacterCasing="Normal"
@@ -56,7 +57,7 @@
                         </Button>
                     </StackPanel>
                     <custom:Timeline Grid.Column="1" x:Name="HeaderTimeline" HorizontalAlignment="Left"
-                                     Zoom="10.0" CurrentValue="0"/>
+                                     Zoom="10.0" CurrentValue="0" ClipToBounds="True"/>
                 </Grid>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <Label Content="Beat Snap Divisor :" FontSize="25"/>
@@ -97,7 +98,7 @@
                             </GridView.ColumnHeaderContainerStyle>
                             <GridViewColumn Header="Offset" Width="75">
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type models:TimingMark}">
+                                    <DataTemplate DataType="{x:Type timings:TimingMark}">
                                         <Grid HorizontalAlignment="Stretch" Margin="-15,-4,-18,-4">
                                             <Grid.Background>
                                                 <Binding Path="Kiai" Converter="{StaticResource BooleanToBackgroundConverter}">
@@ -131,7 +132,7 @@
                             <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding SpeedRate, Converter={StaticResource SpeedRateConverter}}" Width="40"/>
                             <GridViewColumn Header="Notes" Width="78">
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type models:TimingMark}">
+                                    <DataTemplate DataType="{x:Type timings:TimingMark}">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <Border CornerRadius="50" Width="15" Height="15" BorderBrush="White" BorderThickness="1.5" Padding="0" Margin="0,0,2,0"
                                                         Visibility="{Binding BookMarkChange, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Hidden}">
@@ -171,7 +172,13 @@
                                 <Label Content="Offset:" Margin="-5,0,0,0"/>
                                 <TextBox x:Name="OffsetTextBox" Width="65" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" 
                                          Text="{Binding CurrentTiming.Offset, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                         PreviewTextInput="IntTextBox_OnPreviewTextInput" GotFocus="OffsetTextBox_OnGotFocus" LostFocus="OffsetTextBox_OnLostFocus"/>
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput" GotFocus="OffsetTextBox_OnGotFocus" LostFocus="OffsetTextBox_OnLostFocus">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                                 <Popup PlacementTarget="{Binding ElementName=OffsetTextBox}" IsOpen="{Binding OffsetErrorOccurred}"
                                        PopupAnimation="Fade" AllowsTransparency="True">
                                     <Border Margin="1" BorderBrush="Red" BorderThickness="1">
@@ -182,40 +189,113 @@
                                         Command="{Binding UseCurrentTimeCommand}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                <CheckBox x:Name="MeasureCheckBox" Content="Measure" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.MeasureChange}"/>
+                                <CheckBox x:Name="MeasureCheckBox" Content="Measure" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.MeasureChange}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
                                 <TextBox Width="40" Margin="30,0,0,0" HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2"
                                          IsReadOnly="{Binding ElementName=MeasureCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
-                                         Text="{Binding CurrentTiming.Measure}" PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
+                                         Text="{Binding CurrentTiming.Measure}" PreviewTextInput="IntTextBox_OnPreviewTextInput">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                <CheckBox x:Name="SpeedCheckBox" Content="Speed Change" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.SpeedChange}"/>
-                                <CheckBox x:Name="NewBaseCheckBox" Content="New Base" BorderThickness="1" Focusable="False" Margin="15,0,0,0" IsChecked="{Binding CurrentTiming.NewBase}"/>
+                                <CheckBox x:Name="SpeedCheckBox" Content="Speed Change" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.SpeedChange}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                                <CheckBox x:Name="NewBaseCheckBox" Content="New Base" BorderThickness="1" Focusable="False" Margin="15,0,0,0" IsChecked="{Binding CurrentTiming.NewBase}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5">
                                 <Label Content="BPM:"/>
                                 <TextBox x:Name="BpmTextBox" Width="50" Margin="5,0,0,0"
                                          IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.Bpm}"
-                                         PreviewTextInput="IntTextBox_OnPreviewTextInput" LostFocus="BpmTextBox_OnLostFocus" />
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput" LostFocus="BpmTextBox_OnLostFocus">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                                 <TextBox Width="50" Margin="25,0,0,0" IsReadOnly="{Binding ElementName=SpeedCheckBox, Path=IsChecked, Converter={StaticResource NotConverter}}"
                                          HorizontalContentAlignment="Right" Height="20" MinHeight="20" Padding="-2" Text="{Binding CurrentTiming.SpeedRate}"
-                                         PreviewTextInput="IntTextBox_OnPreviewTextInput"/>
+                                         PreviewTextInput="IntTextBox_OnPreviewTextInput">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                                 <Label Content="%"/>
                             </StackPanel>
-                            <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.HitSoundChange}"/>
+                            <CheckBox Content="Hitsound Change" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.HitSoundChange}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </CheckBox>
                             <CheckBox Content="Preview Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Preview}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
                                         <i:InvokeCommandAction Command="{Binding PreviewCheckedCommand}"/>
                                     </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                    </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </CheckBox>
                             <CheckBox x:Name="BookmarkCheckBox" Content="Bookmark Point" Margin="0,0,0,5" BorderThickness="1" Focusable="False"
-                                      IsChecked="{Binding CurrentTiming.BookMarkChange}"/>
+                                      IsChecked="{Binding CurrentTiming.BookMarkChange}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </CheckBox>
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,5"
                                         Visibility="{Binding ElementName=BookmarkCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Label Content="Note: "/>
-                                <TextBox Width="140" HorizontalContentAlignment="Left" Height="20" MinHeight="20" Padding="-2"/>
+                                <TextBox Width="140" HorizontalContentAlignment="Left" Height="20" MinHeight="20" Padding="-2"
+                                         Text="{Binding CurrentTiming.Bookmark, UpdateSourceTrigger=PropertyChanged}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding CurrentTimingChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                             </StackPanel>
                             <ToggleButton Margin="10,0,10,0" BorderThickness="1" Focusable="False" IsChecked="{Binding CurrentTiming.Kiai}">
                                 <ToggleButton.Style>

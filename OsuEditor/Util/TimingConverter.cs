@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using OsuEditor.Models;
+using OsuEditor.Models.Timings;
 using OsuParser.Structures;
 
 namespace OsuEditor.Util
@@ -23,7 +24,7 @@ namespace OsuEditor.Util
                 if (cur.Preview)
                     preview = cur.Offset;
                 if (cur.BookMarkChange)
-                    bookmarks.Add(cur.Bookmark);
+                    bookmarks.Add(new Bookmark(cur.Offset, cur.Bookmark));
 
                 if (cur.MeasureChange || cur.SpeedChange || cur.HitSoundChange)
                 {
@@ -169,7 +170,7 @@ namespace OsuEditor.Util
                     if (result[i].Offset == cur.Offset)
                     {
                         result[i].BookMarkChange = true;
-                        result[i].Bookmark = cur;
+                        result[i].Bookmark = cur.Memo;
                         break;
                     }
 
@@ -182,7 +183,7 @@ namespace OsuEditor.Util
                         MeasureChange = false,
                         Preview = false,
                         BookMarkChange = true,
-                        Bookmark = cur
+                        Bookmark = cur.Memo
                     });
                     break;
                 }
@@ -201,7 +202,9 @@ namespace OsuEditor.Util
                 if (cur.Preview)
                     result.PreviewPoint = cur.Offset;
                 if (cur.BookMarkChange)
-                    result.Bookmarks.Add(cur.Bookmark);
+                    result.Bookmarks.Add(new Bookmark(cur.Offset, cur.Bookmark));
+                if (cur.SpeedChange)
+                    result.SvPoints.Add(new SvPoint(cur.Offset, cur.Bpm, cur.SpeedRate));
 
                 if (cur.NewBase || cur.MeasureChange)
                 {

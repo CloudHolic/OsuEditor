@@ -1,4 +1,5 @@
 ﻿using OsuEditor.Models;
+using OsuEditor.Models.Timings;
 
 namespace OsuEditor.Events
 {

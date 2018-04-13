@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using OsuEditor.Events;
 using OsuEditor.Models;
 using OsuEditor.Models.Dialogs;
-using OsuEditor.Util;
+using OsuEditor.Models.Timings;
 using OsuEditor.ViewModels;
-using OsuParser;
 
 namespace OsuEditor
 {
