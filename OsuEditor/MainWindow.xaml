@@ -4,7 +4,6 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                   xmlns:mdi="clr-namespace:WPF.MDI;assembly=WPF.MDI"
                    xmlns:custom="clr-namespace:OsuEditor.Controls"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    xmlns:models="clr-namespace:OsuEditor.Models"
@@ -316,7 +315,6 @@
                     </GroupBox>
                 </StackPanel>
             </Grid>
-            <mdi:MdiContainer Grid.Column="1" x:Name="PatternMdi" Theme="Luna" Background="Transparent"/>
             <ScrollViewer Grid.Column="2">
                 <StackPanel Orientation="Vertical">
                     <Expander Header="Metadata" VerticalAlignment="Top" Margin="0,20,5,0">
