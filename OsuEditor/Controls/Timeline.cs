@@ -242,7 +242,7 @@ namespace OsuEditor.Controls
                 }
             }
 
-            //TODO: Draw notes, break periods
+            //TODO: Draw notes
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
