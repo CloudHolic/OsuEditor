@@ -84,7 +84,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListView Grid.Row="0" ItemsSource="{Binding TimingMarks}" SelectedItem="{Binding CurrentTiming}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          x:Name="TimingListView" MouseDoubleClick="TimingListView_OnMouseDoubleClick">
                     <ListView.View>
                         <GridView>
                             <GridView.ColumnHeaderContainerStyle>

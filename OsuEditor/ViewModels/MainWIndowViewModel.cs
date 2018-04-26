@@ -276,7 +276,8 @@ namespace OsuEditor.ViewModels
                 {
                     EventBus.Instance.Publish(new TimingChangedEvent
                     {
-                        NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks)
+                        NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks),
+                        Length = SongLength
                     });
                 }));
             }
@@ -441,7 +442,8 @@ namespace OsuEditor.ViewModels
             CurrentTiming = TimingMarks[0];
             EventBus.Instance.Publish(new TimingChangedEvent
             {
-                NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks)
+                NewTiming = TimingConverter.TimingMarkListToTiming(TimingMarks),
+                Length = SongLength
             });
 
             EventBus.Instance.Publish(new BeatSnapEvent

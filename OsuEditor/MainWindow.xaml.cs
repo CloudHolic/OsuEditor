@@ -126,6 +126,18 @@ namespace OsuEditor
                 CurPosition = ((MainWindowViewModel) DataContext).CurrentPosition
             });
         }
+        
+        private void TimingListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (TimingListView.SelectedIndex == -1)
+                return;
+
+            ((MainWindowViewModel) DataContext).CurrentPosition = ((MainWindowViewModel) DataContext).CurrentTiming.Offset;
+            EventBus.Instance.Publish(new CurPositionEvent
+            {
+                CurPosition = ((MainWindowViewModel)DataContext).CurrentPosition
+            });
+        }
 
         #region Event Handlers
         public void HandleEvent(CurPositionEvent e)
@@ -137,6 +149,8 @@ namespace OsuEditor
         {
             HeaderTimeline.Timings = e.NewTiming;
             MainMusicBar.Timings = e.NewTiming;
+
+            HeaderTimeline.TotalLength = e.Length;
         }
 
         public void HandleEvent(BeatSnapEvent e)

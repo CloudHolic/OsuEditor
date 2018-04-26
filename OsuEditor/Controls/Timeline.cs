@@ -62,8 +62,7 @@ namespace OsuEditor.Controls
         #endregion
         #region DependencyProperty TotalLengthProperty
         public static readonly DependencyProperty TotalLengthProperty =
-            DependencyProperty.Register("TotalLengthProperty", typeof(double), typeof(Timeline),
-                new UIPropertyMetadata(100000.0));
+            DependencyProperty.Register("TotalLengthProperty", typeof(double), typeof(Timeline), new UIPropertyMetadata(0.0));
 
         public double TotalLength
         {
@@ -103,10 +102,29 @@ namespace OsuEditor.Controls
                 throw new InvalidValueException();
             
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
-            drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 5), new Point(ActualWidth / 2, 0), new Point(ActualWidth / 2, ActualHeight));
 
             var transform = (CurrentValue / Zoom) - (ActualWidth / 2);
             var timingPeriods = Timings.Offset.Count;
+
+            foreach (var periods in Timings.KiaiPeriods)
+            {
+                var corStart = periods.StartTime / Zoom;
+                var corEnd = periods.EndTime / Zoom;
+
+                if (corStart > transform + ActualWidth || corEnd < transform)
+                    continue;
+
+                if (corStart < transform)
+                    corStart = transform;
+
+                if (corEnd > transform + ActualWidth)
+                    corEnd = transform + ActualWidth;
+
+                drawingContext.DrawRectangle(new SolidColorBrush(Color.FromRgb(255, 183, 50)) {Opacity = 0.3}, null,
+                    new Rect(new Point(corStart - transform, 0), new Point(corEnd - transform, ActualHeight)));
+            }
+
+            drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.White), 5), new Point(ActualWidth / 2, 0), new Point(ActualWidth / 2, ActualHeight));
             
             var beatLists = new List<List<double>>();
             for (var i = 0; i < timingPeriods; i++)
