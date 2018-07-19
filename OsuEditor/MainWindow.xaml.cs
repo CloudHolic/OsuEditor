@@ -143,6 +143,20 @@ namespace OsuEditor
         public void HandleEvent(CurPositionEvent e)
         {
             HeaderTimeline.CurrentValue = e.CurPosition;
+
+            var dataContext = (MainWindowViewModel)DataContext;
+            TimingMark prevMark = null;
+
+            foreach(var mark in dataContext.TimingMarks)
+            {
+                if (mark.Offset > e.CurPosition)
+                {
+                    dataContext.CurrentTiming = prevMark ?? dataContext.TimingMarks[0];
+                    break;
+                }
+
+                prevMark = mark;
+            }
         }
 
         public void HandleEvent(TimingChangedEvent e)
