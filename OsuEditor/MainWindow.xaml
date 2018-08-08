@@ -530,9 +530,12 @@
         <StackPanel Grid.Row="2" Height="30" Orientation="Horizontal">
             <Label Width="80" Content="{Binding CurrentPosition, Converter={StaticResource MillisecondsConverter}}"
                    FontSize="16" HorizontalContentAlignment="Center" Margin="5,0,0,0"/>
-            <custom:MusicBar x:Name="MainMusicBar" Height="30" Width="848" Margin="10,6,10,0" HorizontalAlignment="Left" IsTabStop="False" IsMoveToPointEnabled="True"
-                             Minimum="0" Maximum="{Binding SongLength}" Value="{Binding CurrentPosition}" Style="{StaticResource MusicBarSlider}"
-                             ValueChanged="MainMusicBar_OnValueChanged"/>
+            <Grid Height="30" Width="848" Margin="10,0,10,0" HorizontalAlignment="Left">
+                <Canvas x:Name="LineCanvas" Height="30" Width="848"/>
+                <custom:MusicBar Margin="0,6,0,0" x:Name="MainMusicBar" Height="30" Width="848" IsTabStop="False" IsMoveToPointEnabled="True"
+                                 Minimum="0" Maximum="{Binding SongLength}" Value="{Binding CurrentPosition}" Style="{StaticResource MusicBarSlider}"
+                                 ValueChanged="MainMusicBar_OnValueChanged"/>
+            </Grid>
             <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding PlayCommand}">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

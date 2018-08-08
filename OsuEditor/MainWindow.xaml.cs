@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using OsuEditor.Events;
 using OsuEditor.Models.Dialogs;
 using OsuEditor.Models.Timings;
+using OsuEditor.Util;
 using OsuEditor.ViewModels;
 
 namespace OsuEditor
 {
-    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>,
-        IEvent<CurrentTimingChangedEvent>
+    public partial class MainWindow : IEvent<BeatSnapEvent>, IEvent<CurPositionEvent>, IEvent<TimingChangedEvent>, IEvent<CurrentTimingChangedEvent>, IEvent<ChangeCurrentMapEvent>
     {
         private int _prevOffset;
         private readonly OpenSettings _settings;
@@ -139,6 +142,50 @@ namespace OsuEditor
             });
         }
 
+        private void AddLine(double offset)
+        {
+            var cor = MathExt.Clamp(offset / ((MainWindowViewModel) DataContext).SongLength * LineCanvas.Width, 0, LineCanvas.ActualWidth);
+
+            var line = new Line
+            {
+                X1 = cor,
+                X2 = cor,
+                Y1 = 0,
+                Y2 = 30,
+                StrokeThickness = 1,
+                Stroke = Brushes.Violet
+            };
+            line.MouseUp += Line_OnMouseUp;
+
+            LineCanvas.Children.Add(line);
+        }
+        
+        private void Line_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Left)
+                return;
+
+            var line = (Line) e.Source;
+            var offset = line.X1 / LineCanvas.Width * ((MainWindowViewModel) DataContext).SongLength;
+
+            foreach (var timing in TimingListView.Items)
+            {
+                var item = (TimingMark) timing;
+                if (Math.Abs(item.Offset - offset) < 1)
+                {
+                    ((MainWindowViewModel) DataContext).CurrentTiming = item;
+                    break;
+                }
+            }
+
+            var doubleClickEvent = new MouseButtonEventArgs(Mouse.PrimaryDevice, new TimeSpan(DateTime.Now.Ticks).Milliseconds, MouseButton.Left)
+            {
+                RoutedEvent = MouseDoubleClickEvent
+            };
+
+            TimingListView.RaiseEvent(doubleClickEvent);
+        }
+
         #region Event Handlers
         public void HandleEvent(CurPositionEvent e)
         {
@@ -174,7 +221,11 @@ namespace OsuEditor
 
         public void HandleEvent(CurrentTimingChangedEvent e)
         {
-            var marks = ((MainWindowViewModel) DataContext).TimingMarks;
+            var marks = ((MainWindowViewModel)DataContext).TimingMarks;
+
+            LineCanvas.Children.Clear();
+            foreach (var item in marks)
+                AddLine(item.Offset);
 
             if (marks.Count == 0)
                 NewBaseCheckBox.IsHitTestVisible = true;
@@ -202,6 +253,15 @@ namespace OsuEditor
                     NewBaseCheckBox.IsHitTestVisible = false;
                 }
             }
+        }
+
+        public void HandleEvent(ChangeCurrentMapEvent e)
+        {
+            var marks = ((MainWindowViewModel)DataContext).TimingMarks;
+
+            LineCanvas.Children.Clear();
+            foreach (var item in marks)
+                AddLine(item.Offset);
         }
         #endregion
     }
