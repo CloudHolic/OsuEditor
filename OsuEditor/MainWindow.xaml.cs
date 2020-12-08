@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 using OsuEditor.Events;
 using OsuEditor.Models.Dialogs;
 using OsuEditor.Models.Timings;

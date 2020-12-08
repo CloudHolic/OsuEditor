@@ -4,11 +4,12 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                   xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                    xmlns:custom="clr-namespace:OsuEditor.Controls"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    xmlns:models="clr-namespace:OsuEditor.Models"
                    xmlns:timings="clr-namespace:OsuEditor.Models.Timings"
-                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                    mc:Ignorable="d"
                    Title="{Binding CurrentMap.Meta, Converter={StaticResource MainWindowTitleConverter}}" Height="798" Width="1360" TitleCharacterCasing="Normal"
                    Loaded="MainWindow_OnLoaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -37,20 +38,20 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Vertical">
                         <Button ToolTip="Increase Timeline Zoom" HorizontalAlignment="Center" Height="30"
-                                Width="30" Margin="0,20,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Width="30" Margin="0,20,0,0" Style="{DynamicResource MahApps.Styles.Button.Circle}"
                                 Click="ZoomIn_OnClick">
                             <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_add}"/>
+                                    <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=Add}"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </Button>
                         <Button ToolTip="Decrease Timeline Zoom" HorizontalAlignment="Center" Height="30"
-                                Width="30" Margin="0,5,0,0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Width="30" Margin="0,5,0,0" Style="{DynamicResource MahApps.Styles.Button.Circle}"
                                 Click="ZoomOut_OnClick">
                             <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_minus}"/>
+                                    <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=Minus}"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </Button>
@@ -538,25 +539,25 @@
             </Grid>
             <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding PlayCommand}">
-                <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_play}"/>
+                        <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=ControlPlay}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
             <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding PauseCommand}">
-                <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_pause}"/>
+                        <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=ControlPause}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
             <Button Width="30" Margin="0" Padding="0" IsTabStop="False" Focusable="False" BorderThickness="0" ctrls:ControlsHelper.CornerRadius="0"
                     Command="{Binding StopCommand}">
-                <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle Width="11" Height="11" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_stop}"/>
+                        <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=ControlStop}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
@@ -565,7 +566,7 @@
                 <StackPanel Margin="5,0,0,0" Orientation="Horizontal" Width="60">
                     <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_control_play}"/>
+                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=ControlPlay}"/>
                         </Rectangle.OpacityMask>
                     </Rectangle>
                     <TextBlock Margin="5,0,0,0" Text="Test" FontSize="15"></TextBlock>
