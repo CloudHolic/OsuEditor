@@ -5,6 +5,7 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:dlgs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                    xmlns:ctrls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                   xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                    mc:Ignorable="d" Width="400" Height="240" AllowDrop="True"
                    VerticalAlignment="Center" HorizontalAlignment="Center" Drop="InitialSettingView_OnDrop">
     <dlgs:CustomDialog.DialogTop>
@@ -18,7 +19,7 @@
                     ctrls:ControlsHelper.CornerRadius="0" Command="{Binding CloseCommand}">
                 <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_close}"/>
+                        <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=Close}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
